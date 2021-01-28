@@ -10,6 +10,8 @@ export class MainScene extends Phaser.Scene {
   jump = false;
   bullet = null;
   bullets;
+  map;
+  layer;
   constructor() {
     super({ key: 'main' });
   }
@@ -19,7 +21,14 @@ export class MainScene extends Phaser.Scene {
     // this.createHeroAnims();
     // this.addBullets();
     this.createCursors();
-    this.setCameras();
+    // this.setCameras();
+    this.map = this.add.tilemap('map');
+    const tiles = this.map.addTilesetImage('env_groundf', 'tileset');  // set tileset name
+    this.layer = this.map.createLayer('ground', tiles, 0,-200);  // set layer name
+    // this.layer.resizeWorld();
+    console.log(this.cache.tilemap.get('map').data);
+
+    console.log('tils',tiles)
     this.bullets = this.add.group();
   }
   preload() {
@@ -31,8 +40,8 @@ export class MainScene extends Phaser.Scene {
   private createHero(): void {
     this.player = new Player(
       this,
-      200, 
-      100,
+      1000, 
+      600,
       'punk',
       "sprPlayer"
     ); 
@@ -54,6 +63,11 @@ export class MainScene extends Phaser.Scene {
     this.load.spritesheet('punk', '/assets/game/main/punk_stand.png',
       { frameWidth: 128 });
     this.load.image('bullet', '/assets/game/main/bullets24.png');  
+    // tiles in spritesheet 
+    this.load.image('tileset', '/assets/game/main/tiles.png');
+    this.load.tilemapTiledJSON('map', '/assets/game/main/test_1_embed.json');
+    
+
   }
 
   private setCameras(): void {

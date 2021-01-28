@@ -4,7 +4,7 @@ export class Enitty extends Phaser.GameObjects.Sprite{
         super(scene, xPosition, yPostion, key);
         this.scene = scene;
         this.scene.add.existing(this);
-        this.scene.physics.world.enableBody(this, 0);
+        this.scene.physics.world.enableBody(this, 1);
         this.setData("type", type);
         this.setData("isDead", false);
     }   
