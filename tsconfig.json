@@ -14,10 +14,20 @@
     "module": "es2020",
     "lib": [
       "es2018",
-      "dom"
-    ]
+      "dom",
+      "ScriptHost"
+    ],
+    "paths": {
+      "@game":["../"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false
-  }
+  },
+  "typeRoots": [
+    "./node_modules/phaser/types"
+  ], 
+  "types": [
+    "Phaser"
+  ]
 }
