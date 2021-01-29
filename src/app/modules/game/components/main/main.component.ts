@@ -13,7 +13,7 @@ export class MainComponent implements OnInit  {
   constructor() {
     this.config = {
       type: Phaser.AUTO,
-      height: 600,
+      height: 500,
       width: 1200,
       scene: [ MainScene ],
       parent: 'gameContainer',
