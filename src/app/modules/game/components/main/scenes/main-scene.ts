@@ -1,90 +1,47 @@
-import { Bullet } from "../entities/objects/bullet";
 import { Player } from "../entities/chars/player";
-
+import { layerNames, tilesetNames } from "./key-name/keys";
+import { Layer } from "./model/layer.model";
+import { Tileset } from "./model/tileset.model";
 
 export class MainScene extends Phaser.Scene {
-  // image = require ('../../../../../../assets/game/main/background.png');
-  player = null
-  platforms = null;
-  cursors = null;
-  jump = false;
-  bullet = null;
-  bullets;
-  map;
-  backgroundTrees: Phaser.GameObjects.Image;
-  groundLayer:Phaser.Tilemaps.TilemapLayer;
-  grassLayer;
-  treesLayer;
-  treesGrassLayer;
-  treesBackLayer;
-  woodLayer;
-  woodCollisionLayer;
-  decorativeLayer;
+  player: Player;
+  cursors: Phaser.Types.Input.Keyboard.CursorKeys;
+  map: Phaser.Tilemaps.Tilemap;
+
+  layers: Layer;
+  tilesets: Tileset;
   background: Phaser.GameObjects.Image;
 
   gameWidth: number;
   gameHeight: number;
 
+  private readonly layerYPosition = -200;
+
   constructor() {
     super({ key: 'main' });
-
   }
   create() {
     this.gameHeight = this.scale.height;
     this.gameWidth = this.scale.width;
-    this.background = this.add.image(this.gameWidth * 0.5, this.gameHeight * 0.5, 'background');
-    //@ts-ignore
-    this.background.fixedToCamera = true;
+    this.addFixedBackground();
     this.addBgParallax(2);
-
     this.createHero();
-    let i = 0;
-
-    do {
-      
-      i++;
-    } while (i< 16000)
-
-    //@ts-ignore
     this.createCursors();
     this.setCameras();
-
     this.map = this.add.tilemap('map');
-    const tiles = this.map.addTilesetImage('env_ground', 'tileset');  
-    const tilesTrees = this.map.addTilesetImage('env_trees', 'tileset_trees'); // set tileset name
-    const tilesWood = this.map.addTilesetImage('wood_env', 'tileset_wood'); // set tileset name
-    const tilesDecorative = this.map.addTilesetImage('decorative_obj','tileset_decorative')
-    this.groundLayer = this.map.createLayer('ground', tiles, 0,-200);  // set layer name
-    this.woodLayer = this.map.createLayer('wood_decorative', tilesWood, 0, -200);
-    this.woodCollisionLayer = this.map.createLayer('wood_collide', tilesWood, 0, -200);
-
-    this.grassLayer = this.map.createLayer('grass', tiles, 0,-200);  // set layer name
-    console.log(typeof this.groundLayer,'layer')
-    this.treesLayer = this.map.createLayer('trees', tilesTrees, 0,-200);  // set layer name
-    this.treesBackLayer = this.map.createLayer('trees_back', tilesTrees, 0, -200)
-    this.treesGrassLayer = this.map.createLayer('trees_grass', tilesTrees, 0, -200);
-    this.decorativeLayer = this.map.createLayer('decorative', tilesDecorative, 0, -200);
-    this.groundLayer.setCollisionByProperty({ collides: true });
-    this.groundLayer.setCollisionBetween(1,1000);
-    this.woodCollisionLayer.setCollisionByProperty({collides: true});
-    this.woodCollisionLayer.setCollisionBetween(1,10000);
-    this.physics.add.collider(this.player, this.groundLayer, null, null, this);
-    this.physics.add.collider(this.player, this.woodCollisionLayer, null, null, this);
-    //@ts-ignore
-    this.background.fixedToCamera = true;
-    // this.layer.resizeWorld();
-    // this.player.setCollideWorldBounds(true);
-
-    this.bullets = this.add.group();
-
+    this.createTilesets();
+    this.createWorldLayers();
+    this.createColliders();
   }
+
   preload() {
     this.loadAssets();
   }
+
   update() {
     this.createHeroMove();
-    // this.background.setPosition(this.cameras.main.scrollX);
   }
+
   private createHero(): void {
     this.player = new Player(
       this,
@@ -94,10 +51,6 @@ export class MainScene extends Phaser.Scene {
       "sprPlayer"
     ); 
   }
-
-
-
-  
 
   private createCursors(): void {
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -113,19 +66,17 @@ export class MainScene extends Phaser.Scene {
       { frameWidth: 128,
         frameHeight: 112 });
     this.load.image('bullet', '/assets/game/main/bullets24.png');  
-    // tiles in spritesheet 
-    this.load.image('tileset', '/assets/game/main/env_ground.png');
-    this.load.image('tileset_trees', '/assets/game/main/env_trees.png');
-    this.load.image('tileset_wood', '/assets/game/main/wood_env.png');
-    this.load.image('tileset_decorative', '/assets/game/main/decorative_obj.png');
-
+    this.loadTilesets();
     this.load.tilemapTiledJSON('map', '/assets/game/main/layers_map_terrain.json');
-    
+  }
 
+  private loadTilesets(): void {
+    for (let key in tilesetNames){
+      this.load.image(tilesetNames[key].tilesetKey, tilesetNames[key].path);
+    }
   }
 
   private setCameras(): void {
-
     this.cameras.main.setBounds(0, -300,16000 , 900)
     this.cameras.main.startFollow(this.player);
   }
@@ -137,23 +88,23 @@ export class MainScene extends Phaser.Scene {
     else if (this.cursors.left.isDown) {
       this.player.moveLeft();
     }
+    //@ts-ignore
     else if(this.player.body.blocked.down) {
       this.player.stand();
     }
+    //@ts-ignore
     if (this.cursors.up.isDown && this.player.body.blocked.down) {
       this.player.jump();
     }
     if(this.cursors.space.isDown) {
       this.player.shoot();
     }
-
     this.background.setX(this.cameras.main.scrollX + 600);
   }
 
   private addBgParallax(count: number): void {
     let x = 0;
     do{
-      //@ts-ignore
       const bg = this.add.image(x, this.gameHeight * 1.5,'mountain')
       .setOrigin(0,1)
       .setScrollFactor(1.25, 1);
@@ -161,8 +112,31 @@ export class MainScene extends Phaser.Scene {
     }while(x < 16000);
   }
 
-  private createWorld(): void {
-    
+  private createTilesets(): void {
+    this.tilesets = {} as Tileset;
+    for (let key in tilesetNames){
+      this.tilesets[key] = this.map.addTilesetImage(tilesetNames[key].tilesetName, tilesetNames[key].tilesetKey)
+    }
+  }
+  
+  private createWorldLayers(): void {
+    this.layers = {} as Layer;
+    for (let key in layerNames){
+      this.layers[key] = this.map.createLayer(layerNames[key].name, this.tilesets[layerNames[key].tilesetKey], 0, this.layerYPosition);
+    }
   }
 
+  private createColliders(): void {
+    this.layers.groundLayer.setCollisionByProperty({ collides: true });
+    this.layers.groundLayer.setCollisionBetween(1,1000);
+    this.layers.woodCollisionLayer.setCollisionByProperty({collides: true});
+    this.layers.woodCollisionLayer.setCollisionBetween(1,10000);
+    this.physics.add.collider(this.player, this.layers.groundLayer, null, null, this);
+    this.physics.add.collider(this.player, this.layers.woodCollisionLayer, null, null, this);
+  }
+
+  private addFixedBackground(): void {
+    this.background = this.add.image(this.gameWidth * 0.5, this.gameHeight * 0.5, 'background')
+                                .setScrollFactor(1,1);
+  }
 }
