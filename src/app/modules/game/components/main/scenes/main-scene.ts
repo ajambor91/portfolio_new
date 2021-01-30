@@ -11,7 +11,8 @@ export class MainScene extends Phaser.Scene {
   bullet = null;
   bullets;
   map;
-  groundLayer;
+  backgroundTrees: Phaser.GameObjects.Image;
+  groundLayer:Phaser.Tilemaps.TilemapLayer;
   grassLayer;
   treesLayer;
   treesGrassLayer;
@@ -20,18 +21,31 @@ export class MainScene extends Phaser.Scene {
   woodCollisionLayer;
   decorativeLayer;
   background: Phaser.GameObjects.Image;
+
+  gameWidth: number;
+  gameHeight: number;
+
   constructor() {
     super({ key: 'main' });
+
   }
   create() {
-    
-    this.background = this.add.image(0,450, 'background');
+    this.gameHeight = this.scale.height;
+    this.gameWidth = this.scale.width;
+    this.background = this.add.image(this.gameWidth * 0.5, this.gameHeight * 0.5, 'background');
     //@ts-ignore
     this.background.fixedToCamera = true;
-    // this.createPlatforms();
+    this.addBgParallax(2);
+
     this.createHero();
-    // this.createHeroAnims();
-    // this.addBullets();
+    let i = 0;
+
+    do {
+      
+      i++;
+    } while (i< 16000)
+
+    //@ts-ignore
     this.createCursors();
     this.setCameras();
 
@@ -45,11 +59,11 @@ export class MainScene extends Phaser.Scene {
     this.woodCollisionLayer = this.map.createLayer('wood_collide', tilesWood, 0, -200);
 
     this.grassLayer = this.map.createLayer('grass', tiles, 0,-200);  // set layer name
+    console.log(typeof this.groundLayer,'layer')
     this.treesLayer = this.map.createLayer('trees', tilesTrees, 0,-200);  // set layer name
     this.treesBackLayer = this.map.createLayer('trees_back', tilesTrees, 0, -200)
     this.treesGrassLayer = this.map.createLayer('trees_grass', tilesTrees, 0, -200);
     this.decorativeLayer = this.map.createLayer('decorative', tilesDecorative, 0, -200);
-
     this.groundLayer.setCollisionByProperty({ collides: true });
     this.groundLayer.setCollisionBetween(1,1000);
     this.woodCollisionLayer.setCollisionByProperty({collides: true});
@@ -62,6 +76,7 @@ export class MainScene extends Phaser.Scene {
     // this.player.setCollideWorldBounds(true);
 
     this.bullets = this.add.group();
+
   }
   preload() {
     this.loadAssets();
@@ -90,11 +105,13 @@ export class MainScene extends Phaser.Scene {
 
   private loadAssets(): void {
     this.load.image('background', '/assets/game/main/background.png');
+    this.load.image('mountain','/assets/game/main/mountain.png');
     this.load.image('angular', '/assets/game/collectibles/angular.png');
     this.load.image('ground', '/assets/game/main/ground.png');
     this.load.image('test', '/assets/game/main/test.png')
-    this.load.spritesheet('punk', '/assets/game/main/punk_stand.png',
-      { frameWidth: 128 });
+    this.load.spritesheet('punk', '/assets/game/main/punk_smaller.png',
+      { frameWidth: 128,
+        frameHeight: 112 });
     this.load.image('bullet', '/assets/game/main/bullets24.png');  
     // tiles in spritesheet 
     this.load.image('tileset', '/assets/game/main/env_ground.png');
@@ -116,26 +133,36 @@ export class MainScene extends Phaser.Scene {
   private createHeroMove(): void {
     if (this.cursors.right.isDown) {
       this.player.moveRight();
-      // if (this.player.body.touching.down) {
-      //   this.player.anims.play('right', true);
-
-      // }
-
     }
-    else {
-      this.player.stand();
-    }
-    if (this.cursors.up.isDown) {
-      this.player.jump();
-    }
-    if (this.cursors.left.isDown) {
+    else if (this.cursors.left.isDown) {
       this.player.moveLeft();
     }
-    else if(this.cursors.space.isDown) {
+    else if(this.player.body.blocked.down) {
+      this.player.stand();
+    }
+    if (this.cursors.up.isDown && this.player.body.blocked.down) {
+      this.player.jump();
+    }
+    if(this.cursors.space.isDown) {
       this.player.shoot();
     }
+
     this.background.setX(this.cameras.main.scrollX + 600);
-    console.log('camerascroll', this.cameras.main.scrollX);
+  }
+
+  private addBgParallax(count: number): void {
+    let x = 0;
+    do{
+      //@ts-ignore
+      const bg = this.add.image(x, this.gameHeight * 1.5,'mountain')
+      .setOrigin(0,1)
+      .setScrollFactor(1.25, 1);
+      x += bg.width
+    }while(x < 16000);
+  }
+
+  private createWorld(): void {
+    
   }
 
 }

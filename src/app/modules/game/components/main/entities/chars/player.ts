@@ -3,6 +3,7 @@ import { Enitty } from "../entity";
 
 export class Player extends Enitty{
     bullet;
+    // reverseMove = false;
     constructor(scene, xPosition, yPostion, key, type){
         super(scene, xPosition, yPostion, key, type);
         this.createHeroAnims();
@@ -11,22 +12,25 @@ export class Player extends Enitty{
     }
 
     moveRight(): void {
+        this.flipX = false
         this.body.velocity.x = 400;
+
         this.anims.play('right', true);
 
     }
 
     moveLeft(): void {
+        // this.reverseMove = true;
         this.body.velocity.x = -400;
+        //@ts-ignore
+        this.flipX = true;
+        this.anims.play('left',true);
     }
 
     jump(): void {
-      //@ts-ignore
-      if(this.body.blocked.down) {
         this.body.velocity.y = -300;
-        // this.anims.play('jump',true);
-      }
-      //@ts-ignore
+        this.anims.play('up',true);
+
     }
 
     stand(): void {
@@ -58,20 +62,19 @@ export class Player extends Enitty{
           key: 'right',
           frames: this.anims.generateFrameNumbers('punk', { start: 0, end: 7 }),
           frameRate: 10,
-          repeat: 0,
+          repeat: 0
         });
         this.anims.create({
           key: 'left',
           frames: this.anims.generateFrameNumbers('punk', { start: 0, end: 7 }),
           frameRate: 10,
-          repeat: 0,
-          yoyo: true
-        });
+          repeat: 0
+                });
         this.anims.create({
           key: 'up',
-          frames: this.anims.generateFrameNumbers('punk', { frames: [4] }),
+          frames: this.anims.generateFrameNumbers('punk', { frames: [3] }),
           frameRate: 1,
-          repeat: -1,
+          repeat: 100,
 
         })
         this.anims.create({
