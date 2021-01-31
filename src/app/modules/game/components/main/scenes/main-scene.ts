@@ -1,8 +1,8 @@
 import { Spooky } from "../entities/chars/enemies/spooky";
 import { Player } from "../entities/chars/player";
-import { layerNames, tilesetNames } from "./key-name/keys";
-import { Layer } from "./model/layer.model";
-import { Tileset } from "./model/tileset.model";
+import { layerNames, tilesetNames } from "../key-name/keys";
+import { Layer } from "../model/layer.model";
+import { Tileset } from "../model/tileset.model";
 
 export class MainScene extends Phaser.Scene {
   player: Player;
