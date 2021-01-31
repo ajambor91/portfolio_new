@@ -6,7 +6,7 @@ export class Player extends Enitty {
   bullets: Phaser.GameObjects.Group;
   health = 100;
   isShooting = false;
-  rateOfFire = 250;
+  rateOfFire = 300;
 
   constructor(scene, xPosition, yPostion, key, type) {
     super(scene, xPosition, yPostion, key, type);

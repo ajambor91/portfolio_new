@@ -116,6 +116,7 @@ export class MainScene extends Phaser.Scene {
 
   private createHeroMove(): void {
     if (this.cursors.right.isDown) {
+      this.player.rateOfFire += 300;
       //@ts-ignore
       this.player.moveRight(this.player.body.blocked.down);
     }
