@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as Phaser from 'phaser';
+import { InitScene } from './scenes/init-scene';
 import { MainScene } from './scenes/main-scene';
 @Component({
   selector: 'app-main',
@@ -15,7 +16,7 @@ export class MainComponent implements OnInit  {
       type: Phaser.AUTO,
       height: 500,
       width: 1200,
-      scene: [ MainScene ],
+      scene: [InitScene, MainScene ],
       parent: 'gameContainer',
       physics: {
         default: 'arcade',
