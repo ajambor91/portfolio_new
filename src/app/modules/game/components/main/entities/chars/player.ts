@@ -17,7 +17,7 @@ export class Player extends Enitty {
   moveRight(jumping: boolean): void {
     this.flipX = false
     this.body.velocity.x = 300;
-    if (jumping === true) {
+    if (jumping === false) {
       this.anims.play('right', true);
     }
   }
@@ -26,7 +26,7 @@ export class Player extends Enitty {
     this.body.velocity.x = -300;
     //@ts-ignore
     this.flipX = true;
-    if (jumping === true) {
+    if (jumping === false) {
       this.anims.play('left', true);
     }
   }

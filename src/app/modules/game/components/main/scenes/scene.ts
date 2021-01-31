@@ -70,11 +70,11 @@ export abstract class Scene extends Phaser.Scene{
         }
       }
     
-      protected createWorldLayers(): void {
+      protected createWorldLayers(xPosition = 0): void {
         this.layers = {} as Layer;
         for (let key in layerNames) {
           if (layerNames[key].scenes.includes(this.name)) {
-            this.layers[key] = this.map.createLayer(layerNames[key].name, this.tilesets[layerNames[key].tilesetKey], 0, this.layerYPosition);
+            this.layers[key] = this.map.createLayer(layerNames[key].name, this.tilesets[layerNames[key].tilesetKey], xPosition, this.layerYPosition);
           }
         }
       }

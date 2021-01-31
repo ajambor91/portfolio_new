@@ -5,6 +5,8 @@ export class InitScene extends Scene{
 
     protected readonly name = 'InitScene';
 
+    private cursors;
+
     constructor() {
         super({key: 'init'});
     }
@@ -25,10 +27,14 @@ export class InitScene extends Scene{
         this.createWorldLayers();
         // this.createColliders();
         this.createSpooky();
+        this.createColliders();
+        this.cursors = this.input.keyboard.createCursorKeys();
     }
 
     update(): void {
-
+        if(this.cursors.right.isDown){
+            this.player.moveRight(false);
+        }
     }
 
     private loadAssets(): void {
@@ -46,5 +52,11 @@ export class InitScene extends Scene{
           frameHeight: 72
         });
         this.load.bitmapFont('font', '/assets/game/main/fonts/cosmic_0.png', '/assets/game/main/fonts/cosmic.xml');
+      }
+
+      private createColliders(): void {
+        this.layers.groundLayer.setCollisionByProperty({ collides: true });
+        this.layers.groundLayer.setCollisionBetween(1, 1000);
+        this.physics.add.collider(this.player, this.layers.groundLayer, null, null, this);
       }
 }

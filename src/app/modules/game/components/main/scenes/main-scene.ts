@@ -80,11 +80,11 @@ export class MainScene extends Scene {
     if (this.cursors.right.isDown) {
       this.player.rateOfFire += 300;
       //@ts-ignore
-      this.player.moveRight(this.player.body.blocked.down);
+      this.player.moveRight(!this.player.body.blocked.down);
     }
     else if (this.cursors.left.isDown) {
       //@ts-ignore
-      this.player.moveLeft(this.player.body.blocked.down);
+      this.player.moveLeft(!this.player.body.blocked.down);
     }
     //@ts-ignore
     else if (this.player.body.blocked.down) {
