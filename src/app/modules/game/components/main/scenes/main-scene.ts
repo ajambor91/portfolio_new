@@ -150,7 +150,7 @@ export class MainScene extends Phaser.Scene {
         .setOrigin(0, 1)
         .setScrollFactor(1.25, 1);
       x += bg.width
-    } while (x < 16000);
+    } while (x < 24000);
   }
 
   private createTilesets(): void {
