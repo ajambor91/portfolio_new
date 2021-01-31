@@ -1,24 +1,16 @@
 import { Spooky } from "../entities/chars/enemies/spooky";
 import { Player } from "../entities/chars/player";
 import { layerNames, tilesetNames } from "../key-name/keys";
-import { Layer } from "../model/layer.model";
-import { Tileset } from "../model/tileset.model";
 
-export class MainScene extends Phaser.Scene {
-  player: Player;
+import { Scene } from "./scene";
+
+export class MainScene extends Scene {
+
   cursors: Phaser.Types.Input.Keyboard.CursorKeys;
-  map: Phaser.Tilemaps.Tilemap;
-  spooky;
-  layers: Layer;
-  tilesets: Tileset;
-  background: Phaser.GameObjects.Image;
   playerHealth: Phaser.GameObjects.BitmapText;
-  gameWidth: number;
-  gameHeight: number;
-
   spookyPosition: number;
 
-  private readonly layerYPosition = -200;
+  protected readonly name = 'MainScene';
 
   constructor() {
     super({ key: 'main' });
@@ -59,25 +51,6 @@ export class MainScene extends Phaser.Scene {
     this.spookyPosition = this.spooky.followPlayer(this.spookyPosition);
   }
 
-  private createHero(): void {
-    this.player = new Player(
-      this,
-      100,
-      60,
-      'punk',
-      "sprPlayer"
-    );
-  }
-
-  private createSpooky(): void {
-    this.spooky = new Spooky(
-      this,
-      300,
-      60,
-      'spooky',
-      "sprSpooky"
-    );
-  }
   private createCursors(): void {
     this.cursors = this.input.keyboard.createCursorKeys();
   }
@@ -101,17 +74,6 @@ export class MainScene extends Phaser.Scene {
       frameHeight: 72
     });
     this.load.bitmapFont('font', '/assets/game/main/fonts/cosmic_0.png', '/assets/game/main/fonts/cosmic.xml');
-  }
-
-  private loadTilesets(): void {
-    for (let key in tilesetNames) {
-      this.load.image(tilesetNames[key].tilesetKey, tilesetNames[key].path);
-    }
-  }
-
-  private setCameras(): void {
-    this.cameras.main.setBounds(0, -300, 16000, 900)
-    this.cameras.main.startFollow(this.player);
   }
 
   private createHeroMove(): void {
@@ -143,30 +105,6 @@ export class MainScene extends Phaser.Scene {
     }
   }
 
-  private addBgParallax(count: number): void {
-    let x = 0;
-    do {
-      const bg = this.add.image(x, this.gameHeight * 1.5, 'mountain')
-        .setOrigin(0, 1)
-        .setScrollFactor(1.25, 1);
-      x += bg.width
-    } while (x < 24000);
-  }
-
-  private createTilesets(): void {
-    this.tilesets = {} as Tileset;
-    for (let key in tilesetNames) {
-      this.tilesets[key] = this.map.addTilesetImage(tilesetNames[key].tilesetName, tilesetNames[key].tilesetKey)
-    }
-  }
-
-  private createWorldLayers(): void {
-    this.layers = {} as Layer;
-    for (let key in layerNames) {
-      this.layers[key] = this.map.createLayer(layerNames[key].name, this.tilesets[layerNames[key].tilesetKey], 0, this.layerYPosition);
-    }
-  }
-
   private createColliders(): void {
     this.layers.groundLayer.setCollisionByProperty({ collides: true });
     this.layers.groundLayer.setCollisionBetween(1, 1000);
@@ -174,10 +112,5 @@ export class MainScene extends Phaser.Scene {
     this.layers.woodCollisionLayer.setCollisionBetween(1, 10000);
     this.physics.add.collider(this.player, this.layers.groundLayer, null, null, this);
     this.physics.add.collider(this.player, this.layers.woodCollisionLayer, null, null, this);
-  }
-
-  private addFixedBackground(): void {
-    this.background = this.add.image(this.gameWidth * 0.5, this.gameHeight * 0.5, 'background')
-      .setScrollFactor(0, 0);
   }
 }

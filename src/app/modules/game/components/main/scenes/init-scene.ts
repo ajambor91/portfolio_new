@@ -3,6 +3,7 @@ import { Scene } from "./scene";
 
 export class InitScene extends Scene{
 
+    protected readonly name = 'InitScene';
 
     constructor() {
         super({key: 'init'});
@@ -13,7 +14,17 @@ export class InitScene extends Scene{
     }
 
     create(): void {
-
+        this.gameHeight = this.scale.height;
+        this.gameWidth = this.scale.width;
+        this.addFixedBackground();
+        this.addBgParallax(2);
+        this.createHero();
+        this.setCameras();
+        this.map = this.add.tilemap('map');
+        this.createTilesets();
+        this.createWorldLayers();
+        // this.createColliders();
+        this.createSpooky();
     }
 
     update(): void {
@@ -35,10 +46,5 @@ export class InitScene extends Scene{
           frameHeight: 72
         });
         this.load.bitmapFont('font', '/assets/game/main/fonts/cosmic_0.png', '/assets/game/main/fonts/cosmic.xml');
-      }
-    
-      private loadTilesets(): void {
-          this.load.image('ground', '/assets/game/main/env_ground.png');
-          this.load.image('trees', '/assets/game/main/env_trees.png');
       }
 }

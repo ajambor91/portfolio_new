@@ -1,5 +1,8 @@
 import { Spooky } from "../entities/chars/enemies/spooky";
 import { Player } from "../entities/chars/player";
+import { tilesetNames, layerNames } from "../key-name/keys";
+import { Layer } from "../model/layer.model";
+import { Tileset } from "../model/tileset.model";
 
 export abstract class Scene extends Phaser.Scene{
     player: Player;
@@ -7,6 +10,12 @@ export abstract class Scene extends Phaser.Scene{
     gameHeight: number;
     background: Phaser.GameObjects.Image;
     spooky: Spooky;
+    layers: Layer;
+    tilesets: Tileset;
+    map: Phaser.Tilemaps.Tilemap;
+    
+    protected name;
+    protected readonly layerYPosition = -200;
 
     constructor(key) {
         super(key);
@@ -50,5 +59,31 @@ export abstract class Scene extends Phaser.Scene{
           'spooky',
           "sprSpooky"
         );
+      }
+
+      protected createTilesets(): void {
+        this.tilesets = {} as Tileset;
+        for (let key in tilesetNames) {
+          if (tilesetNames[key].scenes.includes(this.name)) {
+            this.tilesets[key] = this.map.addTilesetImage(tilesetNames[key].tilesetName, tilesetNames[key].tilesetKey);
+          }
+        }
+      }
+    
+      protected createWorldLayers(): void {
+        this.layers = {} as Layer;
+        for (let key in layerNames) {
+          if (layerNames[key].scenes.includes(this.name)) {
+            this.layers[key] = this.map.createLayer(layerNames[key].name, this.tilesets[layerNames[key].tilesetKey], 0, this.layerYPosition);
+          }
+        }
+      }
+
+      protected loadTilesets(): void {
+        for (let key in tilesetNames) {
+          if(tilesetNames[key].scenes.includes(this.name)){
+            this.load.image(tilesetNames[key].tilesetKey, tilesetNames[key].path);
+          }
+        }
       }
 }
