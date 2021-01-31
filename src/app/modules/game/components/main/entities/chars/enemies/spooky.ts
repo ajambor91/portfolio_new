@@ -3,7 +3,7 @@ import { Enitty } from "../../entity";
 export class Spooky extends Enitty {
     demage = 1;
     demageRange = 40;
-    constructor(scene, xPosition, yPostion, key, type){
+    constructor(scene, xPosition, yPostion, key, type) {
         super(scene, xPosition, yPostion, key, type);
         this.createAnims();
         this.playAnim();
@@ -11,9 +11,9 @@ export class Spooky extends Enitty {
 
     followPlayer(x): number {
 
-        if(x < this.x){
+        if (x < this.x) {
             this.flipX = true;
-        }else {
+        } else {
             this.flipX = false;
         }
         //@ts-ignore
@@ -23,14 +23,14 @@ export class Spooky extends Enitty {
 
     addPlayerCollision(): void {
         //@ts-ignore
-        if((this.scene.player.x + this.demageRange >= this.x && this.scene.player.x -this.demageRange <= this.x) &&
-        //@ts-ignore
-            (this.scene.player.y +this.demageRange >= this.y && this.scene.player.y -this.demageRange <= this.y) ){
+        if ((this.scene.player.x + this.demageRange >= this.x && this.scene.player.x - this.demageRange <= this.x) &&
+            //@ts-ignore
+            (this.scene.player.y + this.demageRange >= this.y && this.scene.player.y - this.demageRange <= this.y)) {
             //@ts-ignore
             this.scene.player.health -= this.demage;
         }
     }
-    private playAnim():void {
+    private playAnim(): void {
         this.anims.play('follow');
     }
 
@@ -40,6 +40,6 @@ export class Spooky extends Enitty {
             frames: this.anims.generateFrameNumbers('spooky', { start: 0, end: 10 }),
             frameRate: 10,
             repeat: -1
-          });
+        });
     }
 }
