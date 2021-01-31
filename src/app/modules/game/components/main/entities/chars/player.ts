@@ -4,7 +4,7 @@ import { Enitty } from "../entity";
 export class Player extends Enitty {
     bullet: Bullet;
     bullets: Phaser.GameObjects.Group;
-
+    health = 100;
     constructor(scene, xPosition, yPostion, key, type){
         super(scene, xPosition, yPostion, key, type);
         this.createHeroAnims();
@@ -39,8 +39,14 @@ export class Player extends Enitty {
       this.bullets.add(this.bullet);   
     }
 
+    checkIsAlive(): void {
+      if(this.health <= 0) {
+        this.destroy();
+      }
+    }
+
     private createBullet(): void {
-      const x = Phaser.Math.Clamp(this.x, 0, 1200);
+      const x = Phaser.Math.Clamp(this.x,0, Phaser.Math.MAX_SAFE_INTEGER);
       const y = Phaser.Math.Clamp(this.y, 0, 600);
       this.bullet = new Bullet(
         this.scene,

@@ -1,3 +1,4 @@
+import { Spooky } from "../entities/chars/enemies/spooky";
 import { Player } from "../entities/chars/player";
 import { layerNames, tilesetNames } from "./key-name/keys";
 import { Layer } from "./model/layer.model";
@@ -7,13 +8,15 @@ export class MainScene extends Phaser.Scene {
   player: Player;
   cursors: Phaser.Types.Input.Keyboard.CursorKeys;
   map: Phaser.Tilemaps.Tilemap;
-
+  spooky;
   layers: Layer;
   tilesets: Tileset;
   background: Phaser.GameObjects.Image;
-
+  playerHealth: Phaser.GameObjects.BitmapText;
   gameWidth: number;
   gameHeight: number;
+
+  spookyPosition: number;
 
   private readonly layerYPosition = -200;
 
@@ -32,6 +35,9 @@ export class MainScene extends Phaser.Scene {
     this.createTilesets();
     this.createWorldLayers();
     this.createColliders();
+    this.createSpooky();
+    this.playerHealth = this.add.bitmapText(10,10,'font','100')
+      .setScrollFactor(0,0);
   }
 
   preload() {
@@ -39,7 +45,14 @@ export class MainScene extends Phaser.Scene {
   }
 
   update() {
-    this.createHeroMove();
+    //@ts-ignore
+    this.spooky.addPlayerCollision();
+    this.playerHealth.text = `${this.player.health}`;
+    this.player.checkIsAlive();
+    if(this.player.active) {
+      this.createHeroMove();
+    }
+    this.spookyPosition = this.spooky.followPlayer(this.spookyPosition);
   }
 
   private createHero(): void {
@@ -52,6 +65,15 @@ export class MainScene extends Phaser.Scene {
     ); 
   }
 
+  private createSpooky(): void {
+    this.spooky = new Spooky(
+      this,
+      300, 
+      60,
+      'spooky',
+      "sprSpooky"
+    );
+  }
   private createCursors(): void {
     this.cursors = this.input.keyboard.createCursorKeys();
   }
@@ -68,6 +90,11 @@ export class MainScene extends Phaser.Scene {
     this.load.image('bullet', '/assets/game/main/bullets24.png');  
     this.loadTilesets();
     this.load.tilemapTiledJSON('map', '/assets/game/main/layers_map_terrain.json');
+    this.load.spritesheet('spooky', '/assets/game/chars/enemies/spooky.png',{
+      frameWidth: 49,
+      frameHeight:72
+    });
+    this.load.bitmapFont('font','/assets/game/main/fonts/cosmic_0.png', '/assets/game/main/fonts/cosmic.xml');
   }
 
   private loadTilesets(): void {
@@ -87,7 +114,7 @@ export class MainScene extends Phaser.Scene {
     }
     else if (this.cursors.left.isDown) {
       this.player.moveLeft();
-    }
+   }
     //@ts-ignore
     else if(this.player.body.blocked.down) {
       this.player.stand();
