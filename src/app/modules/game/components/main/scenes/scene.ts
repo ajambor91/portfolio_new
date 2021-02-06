@@ -13,6 +13,7 @@ export abstract class Scene extends Phaser.Scene{
     layers: Layer;
     tilesets: Tileset;
     map: Phaser.Tilemaps.Tilemap;
+    audio: Phaser.Sound.BaseSound;
     
     protected name;
     protected readonly layerYPosition = -200;
@@ -86,5 +87,10 @@ export abstract class Scene extends Phaser.Scene{
             this.load.image(tilesetNames[key].tilesetKey, tilesetNames[key].path);
           }
         }
+      }
+
+      protected loadAudio(){
+        console.log('loading audio')
+        this.load.audio('theme','/assets/game/audio/psyhematics.mp3');
       }
 }

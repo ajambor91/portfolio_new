@@ -24,6 +24,7 @@ export class InitScene extends Scene {
   preload(): void {
     this.loadAssets();
     this.loadKeyboardImages();
+    this.loadAudio();
   }
   listenKey() {
     const scene = this;
@@ -32,6 +33,15 @@ export class InitScene extends Scene {
       scene.scene.start('main');
       this.removeEventListener('keyup', newScene);
     })
+  }
+  playAudio(){
+    const audio = this.audio;
+    window.addEventListener('click', function play(){
+      if(!audio.isPlaying){
+        audio.play();
+      }
+      this.removeEventListener('click', play);
+    });
   }
   create(): void {
     this.gameHeight = this.scale.height;
@@ -55,6 +65,11 @@ export class InitScene extends Scene {
     this.displayKeys();
     this.maps.push(createdMap);
     this.cursors = this.input.keyboard.createCursorKeys();
+    this.audio = this.sound.add('theme')
+    //@ts-ignore
+    this.audio.play();
+    //@ts-ignore
+    this.audio.setLoop(true);
   }
 
   update(): void {
