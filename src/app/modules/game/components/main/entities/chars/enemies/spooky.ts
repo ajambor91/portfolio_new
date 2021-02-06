@@ -3,6 +3,7 @@ import { Enitty } from "../../entity";
 export class Spooky extends Enitty {
     demage = 1;
     demageRange = 40;
+    initSpeed = 500;
     constructor(scene, xPosition, yPostion, key, type) {
         super(scene, xPosition, yPostion, key, type);
         this.createAnims();
@@ -19,6 +20,18 @@ export class Spooky extends Enitty {
         //@ts-ignore
         this.scene.physics.moveToObject(this, this.scene.player, 150);
         return this.x;
+    }
+
+    followPlayerInInitScene(playerPosition: number): void {
+        if(playerPosition - this.x <= 150){
+            this.initSpeed = 200;
+        } else if(playerPosition - this.x >= 400){
+            this.initSpeed = 500;
+        }
+        this.flipX = true;
+        //@ts-ignore
+        this.scene.physics.moveToObject(this, this.scene.player, this.initSpeed);
+
     }
 
     addPlayerCollision(): void {

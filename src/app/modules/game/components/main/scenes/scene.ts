@@ -26,18 +26,18 @@ export abstract class Scene extends Phaser.Scene{
           .setScrollFactor(0, 0);
       }
 
-    protected addBgParallax(count: number): void {
+    protected addBgParallax(worldWidth = 24000): void {
         let x = 0;
         do {
           const bg = this.add.image(x, this.gameHeight * 1.5, 'mountain')
             .setOrigin(0, 1)
             .setScrollFactor(1.25, 1);
           x += bg.width
-        } while (x < 24000);
+        } while (x < worldWidth);
       }  
 
-    protected setCameras(): void {
-        this.cameras.main.setBounds(0, -300, 16000, 900)
+    protected setCameras(worldWidth = 16000): void {
+        this.cameras.main.setBounds(0, -300, worldWidth, 900)
         this.cameras.main.startFollow(this.player);
     }  
 

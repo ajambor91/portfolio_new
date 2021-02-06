@@ -1,3 +1,4 @@
+import { LoopMap } from "../model/loop-map.model";
 import { Scene } from "./scene";
 
 
@@ -6,7 +7,14 @@ export class InitScene extends Scene{
     protected readonly name = 'InitScene';
 
     private cursors;
-
+    private created = false;
+    private removed = false;
+    private worldWidth = 1400;
+    private addWorldOffset = 500;
+    private removePreviusLayer = this.addWorldOffset * 3;
+    private playerWorldScroll = 1;
+    private maps: LoopMap[] = [];
+    private spookyPosition: number;
     constructor() {
         super({key: 'init'});
     }
@@ -19,21 +27,60 @@ export class InitScene extends Scene{
         this.gameHeight = this.scale.height;
         this.gameWidth = this.scale.width;
         this.addFixedBackground();
-        this.addBgParallax(2);
+        this.addBgParallax(99999);
         this.createHero();
-        this.setCameras();
+        this.setCameras(999999);
         this.map = this.add.tilemap('map');
         this.createTilesets();
         this.createWorldLayers();
-        // this.createColliders();
-        this.createSpooky();
-        this.createColliders();
+        const collider = this.createColliders(this.layers.groundLayer);
+        const createdMap: LoopMap = {
+          map: this.map,
+          collider: collider
+        };
+        this.maps.push(createdMap);
         this.cursors = this.input.keyboard.createCursorKeys();
+        //@ts-ignore
+        setTimeout(()=> {
+          this.createSpooky()
+        },3000)
+
     }
 
     update(): void {
-        if(this.cursors.right.isDown){
-            this.player.moveRight(false);
+        //@ts-ignore
+        if(this.player.body.blocked.down){
+          this.player.moveRight(false);
+
+        }else{
+          this.player.stand();
+
+        }
+        if(this.spooky){
+          this.spooky.followPlayerInInitScene(this.player.x);
+
+        }
+
+        if(this.player.x >= this.addWorldOffset * this.playerWorldScroll && this.created === false) {
+          this.createLoopMap();
+          this.createWorldLayers(this.worldWidth * this.playerWorldScroll);
+          const collider = this.createColliders(this.layers.groundLayer);
+          const createdMap: LoopMap = {
+            map: this.map,
+            collider: collider
+          };
+          this.maps.push(createdMap);
+          this.created = true;
+          this.playerWorldScroll++;
+          this.removed = false;
+        }else if(this.player.x >= this.removePreviusLayer * this.playerWorldScroll && this.removed === false){
+          const mapToRemoveIndex = this.playerWorldScroll - 2
+          const map = this.maps[mapToRemoveIndex];
+          this.removeMap(map, mapToRemoveIndex);
+          this.removed = true;
+        }
+        if(this.player.x >= this.addWorldOffset * 2 * this.playerWorldScroll){
+          this.created = false;
         }
     }
 
@@ -54,9 +101,24 @@ export class InitScene extends Scene{
         this.load.bitmapFont('font', '/assets/game/main/fonts/cosmic_0.png', '/assets/game/main/fonts/cosmic.xml');
       }
 
-      private createColliders(): void {
-        this.layers.groundLayer.setCollisionByProperty({ collides: true });
-        this.layers.groundLayer.setCollisionBetween(1, 1000);
-        this.physics.add.collider(this.player, this.layers.groundLayer, null, null, this);
+      private createColliders(layer): Phaser.Physics.Arcade.Collider {
+        layer.setCollisionByProperty({ collides: true });
+        layer.setCollisionBetween(1, 1000);
+        return  this.physics.add.collider(this.player, layer, null, null, this);
+ 
+      }
+
+      private createLoopMap(): void {
+        this.map = this.add.tilemap('map');
+        }
+
+      private removeMap(map: LoopMap, key: number){
+        this.physics.world.removeCollider(map.collider);
+        map.map.destroy();
+      }
+
+      private addTilesetToLoopMap(map){
+        const tile = map.addTilesetImage('env_ground', 'tileset');
+        return tile;
       }
 }
