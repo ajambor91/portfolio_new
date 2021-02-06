@@ -14,6 +14,7 @@ export class MainScene extends Scene {
 
   constructor() {
     super({ key: 'main' });
+
   }
 
   create() {
@@ -24,7 +25,7 @@ export class MainScene extends Scene {
     this.createHero();
     this.createCursors();
     this.setCameras();
-    this.map = this.add.tilemap('map');
+    this.map = this.add.tilemap('mapMain');
     this.createTilesets();
     this.createWorldLayers();
     this.createColliders();
@@ -68,7 +69,7 @@ export class MainScene extends Scene {
       });
     this.load.image('bullet', '/assets/game/main/bullets24.png');
     this.loadTilesets();
-    this.load.tilemapTiledJSON('map', '/assets/game/main/layers_map_terrain.json');
+    this.load.tilemapTiledJSON('mapMain', '/assets/game/main/layers_map_terrain.json');
     this.load.spritesheet('spooky', '/assets/game/chars/enemies/spooky.png', {
       frameWidth: 49,
       frameHeight: 72

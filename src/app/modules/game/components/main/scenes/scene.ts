@@ -62,6 +62,7 @@ export abstract class Scene extends Phaser.Scene{
       }
 
       protected createTilesets(): void {
+        this.tilesets = null;
         this.tilesets = {} as Tileset;
         for (let key in tilesetNames) {
           if (tilesetNames[key].scenes.includes(this.name)) {
