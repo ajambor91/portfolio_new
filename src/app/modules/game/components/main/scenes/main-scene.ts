@@ -16,7 +16,10 @@ export class MainScene extends Scene {
     super({ key: 'main' });
 
   }
-
+  init(data){
+    console.log(data)
+    this.audioMute = data.audioMute;
+  }
   create() {
     this.gameHeight = this.scale.height;
     this.gameWidth = this.scale.width;

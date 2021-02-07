@@ -102,10 +102,10 @@ export abstract class Scene extends Phaser.Scene {
   }
 
   protected addSoundsBTN(): void {
-    const soundOn = this.add.image(1160, 40, 'sound_on')
+    const soundOn = this.add.image(1160, 40, !this.audioMute ? 'sound_on' : 'sound_off')
       .setScrollFactor(0, 0)
       .setDepth(1)
-      .setInteractive();
+      .setInteractive({ useHandCursor: true  } );
     soundOn.on('pointerdown', (e) => {
       if (this.audioMute === false) {
         // @ts-ignore
@@ -126,6 +126,7 @@ export abstract class Scene extends Phaser.Scene {
   protected playAudio(): void {
     this.audio = this.sound.add('theme')
     //@ts-ignore
+    if(this.audioMute === true ) this.audio.setMute(true); 
     this.audio.play();
     //@ts-ignore
     this.audio.setLoop(true);

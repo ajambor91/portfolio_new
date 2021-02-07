@@ -35,7 +35,7 @@ export class InitScene extends Scene {
       scene.audio.stop();
       //@ts-ignore
       clearInterval(timer);
-      scene.scene.start('main');
+      scene.scene.start('main', {audioMute: scene.audioMute});
       this.removeEventListener('keyup', newScene);
       
     })
