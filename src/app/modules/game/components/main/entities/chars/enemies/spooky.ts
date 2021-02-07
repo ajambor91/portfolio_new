@@ -1,10 +1,12 @@
 import { Enitty } from "../../entity";
 
 export class Spooky extends Enitty {
-    demage = 1;
-    demageRange = 40;
-    initSpeed = 500;
-    squeak = false;
+    private readonly demage = 1;
+    private readonly demageRange = 40;
+    private initSpeed = 500;
+    private squeak = false;
+    private isPosition = false;
+
     constructor(scene, xPosition, yPostion, key, type) {
         super(scene, xPosition, yPostion, key, type);
         this.createAnims();
@@ -22,7 +24,15 @@ export class Spooky extends Enitty {
         this.scene.physics.moveToObject(this, this.scene.player, 150);
         return this.x;
     }
-
+    unfollow(): void {
+        if(this.isPosition === false){
+            this.scene.cameras.main.startFollow(this);
+            this.flipX = true;    
+            this.isPosition = true;
+        }
+        if(this.y > 350) this.scene.physics.moveTo(this,16000, 250);
+        this.body.velocity.x = 300;
+    }
     followPlayerInInitScene(playerPosition: number): void {
         if(playerPosition - this.x <= 150){
             this.initSpeed = 200;
@@ -32,7 +42,6 @@ export class Spooky extends Enitty {
         this.flipX = true;
         //@ts-ignore
         this.scene.physics.moveToObject(this, this.scene.player, this.initSpeed);
-
     }
 
     addPlayerCollision(): void {
@@ -48,10 +57,10 @@ export class Spooky extends Enitty {
                 setTimeout(()=>{
                     this.squeak = false;
                 },800)
-            }    
-          
+            }             
         }
     }
+
     private playAnim(): void {
         this.anims.play('follow');
     }

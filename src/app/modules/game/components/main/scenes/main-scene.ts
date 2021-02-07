@@ -6,7 +6,7 @@ import { Cursors } from "../model/cursors.model";
 import { Scene } from "./scene";
 
 export class MainScene extends Scene {
-
+  rightOutside = false;
   cursors: Cursors;
   playerHealth: Phaser.GameObjects.BitmapText;
   magazine: Phaser.GameObjects.BitmapText;
@@ -54,6 +54,17 @@ export class MainScene extends Scene {
   }
 
   update() {
+    if( this.player.x < 0 && this.rightOutside === false){
+      console.log(this.player.x);
+
+      this.sound.add('falling_down').play();
+      this.player.destroy();
+      this.rightOutside = true;
+    } 
+    if(this.player.x < 0) {
+      this.spooky.unfollow();
+      return;
+    }
     //@ts-ignore
     this.spooky.addPlayerCollision();
     this.playerHealth.text = `${this.player.health} HP`;
@@ -136,5 +147,7 @@ export class MainScene extends Scene {
     this.load.audio('reload_sound', '/assets/game/audio/reload.mp3');
     this.load.audio('gunshot', '/assets/game/audio/gunshot_new.mp3');
     this.load.audio('squeak','/assets/game/audio/squeak.mp3')
+    this.load.audio('falling_down','/assets/game/audio/falling_dawn.mp3')
+
   }
 }
