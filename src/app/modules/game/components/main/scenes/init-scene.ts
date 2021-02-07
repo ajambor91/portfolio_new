@@ -1,4 +1,5 @@
 import { HostListener } from "@angular/core";
+import { Keyboard } from "../model/keyboard.model";
 import { LoopMap } from "../model/loop-map.model";
 import { Scene } from "./scene";
 
@@ -6,7 +7,7 @@ import { Scene } from "./scene";
 export class InitScene extends Scene {
 
   protected readonly name = 'InitScene';
-
+  private keys: Keyboard = new Object() as Keyboard;
   private cursors;
   private created = false;
   private removed = false;
@@ -25,6 +26,7 @@ export class InitScene extends Scene {
     this.loadAssets();
     this.loadKeyboardImages();
     this.loadAudio();
+    this.loadUniAssets();
   }
   listenKey() {
     const scene = this;
@@ -67,9 +69,11 @@ export class InitScene extends Scene {
     this.cursors = this.input.keyboard.createCursorKeys();
     this.audio = this.sound.add('theme')
     //@ts-ignore
-    this.audio.play();
+    // this.audio.play();
     //@ts-ignore
     this.audio.setLoop(true);
+    this.addSoundsBTN();
+    this.displayKeysDescription();
   }
 
   update(): void {
@@ -150,17 +154,68 @@ export class InitScene extends Scene {
   }
 
   private displayKeys(): void {
-    this.add.image(1100, 100, 'keyup')
-      .setScrollFactor(0, 0)
-      .setDepth(1);
-    this.add.image(1050, 150, 'keyleft')
-      .setScrollFactor(0, 0)
-      .setDepth(1);
-    this.add.image(1150, 150, 'keyright')
-      .setScrollFactor(0, 0)
-      .setDepth(1);
-    this.add.image(980, 210, 'space')
-      .setScrollFactor(0, 0)
-      .setDepth(1);
+    const icons = {
+      keyup: {
+        key: 'keyup',
+        x: 800,
+        y: 200
+      },
+      keyleft: {
+        key: 'keyleft',
+        x: 750,
+        y: 250
+      },
+      keyright: {
+        key: 'keyright',
+        x: 850,
+        y: 250
+      },
+      space: {
+        key: 'space',
+        x: 600,
+        y: 350
+      }
+    }
+    for(let [key, value] of Object.entries(icons)){
+     this.keys[key] = {
+       icon: this.add.image(value.x, value.y, value.key)
+       .setScrollFactor(0, 0)
+       .setDepth(1)
+     } ;
+    }
+  }
+
+  private displayKeysDescription(){
+    const texts = {
+      keyup: {
+        desc: 'Skok',
+        x: 780,
+        y: 120
+      },
+      keyright: {
+        desc: 'W prawo',
+        x: 860,
+        y: 180
+      },      
+      keyleft: {
+        desc: 'W lewo',
+        x: 650,
+        y: 180
+      }, 
+      space: {
+        desc: 'Strzelaj!',
+        x: 550,
+        y: 400
+      },
+    };
+    for (let [key, value] of Object.entries(texts)){
+      this.keys[key] = {
+        key: this.add.bitmapText(value.x, value.y, 'font', value.desc)
+        .setFontSize(20)
+        .setRotation(3.14)
+        .setScrollFactor(0, 0)
+        .setDepth(3)
+      }; 
+    }
   }
 }

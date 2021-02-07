@@ -39,6 +39,7 @@ export class MainScene extends Scene {
 
   preload() {
     this.loadAssets();
+    this.loadUniAssets();
   }
 
   update() {
@@ -74,7 +75,6 @@ export class MainScene extends Scene {
       frameWidth: 49,
       frameHeight: 72
     });
-    this.load.bitmapFont('font', '/assets/game/main/fonts/cosmic_0.png', '/assets/game/main/fonts/cosmic.xml');
   }
 
   private createHeroMove(): void {
