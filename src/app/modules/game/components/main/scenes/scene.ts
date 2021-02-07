@@ -47,9 +47,10 @@ export abstract class Scene extends Phaser.Scene{
           this,
           100,
           60,
-          'punk',
+          this.name === 'MainScene' ? 'punk_gun' :'punk',
           "sprPlayer"
         );
+        this.name === 'MainScene' ?  this.player.heroAnimsWithGun() : this.player.createHeroAnims()
       }
     
       protected createSpooky(): void {

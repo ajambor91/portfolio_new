@@ -62,12 +62,12 @@ export class MainScene extends Scene {
     this.load.image('angular', '/assets/game/collectibles/angular.png');
     this.load.image('ground', '/assets/game/main/ground.png');
     this.load.image('test', '/assets/game/main/test.png')
-    this.load.spritesheet('punk', '/assets/game/main/punk_smaller.png',
+    this.load.spritesheet('punk_gun', '/assets/game/main/punk_gun.png',
       {
-        frameWidth: 128,
-        frameHeight: 112
+        frameWidth: 130,
+        frameHeight: 128
       });
-    this.load.image('bullet', '/assets/game/main/bullets24.png');
+    this.load.image('bullet', '/assets/game/main/bullet_8.png');
     this.loadTilesets();
     this.load.tilemapTiledJSON('mapMain', '/assets/game/main/layers_map_terrain.json');
     this.load.spritesheet('spooky', '/assets/game/chars/enemies/spooky.png', {

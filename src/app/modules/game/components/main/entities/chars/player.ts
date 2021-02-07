@@ -10,7 +10,6 @@ export class Player extends Enitty {
 
   constructor(scene, xPosition, yPostion, key, type) {
     super(scene, xPosition, yPostion, key, type);
-    this.createHeroAnims();
     this.bullets = this.scene.add.group();
   }
 
@@ -57,8 +56,9 @@ export class Player extends Enitty {
   }
 
   private createBullet(): void {
-    const x = Phaser.Math.Clamp(this.x, 0, Phaser.Math.MAX_SAFE_INTEGER);
-    const y = Phaser.Math.Clamp(this.y, 0, 600);
+    const xBulletPositionMove = !this.flipX ? 50 : - 50;  
+    const x = Phaser.Math.Clamp(this.x + xBulletPositionMove  , 0, Phaser.Math.MAX_SAFE_INTEGER);
+    const y = Phaser.Math.Clamp(this.y + 15, 0, 600);
     this.bullet = new Bullet(
       this.scene,
       x,
@@ -69,7 +69,7 @@ export class Player extends Enitty {
     );
   }
 
-  private createHeroAnims(): void {
+  createHeroAnims(): void {
     this.anims.create({
       key: 'right',
       frames: this.anims.generateFrameNumbers('punk', { start: 0, end: 7 }),
@@ -77,20 +77,33 @@ export class Player extends Enitty {
       repeat: 0
     });
     this.anims.create({
+      key: 'stand',
+      frames: this.anims.generateFrameNumbers('punk', { frames: [8] })
+    });
+  }
+  
+  heroAnimsWithGun(): void {
+    this.anims.create({
+      key: 'right',
+      frames: this.anims.generateFrameNumbers('punk_gun', { start: 0, end: 7 }),
+      frameRate: 10,
+      repeat: 0
+    });
+    this.anims.create({
       key: 'left',
-      frames: this.anims.generateFrameNumbers('punk', { start: 0, end: 7 }),
+      frames: this.anims.generateFrameNumbers('punk_gun', { start: 0, end: 7 }),
       frameRate: 10,
       repeat: 0
     });
     this.anims.create({
       key: 'up',
-      frames: this.anims.generateFrameNumbers('punk', { frames: [3] }),
+      frames: this.anims.generateFrameNumbers('punk_gun', { frames: [3] }),
       frameRate: 1,
       repeat: 100
     })
     this.anims.create({
       key: 'stand',
-      frames: this.anims.generateFrameNumbers('punk', { frames: [8] })
+      frames: this.anims.generateFrameNumbers('punk_gun', { frames: [8] })
     });
   }
 }
