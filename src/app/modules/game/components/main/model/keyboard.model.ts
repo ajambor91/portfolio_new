@@ -15,4 +15,8 @@ export interface Keyboard{
         icon: Phaser.GameObjects.Image,
         key: Phaser.GameObjects.BitmapText
     };
+    reload:{
+        icon: Phaser.GameObjects.Image,
+        key: Phaser.GameObjects.BitmapText
+    };
 }

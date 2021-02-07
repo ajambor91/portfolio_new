@@ -28,6 +28,7 @@ export abstract class Scene extends Phaser.Scene {
   }
 
   protected addBgParallax(worldWidth = 24000): void {
+    console.log('test',worldWidth)
     let x = 0;
     do {
       const bg = this.add.image(x, this.gameHeight * 1.5, 'mountain')
@@ -109,13 +110,13 @@ export abstract class Scene extends Phaser.Scene {
     soundOn.on('pointerdown', (e) => {
       if (this.audioMute === false) {
         // @ts-ignore
-        this.audio.setMute(true)
+        this.sound.mute = true;
         soundOn.setTexture('sound_off');
         this.audioMute = true;
       }
       else {
         //@ts-ignore
-        this.audio.setMute(false);
+        this.sound.mute = false;
         soundOn.setTexture('sound_on');
         this.audioMute = false;
       }
@@ -124,9 +125,9 @@ export abstract class Scene extends Phaser.Scene {
   }
 
   protected playAudio(): void {
-    this.audio = this.sound.add('theme')
+    this.audio = this.sound.add('theme');
     //@ts-ignore
-    if(this.audioMute === true ) this.audio.setMute(true); 
+    if(this.audioMute === true ) this.sound.mute = true; 
     this.audio.play();
     //@ts-ignore
     this.audio.setLoop(true);

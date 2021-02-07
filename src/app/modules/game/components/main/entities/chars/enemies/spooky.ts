@@ -4,6 +4,7 @@ export class Spooky extends Enitty {
     demage = 1;
     demageRange = 40;
     initSpeed = 500;
+    squeak = false;
     constructor(scene, xPosition, yPostion, key, type) {
         super(scene, xPosition, yPostion, key, type);
         this.createAnims();
@@ -41,6 +42,14 @@ export class Spooky extends Enitty {
             (this.scene.player.y + this.demageRange >= this.y && this.scene.player.y - this.demageRange <= this.y)) {
             //@ts-ignore
             this.scene.player.health -= this.demage;
+            if (this.squeak === false ) {
+                this.squeak = true;
+                this.scene.sound.add('squeak').play();
+                setTimeout(()=>{
+                    this.squeak = false;
+                },800)
+            }    
+          
         }
     }
     private playAnim(): void {

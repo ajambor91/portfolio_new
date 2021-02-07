@@ -1,7 +1,7 @@
 import { Enitty } from "../entity";
 
 export class Bullet extends Enitty {
-    fireSpeed = 400;
+    fireSpeed = 500;
     constructor(scene, xPosition, yPostion, key, type, isForwardShooting: boolean) {
         super(scene, xPosition, yPostion, key, type);
         this.body.velocity.x = isForwardShooting ? this.fireSpeed : - this.fireSpeed;

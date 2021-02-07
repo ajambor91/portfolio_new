@@ -1,15 +1,18 @@
 import { Spooky } from "../entities/chars/enemies/spooky";
 import { Player } from "../entities/chars/player";
 import { layerNames, tilesetNames } from "../key-name/keys";
+import { Cursors } from "../model/cursors.model";
 
 import { Scene } from "./scene";
 
 export class MainScene extends Scene {
 
-  cursors: Phaser.Types.Input.Keyboard.CursorKeys;
+  cursors: Cursors;
   playerHealth: Phaser.GameObjects.BitmapText;
+  magazine: Phaser.GameObjects.BitmapText;
   spookyPosition: number;
-
+  displayReload = false;
+  reloadedText: Phaser.GameObjects.BitmapText;
   protected readonly name = 'MainScene';
 
   constructor() {
@@ -17,7 +20,6 @@ export class MainScene extends Scene {
 
   }
   init(data){
-    console.log(data)
     this.audioMute = data.audioMute;
   }
   create() {
@@ -33,8 +35,10 @@ export class MainScene extends Scene {
     this.createWorldLayers();
     this.createColliders();
     this.createSpooky();
-    this.playerHealth = this.add.bitmapText(10, 10, 'font', '100')
+    this.playerHealth = this.add.bitmapText(10, 10, 'font', '100 HP')
       .setScrollFactor(0, 0);
+    this.magazine  = this.add.bitmapText(150,10, 'font', `${this.player.magazine} AMMO`)
+      .setScrollFactor(0,0);
     setInterval(() => {
       this.player.isShooting = false;
     }, this.player.rateOfFire);
@@ -43,14 +47,16 @@ export class MainScene extends Scene {
   }
 
   preload() {
+    this.loadAudio(); // do wyrzcuenia poem
     this.loadAssets();
     this.loadUniAssets();
+    this.loadSounds();
   }
 
   update() {
     //@ts-ignore
     this.spooky.addPlayerCollision();
-    this.playerHealth.text = `${this.player.health}`;
+    this.playerHealth.text = `${this.player.health} HP`;
     // this.player.checkIsAlive();
     if (this.player.active) {
       this.createHeroMove();
@@ -60,8 +66,8 @@ export class MainScene extends Scene {
 
   private createCursors(): void {
     this.cursors = this.input.keyboard.createCursorKeys();
+    this.cursors.rKey= this.input.keyboard.addKey('R'); 
   }
-
   private loadAssets(): void {
     this.load.image('background', '/assets/game/main/background.png');
     this.load.image('mountain', '/assets/game/main/mountain.png');
@@ -80,6 +86,8 @@ export class MainScene extends Scene {
       frameWidth: 49,
       frameHeight: 72
     });
+    this.load.image('reload_big', '/assets/game/main/keyboard_icons/reload_big.png');
+
   }
 
   private createHeroMove(): void {
@@ -106,8 +114,12 @@ export class MainScene extends Scene {
     if (this.cursors.space.isDown) {
       if (!this.player.isShooting) {
         this.player.shoot();
+        this.magazine.text = `${this.player.magazine} AMMO`;
         this.player.isShooting = true;
       }
+    }
+    if (this.cursors.rKey.isDown){
+      this.player.reload();
     }
   }
 
@@ -118,5 +130,11 @@ export class MainScene extends Scene {
     this.layers.woodCollisionLayer.setCollisionBetween(1, 10000);
     this.physics.add.collider(this.player, this.layers.groundLayer, null, null, this);
     this.physics.add.collider(this.player, this.layers.woodCollisionLayer, null, null, this);
+  }
+
+  private loadSounds(): void {
+    this.load.audio('reload_sound', '/assets/game/audio/reload.mp3');
+    this.load.audio('gunshot', '/assets/game/audio/gunshot_new.mp3');
+    this.load.audio('squeak','/assets/game/audio/squeak.mp3')
   }
 }

@@ -6,11 +6,14 @@ export class Player extends Enitty {
   bullets: Phaser.GameObjects.Group;
   health = 100;
   isShooting = false;
-  rateOfFire = 300;
-
+  rateOfFire = 100;
+  initMag = 15;
+  magazine = this.initMag;
+  reloaded = false;
   constructor(scene, xPosition, yPostion, key, type) {
     super(scene, xPosition, yPostion, key, type);
     this.bullets = this.scene.add.group();
+
   }
 
   moveRight(jumping: boolean): void {
@@ -45,19 +48,49 @@ export class Player extends Enitty {
     this.anims.play('up', true);
   }
   shoot(): void {
-    this.createBullet();
-    this.bullets.add(this.bullet);
-  }
+    const isAmmo = this.checkIsAmmo()
+    if (isAmmo && this.reloaded === false) {
+      this.createBullet();
+      this.bullets.add(this.bullet);
+      this.scene.sound.add('gunshot').play();
+      this.emptyAmmo();
+      //@ts-ignore
+    } else if (!isAmmo && this.scene.displayReload === false && this.reloaded === false) {
+      this.addReloadText();
+    }
 
+  }
+  reload(): void {
+    //@ts-ignore
+    if(this.scene.displayReload !== false) this.removeReloadedText();
+    
+    if(this.reloaded === false) {
+      this.scene.sound.add('reload_sound').play();
+    this.reloaded = true;
+      setTimeout(() => {
+      this.magazine = this.initMag;
+      this.reloaded = false;
+      //@ts-ignore
+      this.scene.magazine.text = `${this.magazine} AMMO`;
+
+
+    }, 500);
+  }
+  }
   checkIsAlive(): void {
     if (this.health <= 0) {
       this.destroy();
     }
   }
-
+  private emptyAmmo(): void {
+    if (this.magazine > 0) this.magazine--;
+  }
+  private checkIsAmmo(): boolean {
+    return this.magazine > 0;
+  }
   private createBullet(): void {
-    const xBulletPositionMove = !this.flipX ? 50 : - 50;  
-    const x = Phaser.Math.Clamp(this.x + xBulletPositionMove  , 0, Phaser.Math.MAX_SAFE_INTEGER);
+    const xBulletPositionMove = !this.flipX ? 50 : - 50;
+    const x = Phaser.Math.Clamp(this.x + xBulletPositionMove, 0, Phaser.Math.MAX_SAFE_INTEGER);
     const y = Phaser.Math.Clamp(this.y + 15, 0, 600);
     this.bullet = new Bullet(
       this.scene,
@@ -68,7 +101,35 @@ export class Player extends Enitty {
       !this.flipX
     );
   }
+  private addReloadText() {
+    let isVisible = true;
+    //@ts-ignore
+    this.scene.reloadedText = this.scene.add.image(600, 250, 'reload_big')
+      .setScrollFactor(0,0)
+      .setRotation(0.17);
+    //@ts-ignore
+    this.scene.displayReload = setInterval(() => {
+      if (isVisible === false) {
+        //@ts-ignore
+        this.scene.reloadedText
+          .setVisible(true);
+        isVisible = true;
+      } else {
+        //@ts-ignore
+        this.scene.reloadedText.setVisible(false);
+        isVisible = false;
+      }
+    },500);
+  }
 
+  private removeReloadedText(): void {
+    //@ts-ignore
+    this.scene.reloadedText.destroy();
+    //@ts-ignore
+    clearInterval(this.scene.displayReload);
+    //@ts-ignore
+    this.scene.displayReload = false;
+  }
   createHeroAnims(): void {
     this.anims.create({
       key: 'right',
@@ -81,7 +142,7 @@ export class Player extends Enitty {
       frames: this.anims.generateFrameNumbers('punk', { frames: [8] })
     });
   }
-  
+
   heroAnimsWithGun(): void {
     this.anims.create({
       key: 'right',

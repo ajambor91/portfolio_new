@@ -35,9 +35,9 @@ export class InitScene extends Scene {
       scene.audio.stop();
       //@ts-ignore
       clearInterval(timer);
-      scene.scene.start('main', {audioMute: scene.audioMute});
+      scene.scene.start('main', { audioMute: scene.audioMute });
       this.removeEventListener('keyup', newScene);
-      
+
     })
   }
 
@@ -70,7 +70,7 @@ export class InitScene extends Scene {
         const timer = this.addStartText();
         this.listenKey(timer);
       });
-      this.playAudio();
+    this.playAudio();
   }
 
   update(): void {
@@ -147,7 +147,7 @@ export class InitScene extends Scene {
     this.load.image('keyright', '/assets/game/main/keyboard_icons/arrow_right.png');
     this.load.image('keyleft', '/assets/game/main/keyboard_icons/arrow_left.png');
     this.load.image('space', '/assets/game/main/keyboard_icons/space.png');
-
+    this.load.image('reload', '/assets/game/main/keyboard_icons/reload.png');
   }
 
   private displayKeysDescription(): Promise<boolean> {
@@ -201,6 +201,18 @@ export class InitScene extends Scene {
             y: 350
           }
         },
+        reload: {
+          desc: {
+            desc: 'Przeładuj!',
+            x: 320,
+            y: 100
+          },
+          key: {
+            key: 'reload',
+            x: 370,
+            y: 170
+          }
+        }
       };
       for (let [key, value] of Object.entries(texts)) {
         this.keys[key] = {
@@ -209,16 +221,16 @@ export class InitScene extends Scene {
             .setRotation(3.14)
             .setScrollFactor(0, 0)
             .setDepth(3),
-            
+
           icon: this.add.image(value.key.x, value.key.y, value.key.key)
-              .setScrollFactor(0, 0)
-              .setDepth(1)
-            };
-        }
-        setTimeout(() => {
-          resolve(true);
-        }, 2000);
-      });
+            .setScrollFactor(0, 0)
+            .setDepth(1)
+        };
+      }
+      setTimeout(() => {
+        resolve(true);
+      }, 2000);
+    });
   }
 
   private addStartText(): any {
