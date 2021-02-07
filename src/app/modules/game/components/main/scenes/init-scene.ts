@@ -1,4 +1,5 @@
 import { HostListener } from "@angular/core";
+import { Observable } from "rxjs";
 import { Keyboard } from "../model/keyboard.model";
 import { LoopMap } from "../model/loop-map.model";
 import { Scene } from "./scene";
@@ -19,7 +20,6 @@ export class InitScene extends Scene {
   private spookyPosition: number;
   constructor() {
     super({ key: 'init' });
-    this.listenKey();
   }
 
   preload(): void {
@@ -28,23 +28,19 @@ export class InitScene extends Scene {
     this.loadAudio();
     this.loadUniAssets();
   }
-  listenKey() {
+  listenKey(timer) {
     const scene = this;
     window.addEventListener('keyup', function newScene() {
       //@ts-ignore
+      scene.audio.stop();
+      //@ts-ignore
+      clearInterval(timer);
       scene.scene.start('main');
       this.removeEventListener('keyup', newScene);
+      
     })
   }
-  playAudio(){
-    const audio = this.audio;
-    window.addEventListener('click', function play(){
-      if(!audio.isPlaying){
-        audio.play();
-      }
-      this.removeEventListener('click', play);
-    });
-  }
+
   create(): void {
     this.gameHeight = this.scale.height;
     this.gameWidth = this.scale.width;
@@ -64,16 +60,17 @@ export class InitScene extends Scene {
     setTimeout(() => {
       this.createSpooky()
     }, 3000)
-    this.displayKeys();
     this.maps.push(createdMap);
     this.cursors = this.input.keyboard.createCursorKeys();
-    this.audio = this.sound.add('theme')
-    //@ts-ignore
-    // this.audio.play();
-    //@ts-ignore
-    this.audio.setLoop(true);
+
     this.addSoundsBTN();
-    this.displayKeysDescription();
+    this.displayKeysDescription()
+      .then(res => {
+        this.removeKeyDesc();
+        const timer = this.addStartText();
+        this.listenKey(timer);
+      });
+      this.playAudio();
   }
 
   update(): void {
@@ -153,69 +150,100 @@ export class InitScene extends Scene {
 
   }
 
-  private displayKeys(): void {
-    const icons = {
-      keyup: {
-        key: 'keyup',
-        x: 800,
-        y: 200
-      },
-      keyleft: {
-        key: 'keyleft',
-        x: 750,
-        y: 250
-      },
-      keyright: {
-        key: 'keyright',
-        x: 850,
-        y: 250
-      },
-      space: {
-        key: 'space',
-        x: 600,
-        y: 350
-      }
-    }
-    for(let [key, value] of Object.entries(icons)){
-     this.keys[key] = {
-       icon: this.add.image(value.x, value.y, value.key)
-       .setScrollFactor(0, 0)
-       .setDepth(1)
-     } ;
-    }
+  private displayKeysDescription(): Promise<boolean> {
+    return new Promise(resolve => {
+      const texts = {
+        keyup: {
+          desc: {
+            desc: 'Skok',
+            x: 780,
+            y: 120
+          },
+          key: {
+            key: 'keyup',
+            x: 800,
+            y: 200
+          }
+        },
+        keyright: {
+          desc: {
+            desc: 'W prawo',
+            x: 860,
+            y: 180
+          },
+          key: {
+            key: 'keyright',
+            x: 850,
+            y: 250
+          }
+        },
+        keyleft: {
+          desc: {
+            desc: 'W lewo',
+            x: 650,
+            y: 180
+          },
+          key: {
+            key: 'keyleft',
+            x: 750,
+            y: 250
+          }
+        },
+        space: {
+          desc: {
+            desc: 'Strzelaj!',
+            x: 550,
+            y: 400
+          },
+          key: {
+            key: 'space',
+            x: 600,
+            y: 350
+          }
+        },
+      };
+      for (let [key, value] of Object.entries(texts)) {
+        this.keys[key] = {
+          key: this.add.bitmapText(value.desc.x, value.desc.y, 'font', value.desc.desc)
+            .setFontSize(20)
+            .setRotation(3.14)
+            .setScrollFactor(0, 0)
+            .setDepth(3),
+            
+          icon: this.add.image(value.key.x, value.key.y, value.key.key)
+              .setScrollFactor(0, 0)
+              .setDepth(1)
+            };
+        }
+        setTimeout(() => {
+          resolve(true);
+        }, 2000);
+      });
   }
 
-  private displayKeysDescription(){
-    const texts = {
-      keyup: {
-        desc: 'Skok',
-        x: 780,
-        y: 120
-      },
-      keyright: {
-        desc: 'W prawo',
-        x: 860,
-        y: 180
-      },      
-      keyleft: {
-        desc: 'W lewo',
-        x: 650,
-        y: 180
-      }, 
-      space: {
-        desc: 'Strzelaj!',
-        x: 550,
-        y: 400
-      },
-    };
-    for (let [key, value] of Object.entries(texts)){
-      this.keys[key] = {
-        key: this.add.bitmapText(value.x, value.y, 'font', value.desc)
-        .setFontSize(20)
-        .setRotation(3.14)
-        .setScrollFactor(0, 0)
-        .setDepth(3)
-      }; 
+  private addStartText(): any {
+    let visible = true;
+    const text = this.add.bitmapText(400, 250, 'font', 'Kliknij dowolny klawisz!')
+      .setScrollFactor(0, 0)
+      .setDepth(5);
+    return setInterval(() => {
+      if (visible == false) {
+        text.setVisible(true);
+        visible = true;
+      } else {
+        text.setVisible(false);
+        visible = false;
+      }
+
+    }, 1000);
+  }
+
+  private removeKeyDesc(): void {
+    for (let [key, value] of Object.entries(this.keys)) {
+      for (let [inside_key, inside_value] of Object.entries(value)) {
+        //@ts-ignore
+        inside_value.destroy();
+      }
     }
   }
 }

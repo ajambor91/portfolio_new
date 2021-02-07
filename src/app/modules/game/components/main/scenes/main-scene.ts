@@ -35,6 +35,8 @@ export class MainScene extends Scene {
     setInterval(() => {
       this.player.isShooting = false;
     }, this.player.rateOfFire);
+    this.addSoundsBTN();
+    this.playAudio();
   }
 
   preload() {
