@@ -16,6 +16,7 @@ export class MainScene extends Scene {
   displayReload = false;
   reloadedText: Phaser.GameObjects.BitmapText;
   sounds: SoundsAudio;
+  
   protected readonly name = 'MainScene';
 
   constructor() {
@@ -59,8 +60,6 @@ export class MainScene extends Scene {
 
   update() {
     if( this.player.x < 0 && this.rightOutside === false){
-      console.log(this.player.x);
-
       this.sounds.fallingDown.play();
       this.player.destroy();
       this.rightOutside = true;
@@ -131,7 +130,6 @@ export class MainScene extends Scene {
         this.player.shoot();
         this.magazine.text = `${this.player.magazine} AMMO`;
         this.player.isShooting = true;
-        console.log('audio',this.audio)
       }
     }
     if (this.cursors.rKey.isDown){

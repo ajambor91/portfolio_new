@@ -2,14 +2,18 @@ import { Bullet } from "../objects/bullet";
 import { Enitty } from "../entity";
 
 export class Player extends Enitty {
-  bullet: Bullet;
-  bullets: Phaser.GameObjects.Group;
+
   health = 100;
   isShooting = false;
   rateOfFire = 100;
-  initMag = 15;
+  
+  private readonly initMag = 15;
   magazine = this.initMag;
-  reloaded = false;
+
+  private reloaded = false;
+  private bullet: Bullet;
+  private bullets: Phaser.GameObjects.Group;
+
   constructor(scene, xPosition, yPostion, key, type) {
     super(scene, xPosition, yPostion, key, type);
     this.bullets = this.scene.add.group();
@@ -47,6 +51,7 @@ export class Player extends Enitty {
     this.body.velocity.x = 0;
     this.anims.play('up', true);
   }
+
   shoot(): void {
     const isAmmo = this.checkIsAmmo()
     if (isAmmo && this.reloaded === false) {
@@ -63,75 +68,27 @@ export class Player extends Enitty {
   }
   reload(): void {
     //@ts-ignore
-    if(this.scene.displayReload !== false) this.removeReloadedText();
-    
-    if(this.reloaded === false) {
+    if (this.scene.displayReload !== false) this.removeReloadedText();
+
+    if (this.reloaded === false) {
       //@ts-ignore
       this.scene.sounds.reload.play();
-    this.reloaded = true;
+      this.reloaded = true;
       setTimeout(() => {
-      this.magazine = this.initMag;
-      this.reloaded = false;
-      //@ts-ignore
-      this.scene.magazine.text = `${this.magazine} AMMO`;
-
-
-    }, 500);
+        this.magazine = this.initMag;
+        this.reloaded = false;
+        //@ts-ignore
+        this.scene.magazine.text = `${this.magazine} AMMO`;
+      }, 500);
+    }
   }
-  }
+
   checkIsAlive(): void {
     if (this.health <= 0) {
       this.destroy();
     }
   }
-  private emptyAmmo(): void {
-    if (this.magazine > 0) this.magazine--;
-  }
-  private checkIsAmmo(): boolean {
-    return this.magazine > 0;
-  }
-  private createBullet(): void {
-    const xBulletPositionMove = !this.flipX ? 50 : - 50;
-    const x = Phaser.Math.Clamp(this.x + xBulletPositionMove, 0, Phaser.Math.MAX_SAFE_INTEGER);
-    const y = Phaser.Math.Clamp(this.y + 15, 0, 600);
-    this.bullet = new Bullet(
-      this.scene,
-      x,
-      y,
-      'bullet',
-      'bullet',
-      !this.flipX
-    );
-  }
-  private addReloadText() {
-    let isVisible = true;
-    //@ts-ignore
-    this.scene.reloadedText = this.scene.add.image(600, 250, 'reload_big')
-      .setScrollFactor(0,0)
-      .setRotation(0.17);
-    //@ts-ignore
-    this.scene.displayReload = setInterval(() => {
-      if (isVisible === false) {
-        //@ts-ignore
-        this.scene.reloadedText
-          .setVisible(true);
-        isVisible = true;
-      } else {
-        //@ts-ignore
-        this.scene.reloadedText.setVisible(false);
-        isVisible = false;
-      }
-    },500);
-  }
 
-  private removeReloadedText(): void {
-    //@ts-ignore
-    this.scene.reloadedText.destroy();
-    //@ts-ignore
-    clearInterval(this.scene.displayReload);
-    //@ts-ignore
-    this.scene.displayReload = false;
-  }
   createHeroAnims(): void {
     this.anims.create({
       key: 'right',
@@ -168,5 +125,57 @@ export class Player extends Enitty {
       key: 'stand',
       frames: this.anims.generateFrameNumbers('punk_gun', { frames: [8] })
     });
+  }
+
+  private emptyAmmo(): void {
+    if (this.magazine > 0) this.magazine--;
+  }
+
+  private checkIsAmmo(): boolean {
+    return this.magazine > 0;
+  }
+
+  private createBullet(): void {
+    const xBulletPositionMove = !this.flipX ? 50 : - 50;
+    const x = Phaser.Math.Clamp(this.x + xBulletPositionMove, 0, Phaser.Math.MAX_SAFE_INTEGER);
+    const y = Phaser.Math.Clamp(this.y + 15, 0, 600);
+    this.bullet = new Bullet(
+      this.scene,
+      x,
+      y,
+      'bullet',
+      'bullet',
+      !this.flipX
+    );
+  }
+
+  private addReloadText() {
+    let isVisible = true;
+    //@ts-ignore
+    this.scene.reloadedText = this.scene.add.image(600, 250, 'reload_big')
+      .setScrollFactor(0, 0)
+      .setRotation(0.17);
+    //@ts-ignore
+    this.scene.displayReload = setInterval(() => {
+      if (isVisible === false) {
+        //@ts-ignore
+        this.scene.reloadedText
+          .setVisible(true);
+        isVisible = true;
+      } else {
+        //@ts-ignore
+        this.scene.reloadedText.setVisible(false);
+        isVisible = false;
+      }
+    }, 500);
+  }
+
+  private removeReloadedText(): void {
+    //@ts-ignore
+    this.scene.reloadedText.destroy();
+    //@ts-ignore
+    clearInterval(this.scene.displayReload);
+    //@ts-ignore
+    this.scene.displayReload = false;
   }
 }

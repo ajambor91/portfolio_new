@@ -1,5 +1,6 @@
 import { HostListener } from "@angular/core";
 import { Observable } from "rxjs";
+import { texts } from "../data/keyboard";
 import { Keyboard } from "../model/keyboard.model";
 import { LoopMap } from "../model/loop-map.model";
 import { Scene } from "./scene";
@@ -143,77 +144,16 @@ export class InitScene extends Scene {
   }
 
   private loadKeyboardImages(): void {
-    this.load.image('keyup', '/assets/game/main/keyboard_icons/arrow_up.png');
-    this.load.image('keyright', '/assets/game/main/keyboard_icons/arrow_right.png');
-    this.load.image('keyleft', '/assets/game/main/keyboard_icons/arrow_left.png');
-    this.load.image('space', '/assets/game/main/keyboard_icons/space.png');
-    this.load.image('reload', '/assets/game/main/keyboard_icons/reload.png');
+
+    for (let [key, value] of Object.entries(texts)) {
+      this.load.image(value.key.key, value.path);
+
+    }
   }
 
   private displayKeysDescription(): Promise<boolean> {
     return new Promise(resolve => {
-      const texts = {
-        keyup: {
-          desc: {
-            desc: 'Skok',
-            x: 780,
-            y: 120
-          },
-          key: {
-            key: 'keyup',
-            x: 800,
-            y: 200
-          }
-        },
-        keyright: {
-          desc: {
-            desc: 'W prawo',
-            x: 860,
-            y: 180
-          },
-          key: {
-            key: 'keyright',
-            x: 850,
-            y: 250
-          }
-        },
-        keyleft: {
-          desc: {
-            desc: 'W lewo',
-            x: 650,
-            y: 180
-          },
-          key: {
-            key: 'keyleft',
-            x: 750,
-            y: 250
-          }
-        },
-        space: {
-          desc: {
-            desc: 'Strzelaj!',
-            x: 550,
-            y: 400
-          },
-          key: {
-            key: 'space',
-            x: 600,
-            y: 350
-          }
-        },
-        reload: {
-          desc: {
-            desc: 'Przeładuj!',
-            x: 320,
-            y: 100
-          },
-          key: {
-            key: 'reload',
-            x: 370,
-            y: 170
-          }
-        }
-      };
+
       for (let [key, value] of Object.entries(texts)) {
         this.keys[key] = {
           key: this.add.bitmapText(value.desc.x, value.desc.y, 'font', value.desc.desc)
