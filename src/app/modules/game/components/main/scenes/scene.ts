@@ -123,8 +123,7 @@ export abstract class Scene extends Phaser.Scene {
         soundOn.setTexture('sound_on');
         this.audioMute = false;
       }
-    })
-
+    });
   }
 
   protected playAudio(): void {
