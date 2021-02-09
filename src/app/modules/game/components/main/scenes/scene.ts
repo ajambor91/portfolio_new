@@ -1,22 +1,26 @@
 import { Spooky } from "../entities/chars/enemies/spooky";
 import { Player } from "../entities/chars/player";
-import { tilesetNames, layerNames } from "../data/keys";
+import { tilesetNames, layerNames } from "../data/maps";
 import { Layer } from "../model/layer.model";
 import { Tileset } from "../model/tileset.model";
+import { Cursors } from "../model/cursors.model";
 
 export abstract class Scene extends Phaser.Scene {
-  player: Player;
-  gameWidth: number;
-  gameHeight: number;
-  background: Phaser.GameObjects.Image;
-  spooky: Spooky;
-  layers: Layer;
-  tilesets: Tileset;
-  map: Phaser.Tilemaps.Tilemap;
-  audio: Phaser.Sound.BaseSound;
-  audioMute = false;
-  protected name;
+  
   protected readonly layerYPosition = -200;
+  protected player: Player;
+  protected gameWidth: number;
+  protected gameHeight: number;
+  protected spooky: Spooky;
+  protected layers: Layer;
+  protected map: Phaser.Tilemaps.Tilemap;
+  protected audio: Phaser.Sound.BaseSound;
+  protected audioMute = false;
+  protected cursors: Cursors;
+  protected name;
+  
+  private background: Phaser.GameObjects.Image;
+  private tilesets: Tileset;
 
   constructor(key) {
     super(key);

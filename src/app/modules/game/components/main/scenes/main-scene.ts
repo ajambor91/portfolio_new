@@ -1,6 +1,6 @@
 import { Spooky } from "../entities/chars/enemies/spooky";
 import { Player } from "../entities/chars/player";
-import { layerNames, tilesetNames } from "../data/keys";
+import { layerNames, tilesetNames } from "../data/maps";
 import { Cursors } from "../model/cursors.model";
 import { SoundsAudio } from "../model/sounds.model";
 
@@ -9,7 +9,6 @@ import { sounds } from "../data/sounds";
 
 export class MainScene extends Scene {
   rightOutside = false;
-  cursors: Cursors;
   playerHealth: Phaser.GameObjects.BitmapText;
   magazine: Phaser.GameObjects.BitmapText;
   spookyPosition: number;

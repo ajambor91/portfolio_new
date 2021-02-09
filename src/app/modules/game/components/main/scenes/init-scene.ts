@@ -10,7 +10,6 @@ export class InitScene extends Scene {
 
   protected readonly name = 'InitScene';
   private keys: Keyboard = new Object() as Keyboard;
-  private cursors;
   private created = false;
   private removed = false;
   private worldWidth = 1400;
@@ -18,7 +17,7 @@ export class InitScene extends Scene {
   private removePreviusLayer = this.addWorldOffset * 3;
   private playerWorldScroll = 1;
   private maps: LoopMap[] = [];
-  private spookyPosition: number;
+
   constructor() {
     super({ key: 'init' });
   }
