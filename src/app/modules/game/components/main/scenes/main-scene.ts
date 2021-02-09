@@ -1,9 +1,11 @@
 import { Spooky } from "../entities/chars/enemies/spooky";
 import { Player } from "../entities/chars/player";
-import { layerNames, tilesetNames } from "../key-name/keys";
+import { layerNames, tilesetNames } from "../data/keys";
 import { Cursors } from "../model/cursors.model";
+import { SoundsAudio } from "../model/sounds.model";
 
 import { Scene } from "./scene";
+import { sounds } from "../data/sounds";
 
 export class MainScene extends Scene {
   rightOutside = false;
@@ -13,6 +15,7 @@ export class MainScene extends Scene {
   spookyPosition: number;
   displayReload = false;
   reloadedText: Phaser.GameObjects.BitmapText;
+  sounds: SoundsAudio;
   protected readonly name = 'MainScene';
 
   constructor() {
@@ -44,6 +47,7 @@ export class MainScene extends Scene {
     }, this.player.rateOfFire);
     this.addSoundsBTN();
     this.playAudio();
+    this.addSounds();
   }
 
   preload() {
@@ -57,7 +61,7 @@ export class MainScene extends Scene {
     if( this.player.x < 0 && this.rightOutside === false){
       console.log(this.player.x);
 
-      this.sound.add('falling_down').play();
+      this.sounds.fallingDown.play();
       this.player.destroy();
       this.rightOutside = true;
     } 
@@ -127,6 +131,7 @@ export class MainScene extends Scene {
         this.player.shoot();
         this.magazine.text = `${this.player.magazine} AMMO`;
         this.player.isShooting = true;
+        console.log('audio',this.audio)
       }
     }
     if (this.cursors.rKey.isDown){
@@ -144,10 +149,16 @@ export class MainScene extends Scene {
   }
 
   private loadSounds(): void {
-    this.load.audio('reload_sound', '/assets/game/audio/reload.mp3');
-    this.load.audio('gunshot', '/assets/game/audio/gunshot_new.mp3');
-    this.load.audio('squeak','/assets/game/audio/squeak.mp3')
-    this.load.audio('falling_down','/assets/game/audio/falling_dawn.mp3')
 
+    for (let [key,value] of Object.entries(sounds)){
+      this.load.audio(value.key, value.path);
+    }
+  }
+
+  private addSounds(): void {
+    this.sounds = {} as SoundsAudio;
+    for (let [key, value] of Object.entries(sounds)){
+      this.sounds[key] = this.sound.add(value.key);
+    }
   }
 }

@@ -1,6 +1,6 @@
 import { Spooky } from "../entities/chars/enemies/spooky";
 import { Player } from "../entities/chars/player";
-import { tilesetNames, layerNames } from "../key-name/keys";
+import { tilesetNames, layerNames } from "../data/keys";
 import { Layer } from "../model/layer.model";
 import { Tileset } from "../model/tileset.model";
 

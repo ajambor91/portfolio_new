@@ -52,7 +52,8 @@ export class Player extends Enitty {
     if (isAmmo && this.reloaded === false) {
       this.createBullet();
       this.bullets.add(this.bullet);
-      this.scene.sound.add('gunshot').play();
+      //@ts-ignore
+      this.scene.sounds.gunshot.play();
       this.emptyAmmo();
       //@ts-ignore
     } else if (!isAmmo && this.scene.displayReload === false && this.reloaded === false) {
@@ -65,7 +66,8 @@ export class Player extends Enitty {
     if(this.scene.displayReload !== false) this.removeReloadedText();
     
     if(this.reloaded === false) {
-      this.scene.sound.add('reload_sound').play();
+      //@ts-ignore
+      this.scene.sounds.reload.play();
     this.reloaded = true;
       setTimeout(() => {
       this.magazine = this.initMag;

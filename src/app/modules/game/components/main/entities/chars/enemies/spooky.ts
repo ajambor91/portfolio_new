@@ -53,7 +53,8 @@ export class Spooky extends Enitty {
             this.scene.player.health -= this.demage;
             if (this.squeak === false ) {
                 this.squeak = true;
-                this.scene.sound.add('squeak').play();
+                //@ts-ignore
+                this.scene.sounds.squeak.play();
                 setTimeout(()=>{
                     this.squeak = false;
                 },800)
