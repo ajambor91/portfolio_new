@@ -1,9 +1,4 @@
-import { Spooky } from "../entities/chars/enemies/spooky";
-import { Player } from "../entities/chars/player";
-import { layerNames, tilesetNames } from "../data/maps";
-import { Cursors } from "../model/cursors.model";
 import { SoundsAudio } from "../model/sounds.model";
-
 import { Scene } from "./scene";
 import { sounds } from "../data/sounds";
 

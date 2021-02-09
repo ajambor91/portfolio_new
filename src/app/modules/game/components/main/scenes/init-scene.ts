@@ -1,10 +1,7 @@
-import { HostListener } from "@angular/core";
-import { Observable } from "rxjs";
 import { texts } from "../data/keyboard";
 import { Keyboard } from "../model/keyboard.model";
 import { LoopMap } from "../model/loop-map.model";
 import { Scene } from "./scene";
-
 
 export class InitScene extends Scene {
 

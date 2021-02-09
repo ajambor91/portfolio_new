@@ -1,6 +1,4 @@
 import { LayerNames, TilesetNames } from "../model/keys.model";
-import { InitScene } from "../scenes/init-scene";
-import { MainScene } from "../scenes/main-scene";
 
 export const tilesetNames: TilesetNames = {
     ground: { tilesetName: 'env_ground', tilesetKey: 'tileset', path: '/assets/game/main/env_ground.png' , scenes: ['InitScene', 'MainScene']},
