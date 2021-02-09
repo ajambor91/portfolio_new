@@ -1,4 +1,5 @@
 import { texts } from "../data/keyboard";
+import { Depth } from "../enums/depth.enum";
 import { Keyboard } from "../model/keyboard.model";
 import { LoopMap } from "../model/loop-map.model";
 import { Scene } from "./scene";
@@ -156,11 +157,11 @@ export class InitScene extends Scene {
             .setFontSize(20)
             .setRotation(3.14)
             .setScrollFactor(0, 0)
-            .setDepth(3),
+            .setDepth(Depth.Texts),
 
           icon: this.add.image(value.key.x, value.key.y, value.key.key)
             .setScrollFactor(0, 0)
-            .setDepth(1)
+            .setDepth(Depth.Texts)
         };
       }
       setTimeout(() => {
@@ -173,7 +174,7 @@ export class InitScene extends Scene {
     let visible = true;
     const text = this.add.bitmapText(400, 250, 'font', 'Kliknij dowolny klawisz!')
       .setScrollFactor(0, 0)
-      .setDepth(5);
+      .setDepth(Depth.Texts);
     return setInterval(() => {
       if (visible == false) {
         text.setVisible(true);

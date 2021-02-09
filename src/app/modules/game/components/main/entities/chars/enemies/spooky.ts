@@ -1,3 +1,4 @@
+import { Depth } from "../../../enums/depth.enum";
 import { Enitty } from "../../entity";
 
 export class Spooky extends Enitty {
@@ -11,6 +12,7 @@ export class Spooky extends Enitty {
         super(scene, xPosition, yPostion, key, type);
         this.createAnims();
         this.playAnim();
+        this.setDepth(Depth.Spooky)
     }
 
     followPlayer(x): number {

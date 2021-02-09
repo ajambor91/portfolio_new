@@ -7,4 +7,6 @@ export interface Layer{
     woodLayer?: Phaser.Tilemaps.TilemapLayer;
     woodCollisionLayer?: Phaser.Tilemaps.TilemapLayer;
     decorativeLayer?: Phaser.Tilemaps.TilemapLayer;
+    treesBehindLayer?: Phaser.Tilemaps.TilemapLayer;
+    rockLayer?: Phaser.Tilemaps.TilemapLayer;
 }

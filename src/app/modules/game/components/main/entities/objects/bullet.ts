@@ -1,3 +1,4 @@
+import { Depth } from "../../enums/depth.enum";
 import { Enitty } from "../entity";
 
 export class Bullet extends Enitty {
@@ -8,5 +9,6 @@ export class Bullet extends Enitty {
         //@ts-ignore
         this.body.allowGravity = false;
         this.scene.physics.world.enableBody(this, 1);
+        this.setDepth(Depth.Bullets)
     }
 }

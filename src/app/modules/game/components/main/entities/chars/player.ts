@@ -1,5 +1,6 @@
 import { Bullet } from "../objects/bullet";
 import { Enitty } from "../entity";
+import { Depth } from "../../enums/depth.enum";
 
 export class Player extends Enitty {
 
@@ -17,6 +18,7 @@ export class Player extends Enitty {
   constructor(scene, xPosition, yPostion, key, type) {
     super(scene, xPosition, yPostion, key, type);
     this.bullets = this.scene.add.group();
+    this.setDepth(Depth.Player);
 
   }
 
@@ -154,7 +156,8 @@ export class Player extends Enitty {
     //@ts-ignore
     this.scene.reloadedText = this.scene.add.image(600, 250, 'reload_big')
       .setScrollFactor(0, 0)
-      .setRotation(0.17);
+      .setRotation(0.17)
+      .setDepth(Depth.Texts);
     //@ts-ignore
     this.scene.displayReload = setInterval(() => {
       if (isVisible === false) {

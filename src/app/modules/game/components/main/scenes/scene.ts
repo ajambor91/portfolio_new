@@ -4,6 +4,7 @@ import { tilesetNames, layerNames } from "../data/maps";
 import { Layer } from "../model/layer.model";
 import { Tileset } from "../model/tileset.model";
 import { Cursors } from "../model/cursors.model";
+import { Depth } from "../enums/depth.enum";
 
 export abstract class Scene extends Phaser.Scene {
   
@@ -81,7 +82,8 @@ export abstract class Scene extends Phaser.Scene {
     this.layers = {} as Layer;
     for (let key in layerNames) {
       if (layerNames[key].scenes.includes(this.name)) {
-        this.layers[key] = this.map.createLayer(layerNames[key].name, this.tilesets[layerNames[key].tilesetKey], xPosition, this.layerYPosition);
+        this.layers[key] = this.map.createLayer(layerNames[key].name, this.tilesets[layerNames[key].tilesetKey], xPosition, this.layerYPosition)
+        .setDepth(layerNames[key].depth);
       }
     }
   }
@@ -108,7 +110,7 @@ export abstract class Scene extends Phaser.Scene {
   protected addSoundsBTN(): void {
     const soundOn = this.add.image(1160, 40, !this.audioMute ? 'sound_on' : 'sound_off')
       .setScrollFactor(0, 0)
-      .setDepth(1)
+      .setDepth(Depth.Texts)
       .setInteractive({ useHandCursor: true  } );
     soundOn.on('pointerdown', (e) => {
       if (this.audioMute === false) {
