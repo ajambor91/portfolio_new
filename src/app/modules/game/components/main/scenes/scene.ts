@@ -32,7 +32,6 @@ export abstract class Scene extends Phaser.Scene {
   }
 
   protected addBgParallax(worldWidth = 24000): void {
-    console.log('test',worldWidth)
     let x = 0;
     do {
       const bg = this.add.image(x, this.gameHeight * 1.5, 'mountain')
