@@ -124,6 +124,7 @@ export abstract class Scene extends Phaser.Scene {
         this.audioMute = false;
       }
     });
+
   }
 
   protected playAudio(): void {
