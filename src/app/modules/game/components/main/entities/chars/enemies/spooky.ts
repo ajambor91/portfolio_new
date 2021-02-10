@@ -1,8 +1,8 @@
 import { Depth } from "../../../enums/depth.enum";
-import { Enitty } from "../../entity";
+import { Entity } from "../../entity";
 
-export class Spooky extends Enitty {
-    private readonly demage = 1;
+export class Spooky extends Entity {
+    private readonly demage = 0.1;
     private readonly demageRange = 40;
     private initSpeed = 500;
     private squeak = false;

@@ -132,7 +132,8 @@ export abstract class Scene extends Phaser.Scene {
   protected playAudio(): void {
     this.audio = this.sound.add('theme');
     //@ts-ignore
-    if(this.audioMute === true ) this.sound.mute = true; 
+    if(this.audioMute === true ) this.sound.mute = true;
+    // this.sound.mute = true; 
     this.audio.play();
     //@ts-ignore
     this.audio.setLoop(true);

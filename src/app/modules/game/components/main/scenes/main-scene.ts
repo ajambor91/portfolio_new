@@ -1,6 +1,9 @@
 import { SoundsAudio } from "../model/sounds.model";
 import { Scene } from "./scene";
 import { sounds } from "../data/sounds";
+import { enemies, enemiesSpr } from "../data/enemies";
+import { Enemy } from "../model/enemy.model";
+import { Depth } from "../enums/depth.enum";
 
 export class MainScene extends Scene {
   rightOutside = false;
@@ -10,7 +13,7 @@ export class MainScene extends Scene {
   displayReload = false;
   reloadedText: Phaser.GameObjects.BitmapText;
   sounds: SoundsAudio;
-  
+  enemies: Enemy;
   protected readonly name = 'MainScene';
 
   constructor() {
@@ -24,7 +27,7 @@ export class MainScene extends Scene {
     this.gameHeight = this.scale.height;
     this.gameWidth = this.scale.width;
     this.addFixedBackground();
-    this.addBgParallax(2);
+    this.addBgParallax();
     this.createHero();
     this.createCursors();
     this.setCameras();
@@ -34,15 +37,18 @@ export class MainScene extends Scene {
     this.createColliders();
     this.createSpooky();
     this.playerHealth = this.add.bitmapText(10, 10, 'font', '100 HP')
-      .setScrollFactor(0, 0);
+      .setScrollFactor(0, 0)
+      .setDepth(Depth.Texts);
     this.magazine  = this.add.bitmapText(150,10, 'font', `${this.player.magazine} AMMO`)
-      .setScrollFactor(0,0);
+      .setScrollFactor(0,0)
+      .setDepth(Depth.Texts);
     setInterval(() => {
       this.player.isShooting = false;
     }, this.player.rateOfFire);
     this.addSoundsBTN();
     this.playAudio();
     this.addSounds();
+    this.addEnemies();
   }
 
   preload() {
@@ -64,7 +70,7 @@ export class MainScene extends Scene {
     }
     //@ts-ignore
     this.spooky.addPlayerCollision();
-    this.playerHealth.text = `${this.player.health} HP`;
+    this.playerHealth.text = `${this.player.health.toFixed(0)} HP`;
     // this.player.checkIsAlive();
     if (this.player.active) {
       this.createHeroMove();
@@ -95,6 +101,8 @@ export class MainScene extends Scene {
       frameHeight: 72
     });
     this.load.image('reload_big', '/assets/game/main/keyboard_icons/reload_big.png');
+    
+    this.loadEnemies();
 
   }
 
@@ -152,5 +160,28 @@ export class MainScene extends Scene {
     for (let [key, value] of Object.entries(sounds)){
       this.sounds[key] = this.sound.add(value.key);
     }
+  }
+
+  private loadEnemies(): void {
+    for (let [key, value] of Object.entries(enemiesSpr)){
+      this.load.spritesheet(value.key, value.path, {
+        frameWidth: value.width,
+        frameHeight: value.height
+      });
+    }
+  }
+
+  private addEnemies(): void {
+    this.enemies = {} as Enemy;
+    for(let [key, value] of Object.entries(enemies)){
+      this.enemies[key] = new value.class(
+        this,
+        value.xPosition,
+        value.yPosition,
+        value.key,
+        value.type
+      );
+    }
+    
   }
 }

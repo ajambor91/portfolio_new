@@ -4,7 +4,7 @@ export enum Depth{
     TreesFrontPlayer = 6,
     Rocks = 1,
     RocksTrap = 4,
-    Grass = 7,
+    Grass = 8,
     DecorativeWood = 2,
     Wood = 1,
     Player = 5,
@@ -12,6 +12,7 @@ export enum Depth{
     HiddenEnemies = 3,
     Decorative = 1,
     Spooky = 10,
-    Bullets = 11,
+    Bullets = 7,
+    DeathEnemies = 11,
     Texts = 99
 }

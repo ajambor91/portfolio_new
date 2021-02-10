@@ -1,24 +1,31 @@
 import { Bullet } from "../objects/bullet";
-import { Enitty } from "../entity";
+import { Entity } from "../entity";
 import { Depth } from "../../enums/depth.enum";
 
-export class Player extends Enitty {
+export class Player extends Entity {
 
   health = 100;
   isShooting = false;
   rateOfFire = 100;
-  
+  dmg = 10; 
+  bullet: Bullet;
+
   private readonly initMag = 15;
   magazine = this.initMag;
 
   private reloaded = false;
-  private bullet: Bullet;
   private bullets: Phaser.GameObjects.Group;
 
   constructor(scene, xPosition, yPostion, key, type) {
     super(scene, xPosition, yPostion, key, type);
     this.bullets = this.scene.add.group();
     this.setDepth(Depth.Player);
+    //@ts-ignore 
+    this.body.setImmovable(true);
+            //@ts-ignore
+            this.body.setSize(50,110)
+            .setOffset(null,17);
+    
 
   }
 
@@ -138,7 +145,7 @@ export class Player extends Enitty {
   }
 
   private createBullet(): void {
-    const xBulletPositionMove = !this.flipX ? 50 : - 50;
+    const xBulletPositionMove = !this.flipX ? 40 : - 40;
     const x = Phaser.Math.Clamp(this.x + xBulletPositionMove, 0, Phaser.Math.MAX_SAFE_INTEGER);
     const y = Phaser.Math.Clamp(this.y + 15, 0, 600);
     this.bullet = new Bullet(
@@ -149,6 +156,12 @@ export class Player extends Enitty {
       'bullet',
       !this.flipX
     );
+    //@ts-ignore
+        //@ts-ignore
+    for(let [key, value] of Object.entries(this.scene.enemies)){
+      //@ts-ignore
+      value.addPlayerBulletCollide(this.bullet);
+    }
   }
 
   private addReloadText() {

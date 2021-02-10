@@ -1,4 +1,4 @@
-export class Enitty extends Phaser.GameObjects.Sprite{
+export class Entity extends Phaser.GameObjects.Sprite{
     
     constructor(scene, xPosition, yPostion, key, type) {
         super(scene, xPosition, yPostion, key);

@@ -16,7 +16,7 @@ export class MainComponent implements OnInit  {
       type: Phaser.AUTO,
       height: 500,
       width: 1200,
-      scene: [ InitScene,MainScene ],
+      scene: [ MainScene,InitScene ],
       parent: 'gameContainer',
       physics: {
         default: 'arcade',
