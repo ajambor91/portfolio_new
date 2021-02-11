@@ -12,7 +12,7 @@ export abstract class BulletClass extends Entity{
         this.addWorldCollide();
     }
 
-    private addWorldCollide(): void {
+    protected addWorldCollide(): void {
         //@ts-ignore
         this.scene.physics.add.collider(this, this.scene.layers.groundLayer, () => {
             this.destroy();

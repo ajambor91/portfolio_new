@@ -14,6 +14,7 @@ export class MainScene extends Scene {
   reloadedText: Phaser.GameObjects.BitmapText;
   sounds: SoundsAudio;
   enemies: Enemy;
+  isTowerShow = false;
   protected readonly name = 'MainScene';
 
   constructor() {
@@ -68,6 +69,12 @@ export class MainScene extends Scene {
       this.spooky.unfollow();
       return;
     }
+    if(this.player.x > 11950){
+      console.log(this.player.x)
+      this.showTower();
+    } else if((this.player.x < 11950 || this.player.x > 14000) && this.isTowerShow === true){
+      this.hideTower();
+    }
     //@ts-ignore
     this.spooky.addPlayerCollision();
     this.playerHealth.text = `${this.player.health.toFixed(0)} HP`;
@@ -94,6 +101,11 @@ export class MainScene extends Scene {
         frameHeight: 128
       });
     this.load.image('bullet', '/assets/game/main/bullet_8.png');
+    this.load.spritesheet('cannon_bullet', '/assets/game/main/cannon_bullet.png', {
+      frameWidth: 50
+    });
+
+    
     this.loadTilesets();
     this.load.tilemapTiledJSON('mapMain', '/assets/game/main/layers_map_terrain.json');
     this.load.spritesheet('spooky', '/assets/game/chars/enemies/spooky.png', {
@@ -185,5 +197,14 @@ export class MainScene extends Scene {
       );
     }
     
+  }
+  private showTower(): void {
+    this.cameras.main.setBounds(11800, -300, 14000, 900);
+    this.isTowerShow = true;
+  }
+
+  private hideTower(): void {
+    this.cameras.main.setBounds(0, -300, 16000, 900)
+    this.isTowerShow = false;
   }
 }
