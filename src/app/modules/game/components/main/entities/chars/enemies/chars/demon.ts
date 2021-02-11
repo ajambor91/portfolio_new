@@ -37,6 +37,7 @@ export class Demon extends EnemyClass {
             repeat: -1, 
         });
     }
+    
     private startShooting(): void {
         this.shooting = setInterval(() => {
             this.shot()

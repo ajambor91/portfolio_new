@@ -23,8 +23,8 @@ export class Player extends Entity {
     //@ts-ignore 
     this.body.setImmovable(true);
             //@ts-ignore
-            this.body.setSize(50,110)
-            .setOffset(null,17);
+            this.body.setSize(80,105)
+            .setOffset(20,23);
     
 
   }

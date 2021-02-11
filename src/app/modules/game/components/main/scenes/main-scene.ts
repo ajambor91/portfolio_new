@@ -144,6 +144,8 @@ export class MainScene extends Scene {
     this.layers.groundLayer.setCollisionBetween(1, 1000);
     this.layers.woodCollisionLayer.setCollisionByProperty({ collides: true });
     this.layers.woodCollisionLayer.setCollisionBetween(1, 10000);
+    this.layers.monsterCollideLayer.setCollisionBetween(1,10000);
+    this.layers.monsterCollideLayer.setCollisionByProperty({collides: true});
     this.physics.add.collider(this.player, this.layers.groundLayer, null, null, this);
     this.physics.add.collider(this.player, this.layers.woodCollisionLayer, null, null, this);
   }

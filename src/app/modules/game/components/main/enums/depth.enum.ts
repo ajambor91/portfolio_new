@@ -5,7 +5,7 @@ export enum Depth{
     Rocks = 1,
     RocksTrap = 4,
     Grass = 8,
-    DecorativeWood = 2,
+    DecorativeWood = 6,
     Wood = 1,
     Player = 5,
     Eniemies = 5,

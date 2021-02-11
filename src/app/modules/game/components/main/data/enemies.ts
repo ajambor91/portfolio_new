@@ -8,10 +8,12 @@ export const enemiesSpr = {
 }
 
 export const enemies = {
-    demonFrontFirst : {key: 'demon_front', type:'demonSpr', xPosition: 2380, yPosition: -20, class: Demon},
-    demonFrontSecond : {key: 'demon_front', type:'demonSpr2', xPosition: 3870, yPosition: -20, class: Demon},
-    demonFrontThird : {key: 'demon_front', type:'demonSpr3', xPosition: 3870, yPosition: 130, class: Demon},
-    demonFrontFourth : {key: 'demon_front', type:'demonSpr4', xPosition: 3870, yPosition: 300, class: Demon},
-    critter : {key: 'critter', type:'critterSpr', xPosition: 940, yPosition: 500, class: Critter}
+    demonFrontFirst : {key: 'demon_front', type:'demonSpr', xPosition: 2330, yPosition: -20, class: Demon},
+    demonFrontSecond : {key: 'demon_front', type:'demonSpr2', xPosition: 3820, yPosition: -20, class: Demon},
+    demonFrontThird : {key: 'demon_front', type:'demonSpr3', xPosition: 3820, yPosition: 130, class: Demon},
+    demonFrontFourth : {key: 'demon_front', type:'demonSpr4', xPosition: 3820, yPosition: 300, class: Demon},
+    critter : {key: 'critter', type:'critterSpr', xPosition: 940, yPosition: 500, class: Critter},
+    critterSecond : {key: 'critter', type:'critterSpr2', xPosition: 2940, yPosition: 200, class: Critter}
+
     
 }

@@ -50,7 +50,7 @@ export abstract class Scene extends Phaser.Scene {
   protected createHero(): void {
     this.player = new Player(
       this,
-      100,
+      3000,
       60,
       this.name === 'MainScene' ? 'punk_gun' : 'punk',
       "sprPlayer"

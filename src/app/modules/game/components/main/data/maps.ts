@@ -20,6 +20,7 @@ export const layerNames: LayerNames = {
     treesGrassLayer: { name: 'trees_grass', tilesetKey: 'trees',depth: Depth.Grass, scenes: ['InitScene', 'MainScene'] },
     treesBehindLayer: { name: 'trees_behind', tilesetKey: 'trees',depth: Depth.Trees, scenes: [ 'MainScene'] },
     decorativeLayer: { name: 'decorative', tilesetKey: 'decorative',depth: Depth.Decorative, scenes: ['MainScene'] },
-    rockLayer: { name: 'rocks', tilesetKey: 'rock',depth: Depth.RocksTrap, scenes: ['MainScene'] }
-
+    rockLayer: { name: 'rocks', tilesetKey: 'rock',depth: Depth.RocksTrap, scenes: ['MainScene'] },
+    grassVertLayer: { name: 'grass_vert', tilesetKey: 'ground',depth: Depth.Ground, scenes: ['MainScene'] },
+    monsterCollideLayer: {name: 'enemies_collide', tilesetKey: 'ground', depth: Depth.Ground, scenes:['MainScene']}
 };

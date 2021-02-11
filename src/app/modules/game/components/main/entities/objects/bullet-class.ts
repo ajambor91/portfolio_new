@@ -13,10 +13,8 @@ export abstract class BulletClass extends Entity{
     }
 
     private addWorldCollide(): void {
-        console.log('adding')
         //@ts-ignore
         this.scene.physics.add.collider(this, this.scene.layers.groundLayer, () => {
-            console.log('dsds`')
             this.destroy();
         })
     }

@@ -9,4 +9,6 @@ export interface Layer{
     decorativeLayer?: Phaser.Tilemaps.TilemapLayer;
     treesBehindLayer?: Phaser.Tilemaps.TilemapLayer;
     rockLayer?: Phaser.Tilemaps.TilemapLayer;
+    grassVertLayer?: Phaser.Tilemaps.TilemapLayer;
+    monsterCollideLayer?: Phaser.Tilemaps.TilemapLayer;
 }

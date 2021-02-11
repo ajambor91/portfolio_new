@@ -9,9 +9,8 @@ export class Critter extends EnemyClass {
     private dmg = 5;
 
     constructor(scene, xPosition, yPostion, key, type) {
+
         super(scene, xPosition, yPostion, key, type);
-        // this.createAnims();
-        // this.playAnim();
         this.setDepth(Depth.Eniemies)
         //@ts-ignore
         this.body.allowGravity = false;
@@ -19,17 +18,16 @@ export class Critter extends EnemyClass {
         this.body.allowGravity = true;
         this.addWorldCollision();
         this.addPlayerCollision();
-        console.log('critterrrrrr', this.x)
         //@ts-ignore
-        this.body.setSize(50,126);
+        this.body.setSize(50, 115);
         this.move();
     }
 
     protected playAnim(): void {
-        console.log('chuj', this.x)
         this.anims.play('critter_walk');
         this.body.velocity.x = this.speed;
     }
+
     protected createAnims(): void {
         this.anims.create({
             key: 'critter_walk',
