@@ -28,7 +28,7 @@ export class Player extends Entity {
     
 
   }
-
+  
   moveRight(jumping: boolean): void {
     this.flipX = false
     this.body.velocity.x = 300;
@@ -47,7 +47,7 @@ export class Player extends Entity {
   }
 
   jump(): void {
-    this.body.velocity.y = -300;
+    this.body.velocity.y = -400;
     this.anims.play('up', true);
   }
 

@@ -4,19 +4,22 @@ export class CannonBullet extends BulletClass {
 
     private collider;
     private exploding = false;
+    private turn: number;
 
-    constructor(scene, xPosition, yPostion, key, type) {
+    constructor(scene, xPosition, yPostion, turn, key, type) {
         super(scene, xPosition, yPostion, key, type);
         //@ts-ignore
         this.body.allowGravity = true;
-        // this.body.velocity.x =  i > 3 ? (-i * this.xSpeed) : (i * this.xSpeed) + this.xSpeed * 2;
-        // this.body.velocity.y = this.ySpeed;
-        this.body.velocity.x = -300;
-        this.body.velocity.y = -100;
+        this.turn = turn;
+        this.body.velocity.x = -700;
+        this.body.velocity.y = -700;
         this.createAnims();
+        this.setAngle(turn)
+        console.log('posito',xPosition,yPostion)
     }
     fire(): void {
-        console.log('cannon bullet velcity', this.body.velocity.x)
+        //@ts-ignore
+        this.scene.physics.velocityFromRotation(this.turn, -550, this.body.velocity)
         this.anims.play('fire');
     }
     explode(): void {
@@ -44,7 +47,7 @@ export class CannonBullet extends BulletClass {
             if (this.exploding === false) {
                 this.exploding = true;
                 this.body.velocity.x = 0;
-                this.anims.play('explode').on('animationcomplete', () => {
+                this.anims.play('explode',).on('animationcomplete', () => {
                     this.scene.physics.world.removeCollider(this.collider);
                     this.destroy();
                 });

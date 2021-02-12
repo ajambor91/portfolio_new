@@ -15,6 +15,7 @@ export class MainScene extends Scene {
   sounds: SoundsAudio;
   enemies: Enemy;
   isTowerShow = false;
+  cameraMoved = false;
   protected readonly name = 'MainScene';
 
   constructor() {
@@ -69,10 +70,10 @@ export class MainScene extends Scene {
       this.spooky.unfollow();
       return;
     }
-    if(this.player.x > 11950){
-      console.log(this.player.x)
-      this.showTower();
-    } else if((this.player.x < 11950 || this.player.x > 14000) && this.isTowerShow === true){
+    if(this.player.x > 11850 && this.isTowerShow === false){
+      // console.log(this.player.x)
+      // this.showTower();
+    } else if((this.player.x < 11850 || this.player.x > 14000) && this.isTowerShow === true){
       this.hideTower();
     }
     //@ts-ignore
@@ -198,8 +199,29 @@ export class MainScene extends Scene {
     }
     
   }
+
+  private cameraMove(): void {
+    console.log('moveCamera', this.cameras.main.x)
+
+   
+  }
   private showTower(): void {
-    this.cameras.main.setBounds(11800, -300, 14000, 900);
+    // console.log('camera position x',this.cameras.main.x)
+    let firstBound = this.player.x - this.gameWidth / 2;
+    let secondBound = 12400;
+    const scroll = 3;
+    const endBound = 11800;
+    const cameraMove = setInterval(()=> {
+      // this.cameras.main.setBounds(firstBound, -300, secondBound, 900);
+      this.cameras.main.x = firstBound;
+      // firstBound += scroll;
+      secondBound += scroll;
+
+      // console.log('moveCamera', firstBound)
+      if(firstBound >= endBound){
+        clearInterval(cameraMove)
+      }
+    },5);
     this.isTowerShow = true;
   }
 
