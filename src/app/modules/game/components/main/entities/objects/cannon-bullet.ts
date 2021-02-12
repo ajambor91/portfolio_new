@@ -1,4 +1,5 @@
 import { BulletClass } from "./bullet-class";
+import { Explode } from "./explode";
 
 export class CannonBullet extends BulletClass {
 
@@ -15,7 +16,7 @@ export class CannonBullet extends BulletClass {
         this.body.velocity.y = -700;
         this.createAnims();
         this.setAngle(turn)
-        console.log('posito',xPosition,yPostion)
+        console.log('posito', xPosition, yPostion)
     }
     fire(): void {
         //@ts-ignore
@@ -33,12 +34,6 @@ export class CannonBullet extends BulletClass {
             frameRate: 10,
             repeat: 0
         });
-        this.anims.create({
-            key: 'explode',
-            frames: this.anims.generateFrameNumbers('cannon_bullet', { start: 1, end: 3 }),
-            frameRate: 7,
-            repeat: 0
-        });
     }
 
     protected addWorldCollide(): void {
@@ -47,13 +42,19 @@ export class CannonBullet extends BulletClass {
             if (this.exploding === false) {
                 this.exploding = true;
                 this.body.velocity.x = 0;
-                this.anims.play('explode',).on('animationcomplete', () => {
-                    this.scene.physics.world.removeCollider(this.collider);
-                    this.destroy();
-                });
+                const x = Phaser.Math.Clamp(this.x, 0, Phaser.Math.MAX_SAFE_INTEGER);
+                const y = Phaser.Math.Clamp(this.y - this.height + 5, 0, 600);
+                const explode = new Explode(
+                    this.scene,
+                    x,
+                    y,
+                    'bullet_explode',
+                    'bullet',
+                );
+                this.destroy();
             }
 
-        });
+            });
     }
 
 

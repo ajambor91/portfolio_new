@@ -102,8 +102,12 @@ export class MainScene extends Scene {
         frameHeight: 128
       });
     this.load.image('bullet', '/assets/game/main/bullet_8.png');
-    this.load.spritesheet('cannon_bullet', '/assets/game/main/cannon_bullet.png', {
-      frameWidth: 50
+    this.load.spritesheet('cannon_bullet', '/assets/game/main/cannon_bullet_48.png', {
+      frameWidth: 48
+    });
+    this.load.spritesheet('bullet_explode', '/assets/game/main/bullet_explode.png', {
+      frameWidth: 150,
+      frameHeight: 144
     });
 
     
