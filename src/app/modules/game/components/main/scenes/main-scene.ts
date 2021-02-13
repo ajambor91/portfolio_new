@@ -4,6 +4,7 @@ import { sounds } from "../data/sounds";
 import { enemies, enemiesSpr } from "../data/enemies";
 import { Enemy } from "../model/enemy.model";
 import { Depth } from "../enums/depth.enum";
+import { TowerVisible } from "../enums/tower-visible.enum";
 
 export class MainScene extends Scene {
   rightOutside = false;
@@ -14,7 +15,7 @@ export class MainScene extends Scene {
   reloadedText: Phaser.GameObjects.BitmapText;
   sounds: SoundsAudio;
   enemies: Enemy;
-  isTowerShow = false;
+  isTowerShow = TowerVisible.Hidden;
   cameraMoved = false;
   protected readonly name = 'MainScene';
 
@@ -70,10 +71,10 @@ export class MainScene extends Scene {
       this.spooky.unfollow();
       return;
     }
-    if(this.player.x > 11850 && this.isTowerShow === false){
+    if(this.player.x > 11850 && this.isTowerShow === TowerVisible.Hidden){
       // console.log(this.player.x)
-      // this.showTower();
-    } else if((this.player.x < 11850 || this.player.x > 14000) && this.isTowerShow === true){
+      this.showTower();
+    } else if((this.player.x < 11850 || this.player.x > 14000) && this.isTowerShow === TowerVisible.Show){
       this.hideTower();
     }
     //@ts-ignore
@@ -103,14 +104,17 @@ export class MainScene extends Scene {
       });
     this.load.image('bullet', '/assets/game/main/bullet_8.png');
     this.load.spritesheet('cannon_bullet', '/assets/game/main/cannon_bullet_48.png', {
-      frameWidth: 48
+      frameWidth: 24
     });
     this.load.spritesheet('bullet_explode', '/assets/game/main/bullet_explode.png', {
-      frameWidth: 150,
-      frameHeight: 144
+      frameWidth: 75,
+      frameHeight: 72
     });
 
-    
+    this.load.spritesheet('smoke', '/assets/game/main/smoke.png', {
+      frameWidth: 128,
+      frameHeight: 128
+    });
     this.loadTilesets();
     this.load.tilemapTiledJSON('mapMain', '/assets/game/main/layers_map_terrain.json');
     this.load.spritesheet('spooky', '/assets/game/chars/enemies/spooky.png', {
@@ -118,7 +122,7 @@ export class MainScene extends Scene {
       frameHeight: 72
     });
     this.load.image('reload_big', '/assets/game/main/keyboard_icons/reload_big.png');
-    
+    this.load.image('cannon_basis', '/assets/game/chars/enemies/cannon_basis.png');
     this.loadEnemies();
 
   }
@@ -200,37 +204,41 @@ export class MainScene extends Scene {
         value.key,
         value.type
       );
-    }
-    
+    }   
   }
 
-  private cameraMove(): void {
-    console.log('moveCamera', this.cameras.main.x)
-
-   
-  }
   private showTower(): void {
-    // console.log('camera position x',this.cameras.main.x)
+    this.isTowerShow = TowerVisible.Moving;
     let firstBound = this.player.x - this.gameWidth / 2;
-    let secondBound = 12400;
+    let secondBound = this.player.x + this.gameWidth /2;
     const scroll = 3;
-    const endBound = 11800;
+    const endBound = this.player.x + this.gameWidth;
     const cameraMove = setInterval(()=> {
-      // this.cameras.main.setBounds(firstBound, -300, secondBound, 900);
-      this.cameras.main.x = firstBound;
-      // firstBound += scroll;
+      this.cameras.main.setBounds(firstBound, -300, secondBound, 900);
+      firstBound += scroll;
       secondBound += scroll;
-
-      // console.log('moveCamera', firstBound)
-      if(firstBound >= endBound){
-        clearInterval(cameraMove)
+      if(secondBound >= endBound){
+        this.isTowerShow = TowerVisible.Show;
+        clearInterval(cameraMove);
       }
     },5);
-    this.isTowerShow = true;
   }
 
   private hideTower(): void {
-    this.cameras.main.setBounds(0, -300, 16000, 900)
-    this.isTowerShow = false;
+    this.isTowerShow = TowerVisible.Moving;
+    let firstBound = this.player.x;
+    let secondBound = this.player.x + this.gameWidth;
+    const endBound = firstBound - this.gameWidth;
+    const scroll = 3;
+    const move = setInterval(() => {
+      this.cameras.main.setBounds(firstBound, -300, secondBound, 900);
+      firstBound -= scroll;
+      secondBound -= scroll;
+      if(firstBound <= endBound){
+        this.cameras.main.setBounds(0, -300, 16000, 900);
+        this.isTowerShow = TowerVisible.Hidden;
+        clearInterval(move);
+      }
+    },5);
   }
 }

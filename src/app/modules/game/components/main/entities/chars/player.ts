@@ -10,7 +10,7 @@ export class Player extends Entity {
   dmg = 10; 
   bullet: Bullet;
 
-  private readonly initMag = 15;
+  private readonly initMag = 150;
   magazine = this.initMag;
 
   private reloaded = false;

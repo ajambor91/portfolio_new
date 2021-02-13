@@ -3,37 +3,25 @@ import { Explode } from "./explode";
 
 export class CannonBullet extends BulletClass {
 
-    private collider;
+    private collider: Phaser.Physics.Arcade.Collider;
     private exploding = false;
     private turn: number;
+    private speed: number;
 
-    constructor(scene, xPosition, yPostion, turn, key, type) {
+    constructor(scene, xPosition, yPostion, turn, speed, key, type) {
         super(scene, xPosition, yPostion, key, type);
         //@ts-ignore
         this.body.allowGravity = true;
         this.turn = turn;
-        this.body.velocity.x = -700;
-        this.body.velocity.y = -700;
-        this.createAnims();
+        this.speed = -speed;
         this.setAngle(turn)
-        console.log('posito', xPosition, yPostion)
+        this.fire();
     }
+
     fire(): void {
         //@ts-ignore
-        this.scene.physics.velocityFromRotation(this.turn, -550, this.body.velocity)
-        this.anims.play('fire');
-    }
-    explode(): void {
-        this.anims.play('explode');
-        this.body.velocity.x = -200
-    }
-    private createAnims(): void {
-        this.anims.create({
-            key: 'fire',
-            frames: this.anims.generateFrameNumbers('cannon_bullet', { start: 0, end: 0 }),
-            frameRate: 10,
-            repeat: 0
-        });
+        this.body.velocity.x = Math.cos(this.turn) * this.speed;
+        this.body.velocity.y = Math.sin(this.turn) * this.speed;
     }
 
     protected addWorldCollide(): void {
@@ -53,9 +41,6 @@ export class CannonBullet extends BulletClass {
                 );
                 this.destroy();
             }
-
-            });
+        });
     }
-
-
 }

@@ -6,7 +6,7 @@ import { Demon } from "../entities/chars/enemies/chars/demon"
 export const enemiesSpr = {
     demonFront: {key: 'demon_front', path: '/assets/game/chars/enemies/demon.png', width: 192, height: 192},
     critter: {key: 'critter', path: '/assets/game/chars/enemies/critter.png', width: 103, height: 126},
-    cannon: {key: 'cannon', path: '/assets/game/chars/enemies/cannon.png', width: 150, height: 50}
+    cannon: {key: 'cannon', path: '/assets/game/chars/enemies/cannon.png', width: 190, height: 50}
 }
 
 export const enemies = {
@@ -16,7 +16,7 @@ export const enemies = {
     demonFrontFourth : {key: 'demon_front', type:'demonSpr4', xPosition: 3820, yPosition: 300, class: Demon},
     critter : {key: 'critter', type:'critterSpr', xPosition: 940, yPosition: 500, class: Critter},
     critterSecond : {key: 'critter', type:'critterSpr2', xPosition: 2940, yPosition: 200, class: Critter},
-    cannon : {key: 'cannon', type:'cannonSpr', xPosition: 12700, yPosition: 300, class: Cannon},
+    cannon : {key: 'cannon', type:'cannonSpr', xPosition: 12790, yPosition: 340, class: Cannon},
     // cannonSecond : {key: 'cannon', type:'cannonSpr1', xPosition: 12900, yPosition: 0, class: Cannon}
 
 

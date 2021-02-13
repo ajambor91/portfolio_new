@@ -50,7 +50,7 @@ export abstract class Scene extends Phaser.Scene {
   protected createHero(): void {
     this.player = new Player(
       this,
-      12300,
+      11300,
       -60,
       this.name === 'MainScene' ? 'punk_gun' : 'punk',
       "sprPlayer"
@@ -133,7 +133,7 @@ export abstract class Scene extends Phaser.Scene {
     this.audio = this.sound.add('theme');
     //@ts-ignore
     if(this.audioMute === true ) this.sound.mute = true;
-    this.sound.mute = true; 
+    // this.sound.mute = true; 
     this.audio.play();
     //@ts-ignore
     this.audio.setLoop(true);

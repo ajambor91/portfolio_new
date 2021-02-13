@@ -1,3 +1,5 @@
+import { Cannon } from "../entities/chars/enemies/chars/cannon";
+
 export enum Depth{
     Ground = 1, 
     Trees = 1,
@@ -14,5 +16,8 @@ export enum Depth{
     Spooky = 10,
     Bullets = 7,
     DeathEnemies = 11,
-    Texts = 99
+    Texts = 99,
+    CannonBasis = 9,
+    Cannon = 8,
+    CannonSmoke = 9
 }

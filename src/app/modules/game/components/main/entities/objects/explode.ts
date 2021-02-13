@@ -1,8 +1,15 @@
 import { BulletClass } from "./bullet-class";
 
-export class Explode extends BulletClass{
+export class Explode extends BulletClass {
+
+    private collider: Phaser.Physics.Arcade.Collider;
+    private playerHurts = false;
+
     constructor(scene, xPosition, yPostion, key, type) {
         super(scene, xPosition, yPostion, key, type);
+        //@ts-ignore
+        this.body.setImmovable(true);
+        this.addPlayerHurts();
         this.createAnims();
         this.playAnims();
     }
@@ -17,8 +24,22 @@ export class Explode extends BulletClass{
     }
 
     private playAnims(): void {
-        this.anims.play('explode',true).on('animationcomplete', ()=>{
+        //@ts-ignore
+        this.scene.sounds.bombExplode.play();
+        this.anims.play('explode', true).on('animationcomplete', () => {
+            this.scene.physics.world.removeCollider(this.collider);
             this.destroy();
+        });
+    }
+
+    private addPlayerHurts(): void {
+        //@ts-ignore
+        this.collider = this.scene.physics.add.collider(this, this.scene.player, () => {
+            if (this.playerHurts === false) {
+                //@ts-ignore
+                this.scene.player.health -= 30;
+                this.playerHurts = true;
+            }
         });
     }
 }
