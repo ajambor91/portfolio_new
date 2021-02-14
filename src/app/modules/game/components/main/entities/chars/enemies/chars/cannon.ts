@@ -38,7 +38,10 @@ export class Cannon extends Entity {
             this.scene.physics.add.collider(this, bullet, () => {
                 //@ts-ignore
                 this.hp -= this.scene.player.dmg;
-                this.scene.sound.play('bullet_metal');
+                //@ts-ignore
+                this.scene.sounds.bulletMetal.play();
+                //@ts-ignore
+                this.scene.sounds.bulletMetal.volume = this.scene.calcSoundIntensity(this);
                 bullet.destroy();
                 if (this.hp <= 0 && this.exploding === false) this.isDead();
             });
@@ -78,6 +81,9 @@ export class Cannon extends Entity {
         const turn = this.calcRotation();
         //@ts-ignore
         this.scene.sounds.cannon.play();
+                //@ts-ignore
+        
+                this.scene.sounds.cannon.volume = this.scene.calcSoundIntensity(this);
         this.setRotation(turn);
         this.rotation = turn;
         const turnX = (this.x * Math.atan(turn));

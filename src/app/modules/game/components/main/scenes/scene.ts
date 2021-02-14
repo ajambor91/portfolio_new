@@ -7,7 +7,7 @@ import { Cursors } from "../model/cursors.model";
 import { Depth } from "../enums/depth.enum";
 
 export abstract class Scene extends Phaser.Scene {
-  
+
   protected readonly layerYPosition = -200;
   protected player: Player;
   protected gameWidth: number;
@@ -19,7 +19,7 @@ export abstract class Scene extends Phaser.Scene {
   protected audioMute = false;
   protected cursors: Cursors;
   protected name;
-  
+
   private background: Phaser.GameObjects.Image;
   private tilesets: Tileset;
 
@@ -83,7 +83,7 @@ export abstract class Scene extends Phaser.Scene {
     for (let key in layerNames) {
       if (layerNames[key].scenes.includes(this.name)) {
         this.layers[key] = this.map.createLayer(layerNames[key].name, this.tilesets[layerNames[key].tilesetKey], xPosition, this.layerYPosition)
-        .setDepth(layerNames[key].depth);
+          .setDepth(layerNames[key].depth);
       }
     }
   }
@@ -111,7 +111,7 @@ export abstract class Scene extends Phaser.Scene {
     const soundOn = this.add.image(1160, 40, !this.audioMute ? 'sound_on' : 'sound_off')
       .setScrollFactor(0, 0)
       .setDepth(Depth.Texts)
-      .setInteractive({ useHandCursor: true  } );
+      .setInteractive({ useHandCursor: true });
     soundOn.on('pointerdown', (e) => {
       if (this.audioMute === false) {
         // @ts-ignore
@@ -132,10 +132,18 @@ export abstract class Scene extends Phaser.Scene {
   protected playAudio(): void {
     this.audio = this.sound.add('theme');
     //@ts-ignore
-    if(this.audioMute === true ) this.sound.mute = true;
+    if (this.audioMute === true) this.sound.mute = true;
     // this.sound.mute = true; 
     this.audio.play();
     //@ts-ignore
     this.audio.setLoop(true);
+  }
+
+  protected calcSoundIntensity(source): number {
+    const distance = Phaser.Math.Distance.Between(this.player.x, this.player.y, source.x, source.y) / 100;    
+    console.log(distance* distance);
+    return 1 - Math.pow(distance,2) / 100;
+    //volume_dist = d1 + d2 * (dist) + d3 * (dist * dist)
+
   }
 }
