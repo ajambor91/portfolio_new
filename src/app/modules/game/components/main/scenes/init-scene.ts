@@ -121,7 +121,7 @@ export class InitScene extends Scene {
     this.load.spritesheet('punk', '/assets/game/main/punk_smaller.png',
       {
         frameWidth: 128,
-        frameHeight: 112
+        frameHeight: 128
       });
     this.loadTilesets();
     this.load.tilemapTiledJSON('map', '/assets/game/main/init.json');
