@@ -23,7 +23,7 @@ export class MainScene extends Scene {
     super({ key: 'main' });
 
   }
-  init(data){
+  init(data) {
     this.audioMute = data.audioMute;
   }
   create() {
@@ -42,16 +42,25 @@ export class MainScene extends Scene {
     this.playerHealth = this.add.bitmapText(10, 10, 'font', '100 HP')
       .setScrollFactor(0, 0)
       .setDepth(Depth.Texts);
-    this.magazine  = this.add.bitmapText(150,10, 'font', `${this.player.magazine} AMMO`)
-      .setScrollFactor(0,0)
+    this.magazine = this.add.bitmapText(150, 10, 'font', `${this.player.magazine} AMMO`)
+      .setScrollFactor(0, 0)
       .setDepth(Depth.Texts);
-    setInterval(() => {
-      this.player.isShooting = false;
-    }, this.player.rateOfFire);
+    this.time.addEvent({
+      callback: () => {
+        this.player.isShooting = false;
+      },
+      delay: this.player.rateOfFire,
+      loop: true
+    });
     this.addSoundsBTN();
     this.playAudio();
     this.addSounds();
     this.addEnemies();
+    this.time.addEvent({
+      callback: () => this.changeVolume(),
+      delay: 10,
+      loop: true
+    });
   }
 
   preload() {
@@ -62,19 +71,18 @@ export class MainScene extends Scene {
   }
 
   update() {
-    if( this.player.x < 0 && this.rightOutside === false){
+    if (this.player.x < 0 && this.rightOutside === false) {
       this.sounds.fallingDown.play();
       this.player.destroy();
       this.rightOutside = true;
-    } 
-    if(this.player.x < 0) {
+    }
+    if (this.player.x < 0) {
       this.spooky.unfollow();
       return;
     }
-    if(this.player.x > 11850 && this.isTowerShow === TowerVisible.Hidden){
-      // console.log(this.player.x)
+    if (this.player.x > 11850 && this.isTowerShow === TowerVisible.Hidden) {
       this.showTower();
-    } else if((this.player.x < 11850 || this.player.x > 14000) && this.isTowerShow === TowerVisible.Show){
+    } else if ((this.player.x < 11850 || this.player.x > 14000) && this.isTowerShow === TowerVisible.Show) {
       this.hideTower();
     }
     //@ts-ignore
@@ -89,7 +97,7 @@ export class MainScene extends Scene {
 
   private createCursors(): void {
     this.cursors = this.input.keyboard.createCursorKeys();
-    this.cursors.rKey= this.input.keyboard.addKey('R'); 
+    this.cursors.rKey = this.input.keyboard.addKey('R');
   }
   private loadAssets(): void {
     this.load.image('background', '/assets/game/main/background.png');
@@ -155,7 +163,7 @@ export class MainScene extends Scene {
         this.player.isShooting = true;
       }
     }
-    if (this.cursors.rKey.isDown){
+    if (this.cursors.rKey.isDown) {
       this.player.reload();
     }
   }
@@ -165,28 +173,28 @@ export class MainScene extends Scene {
     this.layers.groundLayer.setCollisionBetween(1, 1000);
     this.layers.woodCollisionLayer.setCollisionByProperty({ collides: true });
     this.layers.woodCollisionLayer.setCollisionBetween(1, 10000);
-    this.layers.monsterCollideLayer.setCollisionBetween(1,10000);
-    this.layers.monsterCollideLayer.setCollisionByProperty({collides: true});
+    this.layers.monsterCollideLayer.setCollisionBetween(1, 10000);
+    this.layers.monsterCollideLayer.setCollisionByProperty({ collides: true });
     this.physics.add.collider(this.player, this.layers.groundLayer, null, null, this);
     this.physics.add.collider(this.player, this.layers.woodCollisionLayer, null, null, this);
   }
 
   private loadSounds(): void {
 
-    for (let [key,value] of Object.entries(sounds)){
+    for (let [key, value] of Object.entries(sounds)) {
       this.load.audio(value.key, value.path);
     }
   }
 
   private addSounds(): void {
     this.sounds = {} as SoundsAudio;
-    for (let [key, value] of Object.entries(sounds)){
+    for (let [key, value] of Object.entries(sounds)) {
       this.sounds[key] = this.sound.add(value.key);
     }
   }
 
   private loadEnemies(): void {
-    for (let [key, value] of Object.entries(enemiesSpr)){
+    for (let [key, value] of Object.entries(enemiesSpr)) {
       this.load.spritesheet(value.key, value.path, {
         frameWidth: value.width,
         frameHeight: value.height
@@ -196,7 +204,7 @@ export class MainScene extends Scene {
 
   private addEnemies(): void {
     this.enemies = {} as Enemy;
-    for(let [key, value] of Object.entries(enemies)){
+    for (let [key, value] of Object.entries(enemies)) {
       this.enemies[key] = new value.class(
         this,
         value.xPosition,
@@ -204,24 +212,29 @@ export class MainScene extends Scene {
         value.key,
         value.type
       );
-    }   
+    }
   }
 
   private showTower(): void {
     this.isTowerShow = TowerVisible.Moving;
     let firstBound = this.player.x - this.gameWidth / 2;
-    let secondBound = this.player.x + this.gameWidth /2;
-    const scroll = 3;
+    let secondBound = this.player.x + this.gameWidth / 2;
+    const scroll = 10;
     const endBound = this.player.x + this.gameWidth;
-    const cameraMove = setInterval(()=> {
-      this.cameras.main.setBounds(firstBound, -300, secondBound, 900);
-      firstBound += scroll;
-      secondBound += scroll;
-      if(secondBound >= endBound){
-        this.isTowerShow = TowerVisible.Show;
-        clearInterval(cameraMove);
-      }
-    },5);
+    const cameraMove = this.time.addEvent({
+      callback: () => {
+        this.cameras.main.setBounds(firstBound, -300, secondBound, 900);
+        firstBound += scroll;
+        secondBound += scroll;
+        if (secondBound >= endBound) {
+          this.isTowerShow = TowerVisible.Show;
+          this.time.removeEvent(cameraMove);
+        }
+      },
+      delay: 1,
+
+      loop: true
+    });
   }
 
   private hideTower(): void {
@@ -229,16 +242,20 @@ export class MainScene extends Scene {
     let firstBound = this.player.x;
     let secondBound = this.player.x + this.gameWidth;
     const endBound = firstBound - this.gameWidth;
-    const scroll = 3;
-    const move = setInterval(() => {
-      this.cameras.main.setBounds(firstBound, -300, secondBound, 900);
-      firstBound -= scroll;
-      secondBound -= scroll;
-      if(firstBound <= endBound){
-        this.cameras.main.setBounds(0, -300, 16000, 900);
-        this.isTowerShow = TowerVisible.Hidden;
-        clearInterval(move);
-      }
-    },5);
+    const scroll = 10;
+    const move = this.time.addEvent({
+      callback: () => {
+        this.cameras.main.setBounds(firstBound, -300, secondBound, 900);
+        firstBound -= scroll;
+        secondBound -= scroll;
+        if (firstBound <= endBound) {
+          this.cameras.main.setBounds(0, -300, 16000, 900);
+          this.isTowerShow = TowerVisible.Hidden;
+          this.time.removeEvent(move);
+        }
+      },
+      delay: 1,
+      loop: true
+    });
   }
 }

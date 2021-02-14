@@ -40,9 +40,8 @@ export class Cannon extends Entity {
                 //@ts-ignore
                 this.hp -= this.scene.player.dmg;
                 //@ts-ignore
-                this.scene.sounds.bulletMetal.play();
+                this.scene.playSound('bulletMetal', this);
                 //@ts-ignore
-                this.scene.sounds.bulletMetal.volume = this.scene.calcSoundIntensity(this);
                 bullet.destroy();
                 if (this.hp <= 0 && this.exploding === false) this.isDead();
             });
@@ -60,11 +59,9 @@ export class Cannon extends Entity {
 
     private isDead(): void {
         //@ts-ignore
-        this.scene.sounds.burning.play();
+        this.scene.playSound('burning', this, true)
         //@ts-ignore
-        this.scene.sounds.burning.setLoop(true);
-        //@ts-ignore
-        this.scene.sounds.metalScreech.play();
+        this.scene.playSound('metalScreech', this)
         this.scene.time.removeEvent(this.shotInterval);
         let degrees = this.rotation * (180 / Math.PI);
         let degreeFactor = 1.05;
@@ -89,10 +86,7 @@ export class Cannon extends Entity {
     private shot(): void {
         const turn = this.calcRotation();
         //@ts-ignore
-        this.scene.sounds.cannon.play();
-        //@ts-ignore
-
-        this.scene.sounds.cannon.volume = this.scene.calcSoundIntensity(this);
+        this.scene.playSound('cannon', this)
         this.setRotation(turn);
         this.rotation = turn;
         const turnX = (this.x * Math.atan(turn));

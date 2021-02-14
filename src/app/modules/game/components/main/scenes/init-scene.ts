@@ -7,6 +7,11 @@ import { Scene } from "./scene";
 export class InitScene extends Scene {
 
   protected readonly name = 'InitScene';
+
+  private readonly spookyVisibleTime = 3000;
+  private readonly clickAnyKeyTextVisible = 1000;
+  private readonly keyboardDescriptionDelay = 1500;
+
   private keys: Keyboard = new Object() as Keyboard;
   private created = false;
   private removed = false;
@@ -32,7 +37,7 @@ export class InitScene extends Scene {
       //@ts-ignore
       scene.audio.stop();
       //@ts-ignore
-      clearInterval(timer);
+      scene.time.removeEvent(timer);
       scene.scene.start('main', { audioMute: scene.audioMute });
       this.removeEventListener('keyup', newScene);
 
@@ -54,10 +59,12 @@ export class InitScene extends Scene {
       map: this.map,
       collider: collider
     };
-    //@ts-ignore
-    setTimeout(() => {
-      this.createSpooky()
-    }, 3000)
+
+    this.time.delayedCall(
+      this.spookyVisibleTime,
+      () => this.createSpooky()
+    )
+
     this.maps.push(createdMap);
     this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -164,9 +171,11 @@ export class InitScene extends Scene {
             .setDepth(Depth.Texts)
         };
       }
-      setTimeout(() => {
-        resolve(true);
-      }, 2000);
+      this.time.delayedCall(
+        this.keyboardDescriptionDelay,
+        () => {
+          resolve(true);
+        });
     });
   }
 
@@ -175,16 +184,19 @@ export class InitScene extends Scene {
     const text = this.add.bitmapText(400, 250, 'font', 'Kliknij dowolny klawisz!')
       .setScrollFactor(0, 0)
       .setDepth(Depth.Texts);
-    return setInterval(() => {
-      if (visible == false) {
-        text.setVisible(true);
-        visible = true;
-      } else {
-        text.setVisible(false);
-        visible = false;
-      }
-
-    }, 1000);
+    return this.time.addEvent({
+      callback: () => {
+        if (visible == false) {
+          text.setVisible(true);
+          visible = true;
+        } else {
+          text.setVisible(false);
+          visible = false;
+        }
+      },
+      delay: this.clickAnyKeyTextVisible,
+      loop: true
+    });
   }
 
   private removeKeyDesc(): void {

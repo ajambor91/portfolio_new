@@ -8,6 +8,7 @@ export abstract class EnemyClass extends Entity {
     protected shooting: Phaser.Time.TimerEvent = null;
 
     private readonly falling = 100;
+    private dead = false;
     private collider: Phaser.Physics.Arcade.Collider = null;
     private woodCollider: Phaser.Physics.Arcade.Collider = null;
     private monsterCollider: Phaser.Physics.Arcade.Collider = null;
@@ -28,7 +29,10 @@ export abstract class EnemyClass extends Entity {
                 //@ts-ignore
                 this.health -= this.scene.player.dmg;
                 bullet.destroy();
-                if (this.health <= 0) this.isDead();
+                if (this.health <= 0 && this.dead == false){
+                    this.dead = true;
+                    this.isDead();
+                } 
             });
         }
     }
@@ -92,7 +96,6 @@ export abstract class EnemyClass extends Entity {
     }
 
     private destroyDeadEnemy(): void {
-
         const fall = this.scene.time.addEvent({
             delay: this.falling,
             callback: () => {

@@ -25,9 +25,7 @@ export class Explode extends BulletClass {
 
     private playAnims(): void {
         //@ts-ignore
-        this.scene.sounds.bombExplode.play();
-        //@ts-ignore
-        this.scene.sounds.bombExplode.volume = this.scene.calcSoundIntensity(this);
+        this.scene.playSound('bombExplode', this);
         //@ts-ignore
         this.anims.play('explode', true).on('animationcomplete', () => {
             this.scene.physics.world.removeCollider(this.collider);

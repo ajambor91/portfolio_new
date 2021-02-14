@@ -12,7 +12,7 @@ export class Spooky extends Entity {
         super(scene, xPosition, yPostion, key, type);
         this.createAnims();
         this.playAnim();
-        this.setDepth(Depth.Spooky)
+        this.setDepth(Depth.Spooky);
     }
 
     followPlayer(x: number): number {
@@ -58,9 +58,10 @@ export class Spooky extends Entity {
                 this.squeak = true;
                 //@ts-ignore
                 this.scene.sounds.squeak.play();
-                setTimeout(()=>{
-                    this.squeak = false;
-                },800)
+                this.scene.time.delayedCall(
+                    800,
+                    () => this.squeak = false
+                );
             }             
         }
     }
