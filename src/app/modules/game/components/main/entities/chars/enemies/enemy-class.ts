@@ -12,7 +12,6 @@ export abstract class EnemyClass extends Entity {
     private collider: Phaser.Physics.Arcade.Collider = null;
     private woodCollider: Phaser.Physics.Arcade.Collider = null;
     private monsterCollider: Phaser.Physics.Arcade.Collider = null;
-    private soundKey = 'snake';
 
     constructor(scene, xPosition, yPostion, key, type, soundKey?) {
         super(scene, xPosition, yPostion, key, type);
@@ -23,7 +22,7 @@ export abstract class EnemyClass extends Entity {
         this.body.setImmovable(true);
         
 
-        console.log('soundKey', this.soundKey)
+        // console.log('soundKey', this.soundKey)
         this.playSound();
     }
 

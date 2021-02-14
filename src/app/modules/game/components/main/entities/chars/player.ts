@@ -15,7 +15,8 @@ export class Player extends Entity {
   private bullet: Bullet;
   private reloaded = false;
   private bullets: Phaser.GameObjects.Group;
-
+  soundKey = 'none';
+  
   constructor(scene, xPosition: number, yPostion: number, key: string, type: string) {
     super(scene, xPosition, yPostion, key, type);
     this.bullets = this.scene.add.group();

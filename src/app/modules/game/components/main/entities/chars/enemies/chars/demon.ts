@@ -10,7 +10,7 @@ export class Demon extends EnemyClass {
     private readonly fireRate = 1500;
     protected readonly dmg = 10;
     private bullets: Phaser.GameObjects.Group;
-
+    soundKey = 'none';
     constructor(scene, xPosition: number, yPostion: number, key: string, type: string) {
         super(scene, xPosition, yPostion, key, type);
 
@@ -35,7 +35,7 @@ export class Demon extends EnemyClass {
     protected createAnims(): void {
         this.anims.create({
             key: 'fly',
-            frames: this.anims.generateFrameNumbers('demon_front', { start: 0, end: 3 }),
+            frames: this.anims.generateFrameNumbers('demon', { start: 0, end: 3 }),
             frameRate: 15,
             repeat: -1, 
         });

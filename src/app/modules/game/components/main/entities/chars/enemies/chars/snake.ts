@@ -5,7 +5,8 @@ export class Snake extends EnemyClass{
     protected readonly dmg = 15;
     protected readonly speed = 100;
     protected health = 150;
-    
+    soundKey = 'snake';
+
     constructor(scene, xPosition: number, yPostion: number, key: string, type: string) {
 
         super(scene, xPosition, yPostion, key, type, 'snake');

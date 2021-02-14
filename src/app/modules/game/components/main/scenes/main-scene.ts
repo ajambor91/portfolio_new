@@ -13,7 +13,7 @@ export class MainScene extends Scene {
   spookyPosition: number;
   displayReload = false;
   reloadedText: Phaser.GameObjects.BitmapText;
-  sounds: SoundsAudio;
+  sounds: SoundsAudio = {} as SoundsAudio;
   enemies: Enemy;
   isTowerShow = TowerVisible.Hidden;
   cameraMoved = false;
@@ -27,6 +27,7 @@ export class MainScene extends Scene {
     this.audioMute = data.audioMute;
   }
   create() {
+    this.addSounds();
     this.gameHeight = this.scale.height;
     this.gameWidth = this.scale.width;
     this.addFixedBackground();
@@ -54,7 +55,6 @@ export class MainScene extends Scene {
     });
     this.addSoundsBTN();
     this.playAudio();
-    this.addSounds();
     this.addEnemies();
     this.time.addEvent({
       callback: () => this.changeVolume(),
@@ -187,8 +187,8 @@ export class MainScene extends Scene {
   }
 
   private addSounds(): void {
-    this.sounds = {} as SoundsAudio;
     for (let [key, value] of Object.entries(sounds)) {
+      console.log('dupa')
       this.sounds[key] = this.sound.add(value.key);
     }
   }

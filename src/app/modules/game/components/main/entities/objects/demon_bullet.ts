@@ -4,7 +4,7 @@ export class DemonBullet extends BulletClass {
     protected fireSpeed = 500;
     private xSpeed = 25;
     private ySpeed = -300
-    
+    soundKey = 'none';
     constructor(scene, xPosition, yPostion, key, type, i) {
         super(scene, xPosition, yPostion, key, type);
         //@ts-ignore

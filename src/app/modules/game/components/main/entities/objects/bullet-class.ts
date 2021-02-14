@@ -4,7 +4,7 @@ import { Entity } from "../entity";
 export abstract class BulletClass extends Entity{
     
     protected fireSpeed: number;
-
+    soundKey = 'none';
     constructor(scene, xPosition: number, yPostion: number, key: string, type: string) {
         super(scene, xPosition, yPostion, key, type);
         //@ts-ignore

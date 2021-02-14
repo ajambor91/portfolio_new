@@ -7,7 +7,7 @@ export class CannonBullet extends BulletClass {
     private exploding = false;
     private turn: number;
     private speed: number;
-
+    soundKey = 'none';
     constructor(scene, xPosition: number, yPostion: number, turn: number, speed: number, key: string, type: string) {
         super(scene, xPosition, yPostion, key, type);
         //@ts-ignore

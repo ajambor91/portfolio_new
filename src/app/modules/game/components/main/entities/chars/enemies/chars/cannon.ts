@@ -11,7 +11,7 @@ export class Cannon extends Entity {
     private bullets: Phaser.GameObjects.Group;
     private shotInterval;
     private basis: Phaser.GameObjects.Image;
-
+    soundKey = ['cannon', 'bulletMetal', 'burning', 'metalScreech']
     constructor(scene, xPosition: number, yPostion: number, key: string, type: string) {
         super(scene, xPosition, yPostion, key, type);
         this.setDepth(Depth.Cannon)

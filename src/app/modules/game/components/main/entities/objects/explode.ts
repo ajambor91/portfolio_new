@@ -4,7 +4,7 @@ export class Explode extends BulletClass {
 
     private collider: Phaser.Physics.Arcade.Collider;
     private playerHurts = false;
-
+    soundKey = 'bombExplode';
     constructor(scene, xPosition: number, yPostion: number, key: string, type: string) {
         super(scene, xPosition, yPostion, key, type);
         //@ts-ignore
