@@ -1,20 +1,20 @@
 import { Depth } from "../../../../enums/depth.enum";
+import { MainScene } from "../../../../scenes/main-scene";
 import { Entity } from "../../../entity";
 import { Anim } from "../../../objects/anim";
 import { CannonBullet } from "../../../objects/cannon-bullet";
 
 export class Cannon extends Entity {
 
-    private readonly hp = 500;
+    private readonly hp = 50;
     private readonly bulletSpeed = 700;
     private exploding = false;
     private bullets: Phaser.GameObjects.Group;
     private shotInterval;
     private basis: Phaser.GameObjects.Image;
 
-    constructor(scene, xPosition, yPostion, key, type) {
+    constructor(scene: MainScene, xPosition: number, yPostion: number, key: string, type: string) {
         super(scene, xPosition, yPostion, key, type);
-        // this.collide();
         this.setDepth(Depth.Cannon)
         //@ts-ignore
         this.body.setImmovable(true);
@@ -22,9 +22,12 @@ export class Cannon extends Entity {
         this.body.allowGravity = false;
         this.bullets = this.scene.add.group();
         this.createAnims();
-        this.shotInterval = setInterval(() => {
-            this.shot();
-        }, 1000);
+
+        this.shotInterval = this.scene.time.addEvent({
+            delay: 1500,
+            callback: () => this.shot(),
+            loop: true
+        });
         this.setOrigin(1, .5)
             .setSize(10, 150);
         //@ts-ignore
@@ -34,7 +37,6 @@ export class Cannon extends Entity {
 
     addPlayerBulletCollide(bullet): void {
         if (this.hp > 0) {
-            //@ts-ignore
             this.scene.physics.add.collider(this, bullet, () => {
                 //@ts-ignore
                 this.hp -= this.scene.player.dmg;
@@ -64,14 +66,22 @@ export class Cannon extends Entity {
         this.scene.sounds.burning.setLoop(true);
         //@ts-ignore
         this.scene.sounds.metalScreech.play();
-        clearInterval(this.shotInterval);
+        this.scene.time.removeEvent(this.shotInterval);
         let degrees = this.rotation * (180 / Math.PI);
-        const rotate = setInterval(() => {
-            this.setAngle(degrees);
-            degrees--;
-            if (degrees <= -30) {
-                clearInterval(rotate);
-            }
+        let degreeFactor = 1.05;
+
+        const rotate = this.scene.time.addEvent({
+            delay: 10,
+            callback: () => {
+                this.setAngle(degrees);
+                degrees -= degreeFactor;
+                degreeFactor = degreeFactor * 1.05;
+                if (degrees <= -30) {
+                    this.setAngle(-30);
+                    this.scene.time.removeEvent(rotate)
+                }
+            },
+            loop: true
         })
         this.exploding = true;
         this.anims.play('cannon_explode');
@@ -81,9 +91,9 @@ export class Cannon extends Entity {
         const turn = this.calcRotation();
         //@ts-ignore
         this.scene.sounds.cannon.play();
-                //@ts-ignore
-        
-                this.scene.sounds.cannon.volume = this.scene.calcSoundIntensity(this);
+        //@ts-ignore
+
+        this.scene.sounds.cannon.volume = this.scene.calcSoundIntensity(this);
         this.setRotation(turn);
         this.rotation = turn;
         const turnX = (this.x * Math.atan(turn));
