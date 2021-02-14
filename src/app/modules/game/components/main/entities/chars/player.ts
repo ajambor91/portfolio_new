@@ -1,22 +1,23 @@
 import { Bullet } from "../objects/bullet";
 import { Entity } from "../entity";
 import { Depth } from "../../enums/depth.enum";
+import { Scene } from "phaser";
 
 export class Player extends Entity {
 
   health = 100;
   isShooting = false;
   rateOfFire = 100;
-  dmg = 10; 
-  bullet: Bullet;
 
+  private readonly reloadTime = 500;
   private readonly initMag = 150;
   magazine = this.initMag;
-
+  private readonly dmg = 10; 
+  private bullet: Bullet;
   private reloaded = false;
   private bullets: Phaser.GameObjects.Group;
 
-  constructor(scene, xPosition, yPostion, key, type) {
+  constructor(scene: Scene, xPosition:number, yPostion: number, key: string, type: string) {
     super(scene, xPosition, yPostion, key, type);
     this.bullets = this.scene.add.group();
     this.setDepth(Depth.Player);
@@ -25,8 +26,6 @@ export class Player extends Entity {
             //@ts-ignore
             this.body.setSize(80,105)
             .setOffset(20,23);
-    
-
   }
   
   moveRight(jumping: boolean): void {
@@ -83,12 +82,15 @@ export class Player extends Entity {
       //@ts-ignore
       this.scene.sounds.reload.play();
       this.reloaded = true;
-      setTimeout(() => {
-        this.magazine = this.initMag;
-        this.reloaded = false;
-        //@ts-ignore
-        this.scene.magazine.text = `${this.magazine} AMMO`;
-      }, 500);
+      this.scene.time.delayedCall(
+        this.reloadTime,
+        () => {
+          this.magazine = this.initMag;
+          this.reloaded = false;
+          //@ts-ignore
+          this.scene.magazine.text = `${this.magazine} AMMO`;
+        }
+      )
     }
   }
 
@@ -167,30 +169,29 @@ export class Player extends Entity {
   private addReloadText() {
     let isVisible = true;
     //@ts-ignore
-    this.scene.reloadedText = this.scene.add.image(600, 250, 'reload_big')
-      .setScrollFactor(0, 0)
-      .setRotation(0.17)
-      .setDepth(Depth.Texts);
-    //@ts-ignore
-    this.scene.displayReload = setInterval(() => {
-      if (isVisible === false) {
-        //@ts-ignore
-        this.scene.reloadedText
-          .setVisible(true);
-        isVisible = true;
-      } else {
-        //@ts-ignore
-        this.scene.reloadedText.setVisible(false);
-        isVisible = false;
-      }
-    }, 500);
+    this.scene.displayReload = this.scene.time.addEvent({
+      delay: this.reloadTime,
+      callback: () =>  {
+        if (isVisible === false) {
+          //@ts-ignore
+          this.scene.reloadedText
+            .setVisible(true);
+          isVisible = true;
+        } else {
+          //@ts-ignore
+          this.scene.reloadedText.setVisible(false);
+          isVisible = false;
+        }
+      }, 
+      loop: true
+    });
   }
 
   private removeReloadedText(): void {
     //@ts-ignore
     this.scene.reloadedText.destroy();
     //@ts-ignore
-    clearInterval(this.scene.displayReload);
+    this.scene.time.removeEvent(this.scene.displayReload);
     //@ts-ignore
     this.scene.displayReload = false;
   }

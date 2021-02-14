@@ -1,17 +1,18 @@
 import { Depth } from "../../../../enums/depth.enum";
+import { MainScene } from "../../../../scenes/main-scene";
 import { DemonBullet } from "../../../objects/demon_bullet";
 import { EnemyClass } from "../enemy-class";
 
 export class Demon extends EnemyClass {
 
-    protected shooting;
+    protected shooting: Phaser.Time.TimerEvent;
     protected health = 100;
     protected template;
     private fireRate = 1500;
 
     private bullets: Phaser.GameObjects.Group;
 
-    constructor(scene, xPosition, yPostion, key, type) {
+    constructor(scene: MainScene, xPosition: number, yPostion: number, key: string, type: string) {
         super(scene, xPosition, yPostion, key, type);
 
         this.setDepth(Depth.Eniemies)
@@ -39,9 +40,11 @@ export class Demon extends EnemyClass {
     }
     
     private startShooting(): void {
-        this.shooting = setInterval(() => {
-            this.shot()
-        }, this.fireRate);
+        this.shooting = this.scene.time.addEvent({
+            delay: this.fireRate,
+            callback: () => this.shot(),
+            loop: true
+        });
     }
 
     private createGroup(): void {

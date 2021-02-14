@@ -2,14 +2,15 @@ import { Depth } from "../../../enums/depth.enum";
 import { Entity } from "../../entity";
 
 export abstract class EnemyClass extends Entity {
-    protected health = 100;
-    protected shooting = null;
 
+    protected playerCollider: Phaser.Physics.Arcade.Collider = null;
+    protected health = 100;
+    protected shooting: Phaser.Time.TimerEvent = null;
+
+    private readonly falling = 100;
     private collider: Phaser.Physics.Arcade.Collider = null;
     private woodCollider: Phaser.Physics.Arcade.Collider = null;
     private monsterCollider: Phaser.Physics.Arcade.Collider = null;
-
-    protected playerCollider: Phaser.Physics.Arcade.Collider = null;
 
     constructor(scene, xPosition, yPostion, key, type) {
         super(scene, xPosition, yPostion, key, type);
@@ -18,7 +19,6 @@ export abstract class EnemyClass extends Entity {
         this.setDepth(Depth.Eniemies)
         //@ts-ignore
         this.body.setImmovable(true);
-
     }
 
     addPlayerBulletCollide(bullet): void {
@@ -27,12 +27,12 @@ export abstract class EnemyClass extends Entity {
             this.scene.physics.add.collider(this, bullet, () => {
                 //@ts-ignore
                 this.health -= this.scene.player.dmg;
-
                 bullet.destroy();
                 if (this.health <= 0) this.isDead();
             });
         }
     }
+
     protected isDead(): void {
         this.setDepth(Depth.DeathEnemies);
         //@ts-ignore
@@ -42,19 +42,11 @@ export abstract class EnemyClass extends Entity {
         this.body.velocity.x = -200;
 
         if (this.shooting != null) {
-            clearInterval(this.shooting);
+            this.scene.time.removeEvent(this.shooting);
         }
         this.destroyDeadEnemy();
     }
-    private destroyDeadEnemy(): void {
-        const fall = setInterval(() => {
-            if (this.health <= 0 && this.y > 600) {
-                this.destroy()
-                clearInterval(fall);
-            }
-        }, 100);
 
-    }
     protected createAnims() { }
 
     protected playAnim() { };
@@ -97,5 +89,19 @@ export abstract class EnemyClass extends Entity {
 
     private removePlayerCollider(): void {
         this.scene.physics.world.removeCollider(this.playerCollider);
+    }
+
+    private destroyDeadEnemy(): void {
+
+        const fall = this.scene.time.addEvent({
+            delay: this.falling,
+            callback: () => {
+                if (this.health <= 0 && this.y > 600) {
+                    this.scene.time.removeEvent(fall);
+                    this.destroy();
+                }
+            },
+            loop: true
+        });
     }
 }
