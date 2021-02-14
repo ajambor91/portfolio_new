@@ -1,5 +1,3 @@
-import { Cannon } from "../entities/chars/enemies/chars/cannon";
-
 export enum Depth{
     Ground = 1, 
     Trees = 1,

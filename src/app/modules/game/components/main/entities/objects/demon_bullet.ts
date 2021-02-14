@@ -1,5 +1,3 @@
-import { Depth } from "../../enums/depth.enum";
-import { Entity } from "../entity";
 import { BulletClass } from "./bullet-class";
 
 export class DemonBullet extends BulletClass {
