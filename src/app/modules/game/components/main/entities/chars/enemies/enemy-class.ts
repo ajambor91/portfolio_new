@@ -2,24 +2,29 @@ import { Depth } from "../../../enums/depth.enum";
 import { Entity } from "../../entity";
 
 export abstract class EnemyClass extends Entity {
-
     protected playerCollider: Phaser.Physics.Arcade.Collider = null;
     protected health = 100;
     protected shooting: Phaser.Time.TimerEvent = null;
+    protected speed: number;
 
     private readonly falling = 100;
     private dead = false;
     private collider: Phaser.Physics.Arcade.Collider = null;
     private woodCollider: Phaser.Physics.Arcade.Collider = null;
     private monsterCollider: Phaser.Physics.Arcade.Collider = null;
+    private soundKey = 'snake';
 
-    constructor(scene, xPosition, yPostion, key, type) {
+    constructor(scene, xPosition, yPostion, key, type, soundKey?) {
         super(scene, xPosition, yPostion, key, type);
         this.createAnims();
         this.playAnim();
         this.setDepth(Depth.Eniemies)
         //@ts-ignore
         this.body.setImmovable(true);
+        
+
+        console.log('soundKey', this.soundKey)
+        this.playSound();
     }
 
     addPlayerBulletCollide(bullet): void {
@@ -51,9 +56,21 @@ export abstract class EnemyClass extends Entity {
         this.destroyDeadEnemy();
     }
 
+    protected move(): void {
+        this.body.velocity.x = this.speed;
+    }
+
     protected createAnims() { }
 
     protected playAnim() { };
+
+    protected addPlayerCollision(): void {
+        //@ts-ignore
+        this.playerCollider = this.scene.physics.add.collider(this, this.scene.player, () => {
+            //@ts-ignore
+            this.scene.player.health -= this.dmg;
+        });
+    }
 
     protected addWorldCollision(): void {
         //@ts-ignore
@@ -106,5 +123,10 @@ export abstract class EnemyClass extends Entity {
             },
             loop: true
         });
+    }
+
+    private playSound(): void{
+        //@ts-ignore
+        // this.scene.playSound(this.soundKey, this, true);
     }
 }

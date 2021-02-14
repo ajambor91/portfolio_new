@@ -4,9 +4,8 @@ import { EnemyClass } from "../enemy-class";
 export class Critter extends EnemyClass {
 
     protected health = 50;
-
-    private speed = 50;
-    private dmg = 5;
+    protected speed = 50;
+    protected dmg = 5;
 
     constructor(scene, xPosition: number, yPostion: number, key: string, type: string) {
 
@@ -34,18 +33,6 @@ export class Critter extends EnemyClass {
             frames: this.anims.generateFrameNumbers('critter', { start: 0, end: 2 }),
             frameRate: 5,
             repeat: -1
-        });
-    }
-
-    private move(): void {
-        this.body.velocity.x = this.speed;
-    }
-
-    private addPlayerCollision(): void {
-        //@ts-ignore
-        this.playerCollider = this.scene.physics.add.collider(this, this.scene.player, () => {
-            //@ts-ignore
-            this.scene.player.health -= this.dmg;
         });
     }
 }

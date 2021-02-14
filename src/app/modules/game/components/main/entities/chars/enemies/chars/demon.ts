@@ -8,6 +8,7 @@ export class Demon extends EnemyClass {
     protected health = 100;
 
     private readonly fireRate = 1500;
+    protected readonly dmg = 10;
     private bullets: Phaser.GameObjects.Group;
 
     constructor(scene, xPosition: number, yPostion: number, key: string, type: string) {
@@ -21,7 +22,10 @@ export class Demon extends EnemyClass {
         this.body.allowGravity = false;
         this.startShooting();
         this.setX(this.x + 50)
+        //@ts-ignore
+        this.body.setSize(50,180).setOffset(70,0);
     }
+
 
 
     protected playAnim(): void {
@@ -71,7 +75,7 @@ export class Demon extends EnemyClass {
         this.scene.physics.add.collider(bullet, this.scene.player, () => {
             if (typeof this.scene !== 'undefined') {
                 //@ts-ignore
-                this.scene.player.health -= 20;
+                this.scene.player.health -= this.dmg;
             }
             bullet.destroy();
         });

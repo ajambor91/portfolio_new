@@ -76,7 +76,7 @@ export class Player extends Entity {
   reload(): void {
     //@ts-ignore
     if (this.scene.displayReload !== false) this.removeReloadedText();
-
+    console.log('player coords', this.x, this.y)
     if (this.reloaded === false) {
       //@ts-ignore
       this.scene.sounds.reload.play();

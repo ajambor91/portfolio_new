@@ -7,9 +7,6 @@ export const sounds = {
     cannon: {key: 'cannon', path:  '/assets/game/audio/cannon.mp3'},
     metalScreech: {key: 'metal_screech', path:  '/assets/game/audio/metal_screech.mp3'},
     bulletMetal: {key: 'bullet_metal', path:  '/assets/game/audio/bullet_metal_impact.mp3'},
-    burning: {key: 'burning', path:  '/assets/game/audio/burning.mp3'}
-
-
-
-
+    burning: {key: 'burning', path:  '/assets/game/audio/burning.mp3'},
+    snake: {key: 'snake', path:  '/assets/game/audio/snake.mp3'},
 };
