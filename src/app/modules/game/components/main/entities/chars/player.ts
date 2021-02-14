@@ -11,22 +11,22 @@ export class Player extends Entity {
   private readonly reloadTime = 500;
   private readonly initMag = 150;
   magazine = this.initMag;
-  private readonly dmg = 10; 
+  private readonly dmg = 10;
   private bullet: Bullet;
   private reloaded = false;
   private bullets: Phaser.GameObjects.Group;
 
-  constructor(scene, xPosition:number, yPostion: number, key: string, type: string) {
+  constructor(scene, xPosition: number, yPostion: number, key: string, type: string) {
     super(scene, xPosition, yPostion, key, type);
     this.bullets = this.scene.add.group();
     this.setDepth(Depth.Player);
     //@ts-ignore 
     this.body.setImmovable(true);
-            //@ts-ignore
-            this.body.setSize(80,105)
-            .setOffset(20,23);
+    //@ts-ignore
+    this.body.setSize(80, 105)
+      .setOffset(20, 23);
   }
-  
+
   moveRight(jumping: boolean): void {
     this.flipX = false
     this.body.velocity.x = 300;
@@ -158,8 +158,8 @@ export class Player extends Entity {
       !this.flipX
     );
     //@ts-ignore
-        //@ts-ignore
-    for(let [key, value] of Object.entries(this.scene.enemies)){
+    //@ts-ignore
+    for (let [key, value] of Object.entries(this.scene.enemies)) {
       //@ts-ignore
       value.addPlayerBulletCollide(this.bullet);
     }
@@ -168,9 +168,14 @@ export class Player extends Entity {
   private addReloadText() {
     let isVisible = true;
     //@ts-ignore
+    this.scene.reloadedText = this.scene.add.image(600, 250, 'reload_big')
+      .setScrollFactor(0, 0)
+      .setRotation(0.17)
+      .setDepth(Depth.Texts);
+    //@ts-ignore
     this.scene.displayReload = this.scene.time.addEvent({
       delay: this.reloadTime,
-      callback: () =>  {
+      callback: () => {
         if (isVisible === false) {
           //@ts-ignore
           this.scene.reloadedText
@@ -181,7 +186,7 @@ export class Player extends Entity {
           this.scene.reloadedText.setVisible(false);
           isVisible = false;
         }
-      }, 
+      },
       loop: true
     });
   }
