@@ -1,7 +1,6 @@
 import { Bullet } from "../objects/bullet";
 import { Entity } from "../entity";
 import { Depth } from "../../enums/depth.enum";
-import { Scene } from "phaser";
 
 export class Player extends Entity {
 
@@ -17,7 +16,7 @@ export class Player extends Entity {
   private reloaded = false;
   private bullets: Phaser.GameObjects.Group;
 
-  constructor(scene: Scene, xPosition:number, yPostion: number, key: string, type: string) {
+  constructor(scene, xPosition:number, yPostion: number, key: string, type: string) {
     super(scene, xPosition, yPostion, key, type);
     this.bullets = this.scene.add.group();
     this.setDepth(Depth.Player);

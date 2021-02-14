@@ -8,7 +8,7 @@ export class CannonBullet extends BulletClass {
     private turn: number;
     private speed: number;
 
-    constructor(scene, xPosition, yPostion, turn, speed, key, type) {
+    constructor(scene, xPosition: number, yPostion: number, turn: number, speed: number, key: string, type: string) {
         super(scene, xPosition, yPostion, key, type);
         //@ts-ignore
         this.body.allowGravity = true;

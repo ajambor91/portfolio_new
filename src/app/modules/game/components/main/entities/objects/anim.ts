@@ -2,11 +2,12 @@ import { Depth } from "../../enums/depth.enum";
 import { Entity } from "../entity";
 
 export class Anim extends Entity{
-    constructor(scene, xPosition, yPostion, key, type) {
+    private readonly smokeVelocity = -200;
+    constructor(scene , xPosition: number, yPostion: number, key: string, type: string) {
         super(scene, xPosition, yPostion, key, type);
         this.setDepth(Depth.CannonSmoke)
         .anim();
-        this.body.velocity.y = -200;
+        this.body.velocity.y = this.smokeVelocity;
         //@ts-ignore
         this.body.allowGravity = false;
     }

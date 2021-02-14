@@ -3,7 +3,7 @@ import { Entity } from "../entity";
 import { BulletClass } from "./bullet-class";
 
 export class DemonBullet extends BulletClass {
-    fireSpeed = 500;
+    protected fireSpeed = 500;
     private xSpeed = 25;
     private ySpeed = -300
     

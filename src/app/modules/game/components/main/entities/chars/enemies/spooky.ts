@@ -1,5 +1,4 @@
 import { Depth } from "../../../enums/depth.enum";
-import { Scene } from "../../../scenes/scene";
 import { Entity } from "../../entity";
 
 export class Spooky extends Entity {
@@ -9,7 +8,7 @@ export class Spooky extends Entity {
     private squeak = false;
     private isPosition = false;
 
-    constructor(scene: Scene, xPosition: number, yPostion: number, key: string, type: string) {
+    constructor(scene, xPosition: number, yPostion: number, key: string, type: string) {
         super(scene, xPosition, yPostion, key, type);
         this.createAnims();
         this.playAnim();
@@ -36,7 +35,7 @@ export class Spooky extends Entity {
         if(this.y > 350) this.scene.physics.moveTo(this,16000, 250);
         this.body.velocity.x = 300;
     }
-    
+
     followPlayerInInitScene(playerPosition: number): void {
         if(playerPosition - this.x <= 150){
             this.initSpeed = 200;

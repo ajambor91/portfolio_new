@@ -2,8 +2,10 @@ import { Depth } from "../../enums/depth.enum";
 import { Entity } from "../entity";
 
 export abstract class BulletClass extends Entity{
+    
+    protected fireSpeed: number;
 
-    constructor(scene, xPosition, yPostion, key, type) {
+    constructor(scene, xPosition: number, yPostion: number, key: string, type: string) {
         super(scene, xPosition, yPostion, key, type);
         //@ts-ignore
         this.body.allowGravity = false;

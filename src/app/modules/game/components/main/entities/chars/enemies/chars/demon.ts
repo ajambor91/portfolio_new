@@ -1,5 +1,4 @@
 import { Depth } from "../../../../enums/depth.enum";
-import { MainScene } from "../../../../scenes/main-scene";
 import { DemonBullet } from "../../../objects/demon_bullet";
 import { EnemyClass } from "../enemy-class";
 
@@ -7,12 +6,11 @@ export class Demon extends EnemyClass {
 
     protected shooting: Phaser.Time.TimerEvent;
     protected health = 100;
-    protected template;
-    private fireRate = 1500;
 
+    private readonly fireRate = 1500;
     private bullets: Phaser.GameObjects.Group;
 
-    constructor(scene: MainScene, xPosition: number, yPostion: number, key: string, type: string) {
+    constructor(scene, xPosition: number, yPostion: number, key: string, type: string) {
         super(scene, xPosition, yPostion, key, type);
 
         this.setDepth(Depth.Eniemies)

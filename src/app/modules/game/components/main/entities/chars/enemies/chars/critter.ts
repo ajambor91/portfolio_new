@@ -1,5 +1,4 @@
 import { Depth } from "../../../../enums/depth.enum";
-import { MainScene } from "../../../../scenes/main-scene";
 import { EnemyClass } from "../enemy-class";
 
 export class Critter extends EnemyClass {
@@ -9,7 +8,7 @@ export class Critter extends EnemyClass {
     private speed = 50;
     private dmg = 5;
 
-    constructor(scene: MainScene, xPosition: number, yPostion: number, key: string, type: string) {
+    constructor(scene, xPosition: number, yPostion: number, key: string, type: string) {
 
         super(scene, xPosition, yPostion, key, type);
         this.setDepth(Depth.Eniemies)
