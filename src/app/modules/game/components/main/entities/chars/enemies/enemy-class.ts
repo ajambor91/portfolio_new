@@ -2,6 +2,8 @@ import { Depth } from "../../../enums/depth.enum";
 import { Entity } from "../../entity";
 
 export abstract class EnemyClass extends Entity {
+    mainSound = false;
+
     protected playerCollider: Phaser.Physics.Arcade.Collider = null;
     protected health = 100;
     protected shooting: Phaser.Time.TimerEvent = null;
@@ -12,8 +14,8 @@ export abstract class EnemyClass extends Entity {
     private collider: Phaser.Physics.Arcade.Collider = null;
     private woodCollider: Phaser.Physics.Arcade.Collider = null;
     private monsterCollider: Phaser.Physics.Arcade.Collider = null;
-
-    constructor(scene, xPosition, yPostion, key, type, soundKey?) {
+    
+    constructor(scene, xPosition, yPostion, key, type) {
         super(scene, xPosition, yPostion, key, type);
         this.createAnims();
         this.playAnim();
@@ -22,8 +24,7 @@ export abstract class EnemyClass extends Entity {
         this.body.setImmovable(true);
         
 
-        // console.log('soundKey', this.soundKey)
-        this.playSound();
+
     }
 
     addPlayerBulletCollide(bullet): void {
@@ -72,6 +73,7 @@ export abstract class EnemyClass extends Entity {
     }
 
     protected addWorldCollision(): void {
+        console.log('fdsfdsfdsfdfhkdjfshdkjfhskdjfhkjdshfkjdhfkjdshfj')
         //@ts-ignore
         this.collider = this.scene.physics.add.collider(this.scene.layers.groundLayer, this, () => {
             this.addTurnAfterCollison();
@@ -124,8 +126,9 @@ export abstract class EnemyClass extends Entity {
         });
     }
 
-    private playSound(): void{
+    protected playSound(): void{
+        console.log('fdsfdsfd',this.id, this.soundKey)
         //@ts-ignore
-        // this.scene.playSound(this.soundKey, this, true);
+        if(this.soundKey !== 'none') this.scene.playSound(this.soundKey, this, false, true);
     }
 }

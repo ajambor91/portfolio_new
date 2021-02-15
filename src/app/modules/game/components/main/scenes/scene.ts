@@ -8,6 +8,8 @@ import { Depth } from "../enums/depth.enum";
 import { SoundsAudio } from "../model/sounds.model";
 import { Entity } from "../entities/entity";
 import { SoundSource } from "../model/sound-sources.model";
+import { CharsSound } from "../model/chars-sound.model";
+import { TypeHelper } from "../helpers/type-helper";
 
 export abstract class Scene extends Phaser.Scene {
 
@@ -22,8 +24,10 @@ export abstract class Scene extends Phaser.Scene {
   protected audioMute = false;
   protected cursors: Cursors;
   protected name: string;
-  protected sounds: SoundsAudio;
+  protected sounds: SoundsAudio = {};
+  protected charsSounds: CharsSound = {};
   protected soundSources: SoundSource[] = [];
+
 
   private background: Phaser.GameObjects.Image;
   private tilesets: Tileset;
@@ -144,34 +148,57 @@ export abstract class Scene extends Phaser.Scene {
     this.audio.setLoop(true);
   }
 
-  protected playSound(key: string, source: Entity, loop = false): void {
+  protected playSound(key: string, source: Entity, main = false, loop = false): void {
     //@ts-ignore
-    console.log('%%%%%%%%%%%%%%%%%', source.id, key)
+    //@ts-ignore
+    if (main === false) {
+      let playing = false;
+      const timeEvent = this.time.addEvent({
+        delay: 1,
+        callback: () => {
+          if (TypeHelper.isNotUndefined(this.charsSounds[key]) && TypeHelper.isNotUndefined(this.charsSounds[key][source.id]) && playing === false) {
+            playing = true;
+            const volume = this.calcVolume(source);
+            //@ts-ignore
+            this.charsSounds[key][source.id].setVolume(volume);
+            //@ts-ignore
+            this.charsSounds[key][source.id].setLoop(loop);
+            this.charsSounds[key][source.id].play();
+            this.time.removeEvent(timeEvent);
+          }
+        },
+        loop: true
+      })
+    } else {
+      const volume = this.calcVolume(source);
+      //@ts-ignore
+      this.sounds[key].setVolume(volume);
+      //@ts-ignore
+      this.sounds[key].setLoop(loop);
+      this.sounds[key].play();
+    }
 
-    const volume = this.calcVolume(source);
-    //@ts-ignore
-    this.sounds[key].allowMultiple = true;
-    //@ts-ignore
-
-    this.sounds[key].play(source.id);
-    //@ts-ignore
-    if (loop === true) this.sounds[key].setLoop(true);
-    console.log('markerssssssssssssss',this.sounds[key].markers)
-    this.soundSources.push({key: key, entity: source});
   }
 
   protected changeVolume(): void {
     let i = 0;
     const soundSourceLength = this.soundSources.length - 1;
-    // console.log('##########################',this.sounds.snake.markers)
-    // for (i; i < soundSourceLength; i++){
-    //   //@ts-ignore
-    //   this.sounds[this.soundSources[i].key].volume = this.calcVolume(this.soundSources[i].entity);
-    // }
+    for (i; i < soundSourceLength; i++) {
+      const item = this.soundSources[i];
+
+      if (TypeHelper.isNotUndefined(this.charsSounds[item.key]) &&
+        TypeHelper.isNotUndefined(this.charsSounds[item.key][item.entity.id])) {
+
+          //@ts-ignore
+          const volume = this.calcVolume(this.soundSources[i].entity);
+        //@ts-ignore
+        this.charsSounds[item.key][item.entity.id].setVolume(volume);
+      }
+    }
   }
 
   private calcVolume(source: Entity): number {
     const distance = Phaser.Math.Distance.Between(this.player.x, this.player.y, source.x, source.y) / 100;
-    return 1 - Math.pow(distance, 2) / 100;
+    return parseFloat((1 - Math.pow(distance, 2) / 100).toFixed(2));
   }
 }

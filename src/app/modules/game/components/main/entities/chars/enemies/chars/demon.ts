@@ -6,11 +6,10 @@ export class Demon extends EnemyClass {
 
     protected shooting: Phaser.Time.TimerEvent;
     protected health = 100;
-
+    protected speed = 0;
     private readonly fireRate = 1500;
     protected readonly dmg = 10;
     private bullets: Phaser.GameObjects.Group;
-    soundKey = 'none';
     constructor(scene, xPosition: number, yPostion: number, key: string, type: string) {
         super(scene, xPosition, yPostion, key, type);
 
@@ -29,6 +28,8 @@ export class Demon extends EnemyClass {
 
 
     protected playAnim(): void {
+        console.log('demon anim')
+
         this.anims.play('fly', );
     }
 
@@ -57,16 +58,16 @@ export class Demon extends EnemyClass {
         const x = Phaser.Math.Clamp(this.x, 0, Phaser.Math.MAX_SAFE_INTEGER);
         const y = Phaser.Math.Clamp(this.y, 0, 600);
         for (let i = 0; i < 6; i++) {
-            const bullet = new DemonBullet(
-                this.scene,
-                x,
-                y,
-                'bullet',
-                'bullet',
-                i + 1
-            );
-            this.bullets.add(bullet);
-            this.addDmg(bullet);
+            // const bullet = new DemonBullet(
+            //     this.scene,
+            //     x,
+            //     y,
+            //     'bullet',
+            //     'demonBullet',
+            //     i + 1
+            // );
+            // this.bullets.add(bullet);
+            // this.addDmg(bullet);
         }
     }
 
@@ -76,8 +77,9 @@ export class Demon extends EnemyClass {
             if (typeof this.scene !== 'undefined') {
                 //@ts-ignore
                 this.scene.player.health -= this.dmg;
+                bullet.destroy();
+
             }
-            bullet.destroy();
         });
     }
 

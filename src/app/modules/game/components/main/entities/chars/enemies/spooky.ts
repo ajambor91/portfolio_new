@@ -7,7 +7,7 @@ export class Spooky extends Entity {
     private initSpeed = 500;
     private squeak = false;
     private isPosition = false;
-    soundKey = 'none';
+
     constructor(scene, xPosition: number, yPostion: number, key: string, type: string) {
         super(scene, xPosition, yPostion, key, type);
         this.createAnims();

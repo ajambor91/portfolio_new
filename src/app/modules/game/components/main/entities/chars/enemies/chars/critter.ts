@@ -6,7 +6,6 @@ export class Critter extends EnemyClass {
     protected health = 50;
     protected speed = 50;
     protected dmg = 5;
-    soundKey = 'none';
     constructor(scene, xPosition: number, yPostion: number, key: string, type: string) {
 
         super(scene, xPosition, yPostion, key, type);

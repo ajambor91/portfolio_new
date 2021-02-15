@@ -9,7 +9,7 @@ export class Snake extends EnemyClass{
 
     constructor(scene, xPosition: number, yPostion: number, key: string, type: string) {
 
-        super(scene, xPosition, yPostion, key, type, 'snake');
+        super(scene, xPosition, yPostion, key, type);
         this.addWorldCollision();
         this.addPlayerCollision();
         this.setDepth(Depth.Eniemies)
@@ -20,6 +20,8 @@ export class Snake extends EnemyClass{
 
         //@ts-ignore
         this.body.setSize(30, 115).setOffset(50, -5);
+        this.playSound();
+
         this.move();
     }
 

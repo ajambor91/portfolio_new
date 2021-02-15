@@ -3,7 +3,6 @@ import { Entity } from "../entity";
 
 export class Anim extends Entity{
     private readonly smokeVelocity = -200;
-    soundKey = 'none';
     constructor(scene , xPosition: number, yPostion: number, key: string, type: string) {
         super(scene, xPosition, yPostion, key, type);
         this.setDepth(Depth.CannonSmoke)
