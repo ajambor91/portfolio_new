@@ -53,6 +53,7 @@ export abstract class EnemyClass extends Entity {
         if (this.shooting != null) {
             this.scene.time.removeEvent(this.shooting);
         }
+        this.destroySound('snake');
         this.destroyDeadEnemy();
     }
 
@@ -73,7 +74,6 @@ export abstract class EnemyClass extends Entity {
     }
 
     protected addWorldCollision(): void {
-        console.log('fdsfdsfdsfdfhkdjfshdkjfhskdjfhkjdshfkjdhfkjdshfj')
         //@ts-ignore
         this.collider = this.scene.physics.add.collider(this.scene.layers.groundLayer, this, () => {
             this.addTurnAfterCollison();
@@ -127,7 +127,6 @@ export abstract class EnemyClass extends Entity {
     }
 
     protected playSound(): void{
-        console.log('fdsfdsfd',this.id, this.soundKey)
         //@ts-ignore
         if(this.soundKey !== 'none') this.scene.playSound(this.soundKey, this, false, true);
     }

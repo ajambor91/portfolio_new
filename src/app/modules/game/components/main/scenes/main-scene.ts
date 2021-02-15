@@ -5,6 +5,7 @@ import { enemies, enemiesSpr } from "../data/enemies";
 import { Enemy } from "../model/enemy.model";
 import { Depth } from "../enums/depth.enum";
 import { TowerVisible } from "../enums/tower-visible.enum";
+import { TypeHelper } from "../helpers/type-helper";
 
 export class MainScene extends Scene {
   rightOutside = false;
@@ -181,10 +182,20 @@ export class MainScene extends Scene {
   private loadSounds(): void {
 
     for (let [key, value] of Object.entries(sounds)) {
-      this.load.audio(value.key, value.path);
+      this.load.audio(value.key, value.path, {
+        instances: 'enemy' in value ?  this.calcEnemiesInstance(value.enemy) : 1
+      });
     }
   }
-
+  private calcEnemiesInstance(objectKey: string): number {
+    let i = 0;
+    for (let [key, value] of Object.entries(enemies)){
+      if(value.key === objectKey){
+        i++;
+      }
+    }
+    return i;
+  }
   private addSounds(): void {
     for (let [key, value] of Object.entries(sounds)) {
       if(value.main === true) this.sounds[key] = this.sound.add(value.key);

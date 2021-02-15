@@ -59,7 +59,7 @@ export class Cannon extends Entity {
 
     private isDead(): void {
         //@ts-ignore
-        this.scene.playSound('burning', this, true)
+        this.scene.playSound('burning', this, false ,true)
         //@ts-ignore
         this.scene.playSound('metalScreech', this)
         this.scene.time.removeEvent(this.shotInterval);

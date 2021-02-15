@@ -4,12 +4,14 @@ import { EnemyClass } from "../enemy-class";
 
 export class Demon extends EnemyClass {
 
+    protected readonly dmg = 10;
     protected shooting: Phaser.Time.TimerEvent;
     protected health = 100;
     protected speed = 0;
+
     private readonly fireRate = 1500;
-    protected readonly dmg = 10;
     private bullets: Phaser.GameObjects.Group;
+
     constructor(scene, xPosition: number, yPostion: number, key: string, type: string) {
         super(scene, xPosition, yPostion, key, type);
 
@@ -28,8 +30,6 @@ export class Demon extends EnemyClass {
 
 
     protected playAnim(): void {
-        console.log('demon anim')
-
         this.anims.play('fly', );
     }
 

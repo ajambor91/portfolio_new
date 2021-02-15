@@ -4,7 +4,7 @@ export class Explode extends BulletClass {
 
     private collider: Phaser.Physics.Arcade.Collider;
     private playerHurts = false;
-    soundKey = 'bombExplode';
+
     constructor(scene, xPosition: number, yPostion: number, key: string, type: string) {
         super(scene, xPosition, yPostion, key, type);
         //@ts-ignore
@@ -29,6 +29,17 @@ export class Explode extends BulletClass {
         //@ts-ignore
         this.anims.play('explode', true).on('animationcomplete', () => {
             this.scene.physics.world.removeCollider(this.collider);
+            let i = 0;
+            //@ts-ignore
+            const arrLength = this.scene.soundSources.length - 1;
+            for (i; i < arrLength; i++){
+                //@ts-ignore
+                if(this.scene.soundSources[i].entity === this) {
+                    //@ts-ignore
+                    this.scene.soundSources.splice(i, 1);
+                    break;
+                }
+            }
             this.destroy();
         });
     }

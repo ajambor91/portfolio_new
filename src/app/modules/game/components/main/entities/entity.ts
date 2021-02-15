@@ -22,8 +22,6 @@ export class Entity extends Phaser.GameObjects.Sprite{
             callback: () => {
                 if(!TypeHelper.isNotUndefined(this.soundKey) && adding === false){
                     adding = true;
-                    console.log(this.id, this.soundKey, waitingForObject, adding, this.scene)
-
                     this.scene.time.removeEvent(waitingForObject)
                 }else  if(this.soundKey != null && adding === false){
                     adding = true;
@@ -59,7 +57,24 @@ export class Entity extends Phaser.GameObjects.Sprite{
         //@ts-ignore
         this.scene.soundSources.push({ key: item, entity: this });
         //@ts-ignore
-        console.log(this.scene.soundSources)
+    }
+
+    protected destroySound(soundKey: string): void | null{
+        //@ts-ignore
+        if(!TypeHelper.isNotUndefined(this.scene.charsSounds[soundKey][this.id])) return;
+        //@ts-ignore
+        this.scene.charsSounds[soundKey][this.id].destroy();
+        let i = 0;
+        //@ts-ignore
+        const soundSourceLength = this.scene.soundSources.length - 1;
+    
+        for(i; i < soundSourceLength; i++) {
+            //@ts-ignore
+            if (this.scene.soundSources[i].entity === this){
+                //@ts-ignore
+                this.scene.soundSources.splice(i,1);
+            }
+        }
     }
 
 }

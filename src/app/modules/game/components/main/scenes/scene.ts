@@ -165,11 +165,14 @@ export abstract class Scene extends Phaser.Scene {
             this.charsSounds[key][source.id].setLoop(loop);
             this.charsSounds[key][source.id].play();
             this.time.removeEvent(timeEvent);
+        
           }
         },
         loop: true
       })
     } else {
+
+      console.log(this.sounds, this.sounds[key], key)
       const volume = this.calcVolume(source);
       //@ts-ignore
       this.sounds[key].setVolume(volume);
@@ -198,6 +201,9 @@ export abstract class Scene extends Phaser.Scene {
 
   private calcVolume(source: Entity): number {
     const distance = Phaser.Math.Distance.Between(this.player.x, this.player.y, source.x, source.y) / 100;
-    return parseFloat((1 - Math.pow(distance, 2) / 100).toFixed(2));
+    const volume = parseFloat((1 - Math.pow(distance, 2) / 100).toFixed(2));
+    return volume < 0 ? 0 : volume;
   }
+
+
 }
