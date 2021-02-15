@@ -188,7 +188,6 @@ export abstract class Scene extends Phaser.Scene {
 
       if (TypeHelper.isNotUndefined(this.charsSounds[item.key]) &&
         TypeHelper.isNotUndefined(this.charsSounds[item.key][item.entity.id])) {
-
           //@ts-ignore
           const volume = this.calcVolume(this.soundSources[i].entity);
         //@ts-ignore

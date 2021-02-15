@@ -58,7 +58,8 @@ export class Entity extends Phaser.GameObjects.Sprite{
         this.scene.charsSounds[item][this.id] = this.scene.sound.add(item);
         //@ts-ignore
         this.scene.soundSources.push({ key: item, entity: this });
-
+        //@ts-ignore
+        console.log(this.scene.soundSources)
     }
 
 }
