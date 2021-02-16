@@ -149,7 +149,7 @@ export abstract class Scene extends Phaser.Scene {
   }
 
   protected playSound(key: string, source: Entity, main = false, loop = false): void {
-    //@ts-ignore
+    console.log(key)
     //@ts-ignore
     if (main === false) {
       let playing = false;
@@ -164,12 +164,23 @@ export abstract class Scene extends Phaser.Scene {
             //@ts-ignore
             this.charsSounds[key][source.id].setLoop(loop);
             this.charsSounds[key][source.id].play();
+            const index =this.checkIsSoundExists(key, source.id)
+            if(typeof index === 'number' ) {
+              this.soundSources[index] = {
+                key: key,
+                entity: source
+              };
+            }
+            else{
+              this.soundSources.push({ key: key, entity: source });
+            }
             this.time.removeEvent(timeEvent);
         
           }
         },
         loop: true
       })
+      console.log('charsounds',this.soundSources)
     } else {
 
       console.log(this.sounds, this.sounds[key], key)
@@ -203,6 +214,17 @@ export abstract class Scene extends Phaser.Scene {
     const distance = Phaser.Math.Distance.Between(this.player.x, this.player.y, source.x, source.y) / 100;
     const volume = parseFloat((1 - Math.pow(distance, 2) / 100).toFixed(2));
     return volume < 0 ? 0 : volume;
+  }
+
+  private checkIsSoundExists(soundKey: string, entityId: string): boolean | number{
+    let i = 0;
+    const soundSourceLength = this.soundSources.length - 1;
+    for (i; i < soundSourceLength; i++){
+      if(this.soundSources[i].key === soundKey && this.soundSources[i].entity.id === entityId){
+        return i;
+      }
+    }
+    return false;
   }
 
 

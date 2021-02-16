@@ -7,6 +7,7 @@ export class CannonBullet extends BulletClass {
     private exploding = false;
     private turn: number;
     private speed: number;
+    id: string;
     constructor(scene, xPosition: number, yPostion: number, turn: number, speed: number, key: string, type: string) {
         super(scene, xPosition, yPostion, key, type);
         //@ts-ignore
@@ -15,6 +16,7 @@ export class CannonBullet extends BulletClass {
         this.speed = -speed;
         this.setAngle(turn)
         this.fire();
+        this.id = type;
     }
 
     fire(): void {
@@ -36,8 +38,9 @@ export class CannonBullet extends BulletClass {
                     x,
                     y,
                     'bullet_explode',
-                    'bullet',
+                    this.id,
                 );
+                
                 this.destroy();
             }
         });

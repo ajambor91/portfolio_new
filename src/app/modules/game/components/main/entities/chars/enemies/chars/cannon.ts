@@ -5,13 +5,15 @@ import { CannonBullet } from "../../../objects/cannon-bullet";
 
 export class Cannon extends Entity {
 
+    soundKey = ['cannon', 'bulletMetal', 'burning', 'metalScreech', 'bombExplode']
+
     private readonly hp = 50;
     private readonly bulletSpeed = 700;
     private exploding = false;
     private bullets: Phaser.GameObjects.Group;
     private shotInterval;
     private basis: Phaser.GameObjects.Image;
-    soundKey = ['cannon', 'bulletMetal', 'burning', 'metalScreech']
+    
     constructor(scene, xPosition: number, yPostion: number, key: string, type: string) {
         super(scene, xPosition, yPostion, key, type);
         this.setDepth(Depth.Cannon)
@@ -110,7 +112,7 @@ export class Cannon extends Entity {
             turn,
             this.bulletSpeed,
             'cannon_bullet',
-            'bullet');
+            this.id);
         this.bullets.add(bullet);
     }
 
