@@ -1,3 +1,4 @@
+import { Geom } from "phaser";
 import { Depth } from "../../../../enums/depth.enum";
 import { Entity } from "../../../entity";
 import { Anim } from "../../../objects/anim";
@@ -7,13 +8,14 @@ export class Cannon extends Entity {
 
     soundKey = ['cannon', 'bulletMetal', 'burning', 'metalScreech', 'bombExplode']
 
-    private readonly hp = 50;
+    private readonly hp = 200;
     private readonly bulletSpeed = 700;
     private exploding = false;
     private bullets: Phaser.GameObjects.Group;
     private shotInterval;
     private basis: Phaser.GameObjects.Image;
-    
+    private particleDeathZone: Phaser.Geom.Circle;
+
     constructor(scene, xPosition: number, yPostion: number, key: string, type: string) {
         super(scene, xPosition, yPostion, key, type);
         this.setDepth(Depth.Cannon)
@@ -23,7 +25,10 @@ export class Cannon extends Entity {
         this.body.allowGravity = false;
         this.bullets = this.scene.add.group();
         this.createAnims();
-
+        //@ts-ignore
+        this.particle = this.scene.add.particles('spark');
+        //@ts-ignore
+        this.particle.setDepth(Depth.Blood);
         this.shotInterval = this.scene.time.addEvent({
             delay: 1500,
             callback: () => this.shot(),
@@ -34,11 +39,24 @@ export class Cannon extends Entity {
         //@ts-ignore
         this.body.setSize(50, 270).setOffset(160, -150)
         this.createBasis();
+        this.particleDeathZone = new Phaser.Geom.Circle(this.x, this.y - this.height * .5, 70)
     }
 
     addPlayerBulletCollide(bullet): void {
         if (this.hp > 0) {
             this.scene.physics.add.collider(this, bullet, () => {
+                //@ts-ignore
+                this.particleShotEmitter = this.particle.createEmitter({
+                    speedX: this.checkPlayerDirection() ? 700 : -700,
+                    speedY: Math.random() * 100,
+                    x: bullet.x,
+                    y: bullet.y,
+                    maxParticles: 1,
+                    deathZone: {
+                        type: 'onLeave',  
+                        source: this.particleDeathZone
+                    }
+                });
                 //@ts-ignore
                 this.hp -= this.scene.player.dmg;
                 //@ts-ignore
@@ -61,7 +79,7 @@ export class Cannon extends Entity {
 
     private isDead(): void {
         //@ts-ignore
-        this.scene.playSound('burning', this, false ,true)
+        this.scene.playSound('burning', this, false, true)
         //@ts-ignore
         this.scene.playSound('metalScreech', this)
         this.scene.time.removeEvent(this.shotInterval);
@@ -145,5 +163,10 @@ export class Cannon extends Entity {
 
     private flipAngle(angle): number {
         return (angle + Math.PI) % (2 * Math.PI);
+    }
+
+    private checkPlayerDirection(): boolean {
+        //@ts-ignore
+        return this.scene.player.x < this.x ? false : true;
     }
 }

@@ -7,12 +7,16 @@ export class Spooky extends Entity {
     private initSpeed = 500;
     private squeak = false;
     private isPosition = false;
+    private spookyParticles: Phaser.GameObjects.Particles.ParticleEmitterManager;
+    private spookyParticlesEmitter: Phaser.GameObjects.Particles.ParticleEmitter;
 
     constructor(scene, xPosition: number, yPostion: number, key: string, type: string) {
         super(scene, xPosition, yPostion, key, type);
         this.createAnims();
         this.playAnim();
         this.setDepth(Depth.Spooky);
+        this.spookyParticles = this.scene.add.particles('spooky_orb')
+        .setDepth(Depth.Blood);
     }
 
     followPlayer(x: number): number {
@@ -52,6 +56,19 @@ export class Spooky extends Entity {
         if ((this.scene.player.x + this.demageRange >= this.x && this.scene.player.x - this.demageRange <= this.x) &&
             //@ts-ignore
             (this.scene.player.y + this.demageRange >= this.y && this.scene.player.y - this.demageRange <= this.y)) {
+            this.spookyParticlesEmitter = this.spookyParticles.createEmitter({
+                speed: 200,
+                x: this.x,
+                y: this.y,
+                maxParticles: 5,
+                //@ts-ignore
+                follow: this.scene.player,
+                lifespan: {
+                    min: 100,
+                    max: 300, 
+                    steps: 100
+                }
+            });
             //@ts-ignore
             this.scene.player.health -= this.demage;  
             if (this.squeak === false ) {
@@ -65,6 +82,8 @@ export class Spooky extends Entity {
                     () => this.squeak = false
                 );
             }             
+        }else{
+            this.spookyParticles.removeEmitter(this.spookyParticlesEmitter);
         }
     }
 

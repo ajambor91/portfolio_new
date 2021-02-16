@@ -131,6 +131,11 @@ export class MainScene extends Scene {
     });
     this.load.image('reload_big', '/assets/game/main/keyboard_icons/reload_big.png');
     this.load.image('cannon_basis', '/assets/game/chars/enemies/cannon_basis.png');
+    this.load.image('blood', '/assets/game/main/blood.png');
+    this.load.image('spark', '/assets/game/main/spark.png');
+    this.load.image('spooky_orb', '/assets/game/main/spooky_orb.png');
+
+
     this.loadEnemies();
 
   }

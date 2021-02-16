@@ -18,5 +18,6 @@ export enum Depth{
     CannonBasis = 10,
     Cannon = 9,
     CannonSmoke = 10,
-    Traps = 1
+    Traps = 1,
+    Blood = 13
 }

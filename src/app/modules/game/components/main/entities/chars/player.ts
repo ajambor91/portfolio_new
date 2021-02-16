@@ -7,6 +7,8 @@ export class Player extends Entity {
   health = 100;
   isShooting = false;
   rateOfFire = 150;
+  particleEmitter: Phaser.GameObjects.Particles.ParticleEmitterManager;
+  particleConfig: Phaser.Types.GameObjects.Particles.ParticleEmitterConfig;
 
   private readonly reloadTime = 500;
   private readonly initMag = 150;
@@ -15,7 +17,7 @@ export class Player extends Entity {
   private bullet: Bullet;
   private reloaded = false;
   private bullets: Phaser.GameObjects.Group;
-  
+
   constructor(scene, xPosition: number, yPostion: number, key: string, type: string) {
     super(scene, xPosition, yPostion, key, type);
     this.bullets = this.scene.add.group();
@@ -25,6 +27,15 @@ export class Player extends Entity {
     //@ts-ignore
     this.body.setSize(80, 105)
       .setOffset(20, 23);
+    this.particleEmitter = this.scene.add.particles('blood')
+      .setDepth(Depth.Blood);
+    this.particleConfig = {
+      speed: 50,
+      x: this.x,
+      y: this.y,
+      follow: this,
+      maxParticles: 3
+    }
   }
 
   moveRight(jumping: boolean): void {

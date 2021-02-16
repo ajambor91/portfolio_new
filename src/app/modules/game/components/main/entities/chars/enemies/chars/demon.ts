@@ -23,16 +23,16 @@ export class Demon extends EnemyClass {
         this.createGroup();
         //@ts-ignore
         this.body.allowGravity = false;
-        this.scene.time.delayedCall(shootDelay, ()=> this.startShooting());
+        this.scene.time.delayedCall(shootDelay, () => this.startShooting());
         this.setX(this.x + 50)
         //@ts-ignore
-        this.body.setSize(50,180).setOffset(70,0);
+        this.body.setSize(50, 180).setOffset(70, 0);
     }
 
 
 
     protected playAnim(): void {
-        this.anims.play('fly', );
+        this.anims.play('fly',);
     }
 
     protected createAnims(): void {
@@ -40,10 +40,10 @@ export class Demon extends EnemyClass {
             key: 'fly',
             frames: this.anims.generateFrameNumbers('demon', { start: 0, end: 3 }),
             frameRate: 15,
-            repeat: -1, 
+            repeat: -1,
         });
     }
-    
+
     private startShooting(): void {
         this.shooting = this.scene.time.addEvent({
             delay: this.fireRate,
@@ -82,8 +82,9 @@ export class Demon extends EnemyClass {
                 //@ts-ignore
                 this.scene.player.health -= this.dmg;
                 //@ts-ignore
-                this.scene.playSound('playerHurt',this, true);
-
+                this.scene.playSound('playerHurt', this, true);
+                //@ts-ignore
+                this.scene.player.particleEmitter.createEmitter(this.scene.player.particleConfig);
                 bullet.destroy();
 
             }

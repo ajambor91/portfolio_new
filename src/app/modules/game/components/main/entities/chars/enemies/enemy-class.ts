@@ -13,6 +13,9 @@ export abstract class EnemyClass extends Entity {
     private collider: Phaser.Physics.Arcade.Collider = null;
     private woodCollider: Phaser.Physics.Arcade.Collider = null;
     private monsterCollider: Phaser.Physics.Arcade.Collider = null;
+    protected particle: Phaser.GameObjects.Particles.ParticleEmitterManager;
+    private particleEmitter: Phaser.GameObjects.Particles.ParticleEmitter;
+    protected particleShotEmitter: Phaser.GameObjects.Particles.ParticleEmitter;
 
     constructor(scene, xPosition, yPostion, key, type) {
         super(scene, xPosition, yPostion, key, type);
@@ -21,7 +24,8 @@ export abstract class EnemyClass extends Entity {
         this.setDepth(Depth.Eniemies)
         //@ts-ignore
         this.body.setImmovable(true);
-
+        this.particle = this.scene.add.particles('blood');
+        this.particle.setDepth(Depth.Blood)
 
 
     }
@@ -30,6 +34,13 @@ export abstract class EnemyClass extends Entity {
         if (this.health > 0) {
             //@ts-ignore
             this.scene.physics.add.collider(this, bullet, () => {
+                this.particleShotEmitter = this.particle.createEmitter({
+                    speed: 50,
+                    x: this.x,
+                    y: this.y,
+                    follow: this, 
+                    maxParticles: 1
+                });
                 //@ts-ignore
                 this.health -= this.scene.player.dmg;
                 //@ts-ignore
@@ -44,6 +55,12 @@ export abstract class EnemyClass extends Entity {
     }
 
     protected isDead(): void {
+        this.particleEmitter = this.particle.createEmitter({
+            speed: 50,
+            x: this.x,
+            y: this.y,
+            follow: this
+        });
         this.setDepth(Depth.DeathEnemies);
         //@ts-ignore
         this.body.allowGravity = true;
@@ -56,7 +73,7 @@ export abstract class EnemyClass extends Entity {
             this.scene.time.removeEvent(this.shooting);
         }
         this.destroySound();
-        // this.destroyDeadEnemy();
+        this.destroyDeadEnemy();
     }
 
     protected move(): void {
@@ -72,6 +89,8 @@ export abstract class EnemyClass extends Entity {
         this.playerCollider = this.scene.physics.add.collider(this, this.scene.player, () => {
             //@ts-ignore
             this.scene.player.health -= this.dmg;
+            //@ts-ignore
+            this.scene.player.particleEmitter.createEmitter(this.scene.player.particleConfig);
             //@ts-ignore
             if(this.scene.player.health % 5 === 0 || this.dmg >= 5) {
                 //@ts-ignore
@@ -126,6 +145,8 @@ export abstract class EnemyClass extends Entity {
             callback: () => {
                 if (this.health <= 0 && this.y > 600) {
                     this.scene.time.removeEvent(fall);
+                    this.particle.removeEmitter(this.particleEmitter);
+                    this.particle.removeEmitter(this.particleShotEmitter);
                     this.destroy();
                 }
             },
