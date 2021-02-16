@@ -3,6 +3,7 @@ import { EnemyClass } from "../enemy-class";
 
 export class Critter extends EnemyClass {
 
+    soundKey = ['bulletBodyImpact', 'beastDeath'];
     protected health = 50;
     protected speed = 50;
     protected dmg = 5;

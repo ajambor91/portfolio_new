@@ -59,7 +59,7 @@ export abstract class Scene extends Phaser.Scene {
   protected createHero(): void {
     this.player = new Player(
       this,
-      60,
+      4520,
       -60,
       this.name === 'MainScene' ? 'punk_gun' : 'punk',
       "sprPlayer"
@@ -149,7 +149,6 @@ export abstract class Scene extends Phaser.Scene {
   }
 
   protected playSound(key: string, source: Entity, main = false, loop = false): void {
-    console.log(key)
     //@ts-ignore
     if (main === false) {
       let playing = false;
@@ -180,10 +179,7 @@ export abstract class Scene extends Phaser.Scene {
         },
         loop: true
       })
-      console.log('charsounds',this.soundSources)
     } else {
-
-      console.log(this.sounds, this.sounds[key], key)
       const volume = this.calcVolume(source);
       //@ts-ignore
       this.sounds[key].setVolume(volume);
@@ -226,6 +222,4 @@ export abstract class Scene extends Phaser.Scene {
     }
     return false;
   }
-
-
 }

@@ -32,9 +32,9 @@ export class Explode extends BulletClass {
             let i = 0;
             //@ts-ignore
             const arrLength = this.scene.soundSources.length - 1;
-            for (i; i < arrLength; i++){
+            for (i; i < arrLength; i++) {
                 //@ts-ignore
-                if(this.scene.soundSources[i].entity === this) {
+                if (this.scene.soundSources[i].entity === this) {
                     //@ts-ignore
                     this.scene.soundSources.splice(i, 1);
                     break;
@@ -51,6 +51,8 @@ export class Explode extends BulletClass {
                 //@ts-ignore
                 this.scene.player.health -= 30;
                 this.playerHurts = true;
+                //@ts-ignore
+                this.scene.playSound('playerHurt', this, true);
             }
         });
     }

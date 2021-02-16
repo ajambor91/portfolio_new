@@ -86,7 +86,7 @@ export class Cannon extends Entity {
     }
 
     private shot(): void {
-        const turn = this.calcRotation();
+        const turn = this.calcRotation(this.x, this.y);
         //@ts-ignore
         this.scene.playSound('cannon', this)
         this.setRotation(turn);
@@ -97,6 +97,7 @@ export class Cannon extends Entity {
         const yMove = this.y - this.height * Math.sin(turn);
         const x = Phaser.Math.Clamp(xMove, 0, Phaser.Math.MAX_SAFE_INTEGER);
         const y = Phaser.Math.Clamp(yMove, 0, 600);
+        const bulletTurn = this.calcRotation(x, y);
         this.anims.showOnStart = true;
         new Anim(
             this.scene,
@@ -109,37 +110,30 @@ export class Cannon extends Entity {
             this.scene,
             x,
             y,
-            turn,
+            bulletTurn,
             this.bulletSpeed,
             'cannon_bullet',
             this.id);
         this.bullets.add(bullet);
     }
 
-    private calcRotation(): number {
+    private calcRotation(x: number, y: number): number {
         //@ts-ignore
         const playerPositionX = this.scene.player.x
-        //@ts-ignore
-        const playerWidth = this.scene.player.width;
-        //@ts-ignore
-        const playerHeight = this.scene.player.height;
-        const playerPos = Math.sqrt(Math.pow(playerHeight, 2) + Math.pow(playerWidth, 2));
-        //@ts-ignore
-        const correctionPlayer = playerPositionX < this.x ? playerPos * .5 : -(playerPos * .5);
         //@ts-ignore 
-        const distance = Phaser.Math.Distance.Between(this.scene.player.x + correctionPlayer, 0, this.x, 0);
+        const distance = Phaser.Math.Distance.Between(this.scene.player.x, 0, x, 0);
         const vector = Math.sqrt(Math.pow(this.bulletSpeed, 2) + Math.pow(this.bulletSpeed, 2));
         //@ts-ignore
-        let distanceY = Phaser.Math.Distance.Between(0, this.scene.player.y + correctionPlayer, 0, this.y);
+        let distanceY = Phaser.Math.Distance.Between(0, this.scene.player.y, 0, y);
         //@ts-ignore
-        if (this.scene.player.y > this.y) {
+        if (this.scene.player.y > y) {
             //@ts-ignore
             distanceY = 0;
         }
         //@ts-ignore
         const angle = this.scene.physics.world.gravity.y * (distance + distanceY) / Math.pow(vector, 2);
         const arcos = Math.acos(angle)
-        return playerPositionX < this.x ? arcos : this.flipAngle(-arcos);
+        return playerPositionX < x ? arcos : this.flipAngle(-arcos);
     }
 
     private createBasis(): void {

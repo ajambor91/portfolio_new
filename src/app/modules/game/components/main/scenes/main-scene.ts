@@ -183,22 +183,36 @@ export class MainScene extends Scene {
 
     for (let [key, value] of Object.entries(sounds)) {
       this.load.audio(value.key, value.path, {
-        instances: 'enemy' in value ?  this.calcEnemiesInstance(value.enemy) : 1
+        instances: 'enemy' in value ? this.calcEnemiesInstance(value.enemy) : 1
       });
     }
   }
-  private calcEnemiesInstance(objectKey: string): number {
+  private calcEnemiesInstance(objectKey: string | string[]): number {
     let i = 0;
-    for (let [key, value] of Object.entries(enemies)){
-      if(value.key === objectKey){
+    let j = 0
+    if (Array.isArray(objectKey)) {
+      for (i; i < objectKey.length - 1; i++) {
+        j += this.calcInstancsLoop(objectKey[i]);
+      }
+    } else {
+      j = this.calcInstancsLoop(objectKey);
+    }
+    return j;
+  }
+
+  private calcInstancsLoop(obj): number {
+    let i = 0;
+    for (let [key, value] of Object.entries(enemies)) {
+      if (value.key === obj) {
         i++;
       }
     }
     return i;
   }
+
   private addSounds(): void {
     for (let [key, value] of Object.entries(sounds)) {
-      if(value.main === true) this.sounds[key] = this.sound.add(value.key);
+      if (value.main === true) this.sounds[key] = this.sound.add(value.key);
     }
   }
 
@@ -219,7 +233,9 @@ export class MainScene extends Scene {
         value.xPosition,
         value.yPosition,
         value.key,
-        value.type
+        value.type,
+        'shotDelay' in value && value.shotDelay
+        
       );
     }
   }

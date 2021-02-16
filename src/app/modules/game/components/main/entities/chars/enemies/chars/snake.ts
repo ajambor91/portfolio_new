@@ -2,11 +2,13 @@ import { Depth } from "../../../../enums/depth.enum";
 import { EnemyClass } from "../enemy-class";
 
 export class Snake extends EnemyClass{
+    soundKey = ['snake','bulletBodyImpact','beastDeath'];
+    mainSound = 'snake';
+    
     protected readonly dmg = 15;
     protected readonly speed = 100;
     protected health = 150;
-    soundKey = 'snake';
-
+  
     constructor(scene, xPosition: number, yPostion: number, key: string, type: string) {
 
         super(scene, xPosition, yPostion, key, type);
@@ -20,7 +22,7 @@ export class Snake extends EnemyClass{
 
         //@ts-ignore
         this.body.setSize(30, 115).setOffset(50, -5);
-        this.playSound();
+        this.playSound('snake');
 
         this.move();
     }

@@ -53,8 +53,10 @@ export class Spooky extends Entity {
             //@ts-ignore
             (this.scene.player.y + this.demageRange >= this.y && this.scene.player.y - this.demageRange <= this.y)) {
             //@ts-ignore
-            this.scene.player.health -= this.demage;
+            this.scene.player.health -= this.demage;  
             if (this.squeak === false ) {
+                //@ts-ignore
+                this.scene.playSound('playerHurt',this, true);
                 this.squeak = true;
                 //@ts-ignore
                 this.scene.sounds.squeak.play();

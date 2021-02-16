@@ -16,6 +16,8 @@ export abstract class BulletClass extends Entity{
     protected addWorldCollide(): void {
         //@ts-ignore
         this.scene.physics.add.collider(this, this.scene.layers.groundLayer, () => {
+            //@ts-ignore
+            this.scene.playSound('bulletImpactGround', this, true);
             this.destroy();
         })
     }

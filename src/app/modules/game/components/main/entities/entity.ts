@@ -58,11 +58,11 @@ export class Entity extends Phaser.GameObjects.Sprite{
         //@ts-ignore
     }
 
-    protected destroySound(soundKey: string): void | null{
+    protected destroySound(): void | null{
         //@ts-ignore
-        if(!TypeHelper.isNotUndefined(this.scene.charsSounds[soundKey][this.id])) return;
+        if( !TypeHelper.isNotUndefined(this.mainSound) || !TypeHelper.isNotUndefined(this.scene.charsSounds[this.mainSound][this.id])) return;
         //@ts-ignore
-        this.scene.charsSounds[soundKey][this.id].destroy();
+        this.scene.charsSounds[this.mainSound][this.id].destroy();
         let i = 0;
         //@ts-ignore
         const soundSourceLength = this.scene.soundSources.length - 1;
@@ -72,6 +72,7 @@ export class Entity extends Phaser.GameObjects.Sprite{
             if (this.scene.soundSources[i].entity === this){
                 //@ts-ignore
                 this.scene.soundSources.splice(i,1);
+                break;
             }
         }
     }

@@ -4,6 +4,8 @@ import { EnemyClass } from "../enemy-class";
 
 export class Demon extends EnemyClass {
 
+    soundKey = ['bulletBodyImpact', 'beastDeath', 'demonBullet'];
+
     protected readonly dmg = 10;
     protected shooting: Phaser.Time.TimerEvent;
     protected health = 100;
@@ -12,7 +14,7 @@ export class Demon extends EnemyClass {
     private readonly fireRate = 1500;
     private bullets: Phaser.GameObjects.Group;
 
-    constructor(scene, xPosition: number, yPostion: number, key: string, type: string) {
+    constructor(scene, xPosition: number, yPostion: number, key: string, type: string, shootDelay: number) {
         super(scene, xPosition, yPostion, key, type);
 
         this.setDepth(Depth.Eniemies)
@@ -21,7 +23,7 @@ export class Demon extends EnemyClass {
         this.createGroup();
         //@ts-ignore
         this.body.allowGravity = false;
-        this.startShooting();
+        this.scene.time.delayedCall(shootDelay, ()=> this.startShooting());
         this.setX(this.x + 50)
         //@ts-ignore
         this.body.setSize(50,180).setOffset(70,0);
@@ -55,19 +57,21 @@ export class Demon extends EnemyClass {
     }
 
     private shot(): void {
+        //@ts-ignore
+        this.scene.playSound('demonBullet', this);
         const x = Phaser.Math.Clamp(this.x, 0, Phaser.Math.MAX_SAFE_INTEGER);
         const y = Phaser.Math.Clamp(this.y, 0, 600);
         for (let i = 0; i < 6; i++) {
-            // const bullet = new DemonBullet(
-            //     this.scene,
-            //     x,
-            //     y,
-            //     'bullet',
-            //     'demonBullet',
-            //     i + 1
-            // );
-            // this.bullets.add(bullet);
-            // this.addDmg(bullet);
+            const bullet = new DemonBullet(
+                this.scene,
+                x,
+                y,
+                'bullet',
+                'demonBullet',
+                i + 1
+            );
+            this.bullets.add(bullet);
+            this.addDmg(bullet);
         }
     }
 
@@ -77,6 +81,9 @@ export class Demon extends EnemyClass {
             if (typeof this.scene !== 'undefined') {
                 //@ts-ignore
                 this.scene.player.health -= this.dmg;
+                //@ts-ignore
+                this.scene.playSound('playerHurt',this, true);
+
                 bullet.destroy();
 
             }

@@ -6,7 +6,7 @@ export class Player extends Entity {
 
   health = 100;
   isShooting = false;
-  rateOfFire = 100;
+  rateOfFire = 150;
 
   private readonly reloadTime = 500;
   private readonly initMag = 150;

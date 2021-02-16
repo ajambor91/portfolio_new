@@ -2,7 +2,6 @@ import { Depth } from "../../../enums/depth.enum";
 import { Entity } from "../../entity";
 
 export abstract class EnemyClass extends Entity {
-    mainSound = false;
 
     protected playerCollider: Phaser.Physics.Arcade.Collider = null;
     protected health = 100;
@@ -14,7 +13,7 @@ export abstract class EnemyClass extends Entity {
     private collider: Phaser.Physics.Arcade.Collider = null;
     private woodCollider: Phaser.Physics.Arcade.Collider = null;
     private monsterCollider: Phaser.Physics.Arcade.Collider = null;
-    
+
     constructor(scene, xPosition, yPostion, key, type) {
         super(scene, xPosition, yPostion, key, type);
         this.createAnims();
@@ -22,7 +21,7 @@ export abstract class EnemyClass extends Entity {
         this.setDepth(Depth.Eniemies)
         //@ts-ignore
         this.body.setImmovable(true);
-        
+
 
 
     }
@@ -33,11 +32,13 @@ export abstract class EnemyClass extends Entity {
             this.scene.physics.add.collider(this, bullet, () => {
                 //@ts-ignore
                 this.health -= this.scene.player.dmg;
+                //@ts-ignore
+                this.scene.playSound('bulletBodyImpact', this);
                 bullet.destroy();
-                if (this.health <= 0 && this.dead == false){
+                if (this.health <= 0 && this.dead == false) {
                     this.dead = true;
                     this.isDead();
-                } 
+                }
             });
         }
     }
@@ -49,12 +50,13 @@ export abstract class EnemyClass extends Entity {
         if (this.collider != null) this.removeCollision();
         if (this.playerCollider != null) this.removePlayerCollider();
         this.body.velocity.x = -200;
-
+        //@ts-ignore
+        this.scene.playSound('beastDeath', this);
         if (this.shooting != null) {
             this.scene.time.removeEvent(this.shooting);
         }
-        this.destroySound('snake');
-        this.destroyDeadEnemy();
+        this.destroySound();
+        // this.destroyDeadEnemy();
     }
 
     protected move(): void {
@@ -70,6 +72,11 @@ export abstract class EnemyClass extends Entity {
         this.playerCollider = this.scene.physics.add.collider(this, this.scene.player, () => {
             //@ts-ignore
             this.scene.player.health -= this.dmg;
+            //@ts-ignore
+            if(this.scene.player.health % 5 === 0 || this.dmg >= 5) {
+                //@ts-ignore
+                this.scene.playSound('playerHurt',this, true);
+            }
         });
     }
 
@@ -126,8 +133,8 @@ export abstract class EnemyClass extends Entity {
         });
     }
 
-    protected playSound(): void{
+    protected playSound(key: string): void {
         //@ts-ignore
-        if(this.soundKey !== 'none') this.scene.playSound(this.soundKey, this, false, true);
+        if (this.soundKey !== 'none') this.scene.playSound(key, this, false, true);
     }
 }
