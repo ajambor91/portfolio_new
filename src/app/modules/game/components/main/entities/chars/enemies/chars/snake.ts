@@ -4,10 +4,10 @@ import { EnemyClass } from "../enemy-class";
 export class Snake extends EnemyClass{
     soundKey = ['snake','bulletBodyImpact','beastDeath'];
     mainSound = 'snake';
-    
+
     protected readonly dmg = 15;
     protected readonly speed = 100;
-    protected health = 150;
+    protected health = 80;
   
     constructor(scene, xPosition: number, yPostion: number, key: string, type: string) {
 

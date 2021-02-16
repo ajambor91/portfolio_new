@@ -16,12 +16,13 @@ export class MainComponent implements OnInit  {
       type: Phaser.AUTO,
       height: 500,
       width: 1200,
-      scene: [ MainScene,InitScene ],
+      scene: [ InitScene, MainScene ],
       parent: 'gameContainer',
       physics: {
         default: 'arcade',
         arcade: {
-          gravity: { y: 500 }
+          gravity: { y: 500 },
+          width: 24000
         }
       },
       scale: {

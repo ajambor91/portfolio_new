@@ -8,7 +8,7 @@ export class Demon extends EnemyClass {
 
     protected readonly dmg = 10;
     protected shooting: Phaser.Time.TimerEvent;
-    protected health = 100;
+    protected health = 50;
     protected speed = 0;
 
     private readonly fireRate = 1500;

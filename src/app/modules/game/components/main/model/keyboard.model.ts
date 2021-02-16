@@ -1,21 +1,25 @@
-export interface Keyboard{
-    keyleft:{
+export interface Keyboard {
+    keyleft: {
         icon: Phaser.GameObjects.Image,
         key: Phaser.GameObjects.BitmapText
     };
-    keyright:{
+    keyright: {
         icon: Phaser.GameObjects.Image,
         key: Phaser.GameObjects.BitmapText
     };
-    keyup:{
+    keyup: {
         icon: Phaser.GameObjects.Image,
         key: Phaser.GameObjects.BitmapText
     };
-    space:{
+    space: {
         icon: Phaser.GameObjects.Image,
         key: Phaser.GameObjects.BitmapText
     };
-    reload:{
+    reload: {
+        icon: Phaser.GameObjects.Image,
+        key: Phaser.GameObjects.BitmapText
+    };
+    backspace: {
         icon: Phaser.GameObjects.Image,
         key: Phaser.GameObjects.BitmapText
     };

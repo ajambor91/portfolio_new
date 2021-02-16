@@ -98,6 +98,7 @@ export class MainScene extends Scene {
   private createCursors(): void {
     this.cursors = this.input.keyboard.createCursorKeys();
     this.cursors.rKey = this.input.keyboard.addKey('R');
+    this.cursors.backspaceKey = this.input.keyboard.addKey('Backspace');
   }
   private loadAssets(): void {
     this.load.image('background', '/assets/game/main/background.png');
@@ -170,6 +171,9 @@ export class MainScene extends Scene {
     }
     if (this.cursors.rKey.isDown) {
       this.player.reload();
+    }
+    if(this.cursors.backspaceKey.isDown) {
+      this.resetGame();
     }
   }
 
@@ -287,5 +291,9 @@ export class MainScene extends Scene {
       delay: 1,
       loop: true
     });
+  }
+
+  private resetGame(): void {
+    this.scene.start('main', { audioMute: this.audioMute });     
   }
 }

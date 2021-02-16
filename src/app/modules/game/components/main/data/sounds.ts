@@ -13,5 +13,6 @@ export const sounds = {
     bodyImpact: {key: 'bulletBodyImpact', enemy: ['snake', 'critter', 'demon'], path:'/assets/game/audio/bullet_body_impact.mp3' ,main: false},
     beastDeath: {key: 'beastDeath', enemy: ['snake','critter', 'demon'], path: '/assets/game/audio/beast_death.mp3', main: false},
     demonBullet: {key: 'demonBullet', enemy: 'demon', path: '/assets/game/audio/demon_bullet.mp3', main: false},
-    bulletImpactGround: {key:' bulletImpactGround', path: '/assets/game/audio/bullet_impact_ground.mp3', main: true}
+    bulletImpactGround: {key:' bulletImpactGround', path: '/assets/game/audio/bullet_impact_ground.mp3', main: true},
+    slash: {key: 'slash', path: '/assets/game/audio/slash.mp3', main: false}
 };

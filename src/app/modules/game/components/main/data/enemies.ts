@@ -25,8 +25,6 @@ export const enemies = {
     snake : {key: 'snake', type:'snake_1', xPosition: 2040, yPosition: 400, class: Snake},
     snakeSecond : {key: 'snake', type:'snake_2', xPosition: 2800, yPosition: 400, class: Snake},
     snakeThird : {key: 'snake', type:'snake_3', xPosition: 3380, yPosition: 400, class: Snake},
-    snakeFourth : {key: 'snake', type:'snake_4', xPosition: 2800, yPosition: 400, class: Snake},
-    snakeFifth : {key: 'snake', type:'snake_5', xPosition: 2570, yPosition: 400, class: Snake},
 
 
     critter : {key: 'critter', type:'critter_1', xPosition: 940, yPosition: 500, class: Critter},
