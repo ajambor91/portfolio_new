@@ -10,10 +10,11 @@ import { Entity } from "../entities/entity";
 import { SoundSource } from "../model/sound-sources.model";
 import { CharsSound } from "../model/chars-sound.model";
 import { TypeHelper } from "../helpers/type-helper";
+import { ScreenSizeHelper } from "../helpers/screen-size.helper";
 
 export abstract class Scene extends Phaser.Scene {
 
-  protected readonly layerYPosition = -200;
+  protected readonly layerYPosition = 0;
   protected player: Player;
   protected gameWidth: number;
   protected gameHeight: number;
@@ -27,32 +28,35 @@ export abstract class Scene extends Phaser.Scene {
   protected sounds: SoundsAudio = {};
   protected charsSounds: CharsSound = {};
   protected soundSources: SoundSource[] = [];
-
+  protected logo: Phaser.GameObjects.Image;
+  protected wasFullscreen: boolean;
+  protected gameScale: number;
 
   private background: Phaser.GameObjects.Image;
   private tilesets: Tileset;
+
 
   constructor(key) {
     super(key);
   }
 
   protected addFixedBackground(): void {
-    this.background = this.add.image(this.gameWidth * 0.5, this.gameHeight * 0.5, 'background')
-      .setScrollFactor(0, 0);
+    this.background = this.add.image(ScreenSizeHelper.calcDefaultSize().width * .5 , ScreenSizeHelper.calcDefaultSize().height * 0.5, 'background')
+      .setScrollFactor(0, 1);
   }
 
   protected addBgParallax(worldWidth = 24000): void {
     let x = 0;
     do {
-      const bg = this.add.image(x, this.gameHeight * 1.5, 'mountain')
-        .setOrigin(0, 1)
+      const bg = this.add.image(x,  ScreenSizeHelper.calcDefaultSize().height * .5, 'mountain')
+        .setOrigin(0, 0)
         .setScrollFactor(1.25, 1);
       x += bg.width
     } while (x < worldWidth);
   }
 
   protected setCameras(worldWidth = 16000): void {
-    this.cameras.main.setBounds(0, -300, worldWidth, 900)
+    this.cameras.main.setBounds(0, 0, worldWidth,1120)
     this.cameras.main.startFollow(this.player);
   }
 
@@ -60,7 +64,7 @@ export abstract class Scene extends Phaser.Scene {
     this.player = new Player(
       this,
       60,
-      -60,
+      500,
       this.name === 'MainScene' ? 'punk_gun' : 'punk',
       "sprPlayer"
     );
@@ -91,7 +95,7 @@ export abstract class Scene extends Phaser.Scene {
     this.layers = {} as Layer;
     for (let key in layerNames) {
       if (layerNames[key].scenes.includes(this.name)) {
-        this.layers[key] = this.map.createLayer(layerNames[key].name, this.tilesets[layerNames[key].tilesetKey], xPosition, this.layerYPosition)
+        this.layers[key] = this.map.createLayer(layerNames[key].name, this.tilesets[layerNames[key].tilesetKey], xPosition, 0)
           .setDepth(layerNames[key].depth);
       }
     }
@@ -221,5 +225,46 @@ export abstract class Scene extends Phaser.Scene {
       }
     }
     return false;
+  }
+
+  protected resizeGame(fullscreen = false): void {
+    let newWidth: number;
+    let newHeight: number;
+    const screenSize = ScreenSizeHelper.calcDefaultSize();
+    const scale = newWidth / newHeight;
+    if (!this.scale.isFullscreen && !fullscreen){
+      newWidth = window.screen.width;
+      newHeight = window.screen.height;
+      console.log('in fullscre', newWidth)
+
+    }else{
+      console.log('out fullsscreen')
+     newWidth = screenSize.width;
+     newHeight = screenSize.height
+    }
+    this.game.scale.resize(newWidth, newHeight);
+    this.game.canvas.style.height = `${newHeight}px`;
+    this.game.canvas.style.width = `${newWidth}px`;
+    this.cameras.resize(newWidth, newHeight)
+    this.scaleElements();
+  }
+
+  protected checkIsStartFullScreen(): boolean {
+    return this.game.registry.list.data.fullScreen;
+  }
+
+  private setScale(): void{
+    const defaultValue = ScreenSizeHelper.calcDefaultSize().width;
+    const currentValue = parseInt(this.game.canvas.style.width.replace('px',''));
+    let scale = currentValue / defaultValue;
+    if(scale > 1 && scale % 1 !== 0) {
+      scale = parseInt(scale.toFixed(0)) + 1;
+    }
+    this.gameScale = scale; 
+  }
+
+  protected scaleElements(): void {
+    this.setScale();
+    this.background.setScale(this.gameScale)
   }
 }

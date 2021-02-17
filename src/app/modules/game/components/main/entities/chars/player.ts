@@ -88,6 +88,8 @@ export class Player extends Entity {
     //@ts-ignore
     if (this.scene.displayReload !== false) this.removeReloadedText();
     if (this.reloaded === false) {
+      console.log('player coord', this.x, this.y)
+
       //@ts-ignore
       this.scene.sounds.reload.play();
       this.reloaded = true;
@@ -158,7 +160,7 @@ export class Player extends Entity {
   private createBullet(): void {
     const xBulletPositionMove = !this.flipX ? 40 : - 40;
     const x = Phaser.Math.Clamp(this.x + xBulletPositionMove, 0, Phaser.Math.MAX_SAFE_INTEGER);
-    const y = Phaser.Math.Clamp(this.y + 15, 0, 600);
+    const y = Phaser.Math.Clamp(this.y + 15, 0, 1500);
     this.bullet = new Bullet(
       this.scene,
       x,

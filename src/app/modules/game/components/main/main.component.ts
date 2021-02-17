@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import * as Phaser from 'phaser';
+import { ScreenSizeHelper } from './helpers/screen-size.helper';
+import { ScreenSize } from './model/screen-size.model';
 import { InitScene } from './scenes/init-scene';
 import { MainScene } from './scenes/main-scene';
 @Component({
@@ -7,15 +9,30 @@ import { MainScene } from './scenes/main-scene';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
-export class MainComponent implements OnInit  {
+export class MainComponent implements OnChanges  {
+
 
   phaserGame: Phaser.Game;
   config: Phaser.Types.Core.GameConfig;
-  constructor() {
+  fullScreen: boolean;
+  screenSize: ScreenSize;
+
+  constructor(){
+
+    this.screenSize = ScreenSizeHelper.calcDefaultSize();
+    console.log(this.screenSize)
+  }
+  
+  ngOnChanges() {
+    this.createPhaserGame();
+    this.phaserGame = new Phaser.Game(this.config);
+  }
+
+  private createPhaserGame(): void {
     this.config = {
+      
       type: Phaser.AUTO,
-      height: 500,
-      width: 1200,
+   
       scene: [ InitScene, MainScene ],
       parent: 'gameContainer',
       physics: {
@@ -26,16 +43,23 @@ export class MainComponent implements OnInit  {
         }
       },
       scale: {
-        mode: Phaser.Scale.FIT,
-        autoCenter: Phaser.Scale.CENTER_BOTH
+           width: this.screenSize.width,
+      height: this.screenSize.height,
+        mode: Phaser.Scale.NONE,
+        // autoCenter: Phaser.Scale.,
+        parent: 'fullscreen'
       },
       audio: {
         disableWebAudio: true
+    },callbacks: {
+      preBoot: (phaserGame) => {
+        phaserGame.registry.merge({data: {
+          fullScreen: !this.fullScreen
+        }})
+      } 
     }
     };
   }
-  ngOnInit() {
-    this.phaserGame = new Phaser.Game(this.config);
-  }
+  
 
 }

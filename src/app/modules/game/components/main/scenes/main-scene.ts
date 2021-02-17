@@ -27,6 +27,7 @@ export class MainScene extends Scene {
     this.audioMute = data.audioMute;
   }
   create() {
+    this.wasFullscreen = this.scale.isFullscreen;
     this.addSounds();
     this.gameHeight = this.scale.height;
     this.gameWidth = this.scale.width;
@@ -61,16 +62,45 @@ export class MainScene extends Scene {
       loop: true,
       delay: 5
     })
+    if(this.scale.isFullscreen){
+      this.scaleElements();
+    }
   }
 
   preload() {
-    this.loadAudio(); // do wyrzcuenia poem
+    this.load.image('logo', '/assets/logo.png');
+
     this.loadAssets();
     this.loadUniAssets();
+    this.loadAudio(); // do wyrzcuenia poem
+
     this.loadSounds();
+    this.loadEnemies();
+    var progressBar = this.add.graphics();
+    var progressBox = this.add.graphics()
+      progressBox.fillStyle(0x222222, 0.8);
+      progressBox.fillTriangle(240, 20, 220, 250, 180, 250); 
+
+    
+  
+    this.load.on('progress', function (value) {
+      console.log(value);
+      progressBar.clear();
+      progressBar.fillStyle(0xffffff, 1);
+      progressBar.fillRect(250, 280, 300 * value, 30);
+   });
+
+    this.load.on('complete', function () {
+      console.log('complete');
+    });
   }
 
   update() {
+
+    if(!this.scale.isFullscreen && this.wasFullscreen) {
+      this.wasFullscreen = false;
+      this.resizeGame(true)
+    }
     if (this.player.x < 0 && this.rightOutside === false) {
       this.sounds.fallingDown.play();
       this.player.destroy();
@@ -137,7 +167,6 @@ export class MainScene extends Scene {
     this.load.image('spooky_orb', '/assets/game/main/spooky_orb.png');
 
 
-    this.loadEnemies();
 
   }
 
@@ -172,7 +201,7 @@ export class MainScene extends Scene {
     if (this.cursors.rKey.isDown) {
       this.player.reload();
     }
-    if(this.cursors.backspaceKey.isDown) {
+    if (this.cursors.backspaceKey.isDown) {
       this.resetGame();
     }
   }
@@ -244,7 +273,7 @@ export class MainScene extends Scene {
         value.key,
         value.type,
         'shotDelay' in value && value.shotDelay
-        
+
       );
     }
   }
@@ -294,6 +323,6 @@ export class MainScene extends Scene {
   }
 
   private resetGame(): void {
-    this.scene.start('main', { audioMute: this.audioMute });     
+    this.scene.start('main', { audioMute: this.audioMute });
   }
 }

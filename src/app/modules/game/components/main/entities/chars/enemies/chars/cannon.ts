@@ -114,7 +114,7 @@ export class Cannon extends Entity {
         const xMove = this.x - this.height * Math.cos(turn);
         const yMove = this.y - this.height * Math.sin(turn);
         const x = Phaser.Math.Clamp(xMove, 0, Phaser.Math.MAX_SAFE_INTEGER);
-        const y = Phaser.Math.Clamp(yMove, 0, 600);
+        const y = Phaser.Math.Clamp(yMove, 0, 1100);
         const bulletTurn = this.calcRotation(x, y);
         this.anims.showOnStart = true;
         new Anim(

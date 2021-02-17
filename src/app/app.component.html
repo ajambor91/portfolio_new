@@ -1,4 +1,7 @@
 <header>
     ddd
 </header>
-<ng-container *ngComponentOutlet="gameComponent"></ng-container>
+<button (click)="fullScreen()">Graj</button>
+<div #gameContainer class="game-container">
+<ng-container #game></ng-container>
+</div>

@@ -23,13 +23,18 @@ export class InitScene extends Scene {
 
   constructor() {
     super({ key: 'init' });
+    //@ts-ignore
+    // console.log(this.registry.data)
   }
-
+  
   preload(): void {
+
     this.loadAssets();
     this.loadKeyboardImages();
     this.loadAudio();
     this.loadUniAssets();
+        //@ts-ignore
+    
   }
   listenKey(timer) {
     const scene = this;
@@ -45,6 +50,8 @@ export class InitScene extends Scene {
   }
 
   create(): void {
+
+   
     this.gameHeight = this.scale.height;
     this.gameWidth = this.scale.width;
     this.addFixedBackground();
@@ -76,9 +83,28 @@ export class InitScene extends Scene {
         this.listenKey(timer);
       });
     this.playAudio();
+    if(this.checkIsStartFullScreen()){
+      this.scale.startFullscreen();
+      this.resizeGame();
+      const fsTimer = this.time.addEvent({
+        callback: () => {
+          if(this.scale.isFullscreen){
+            this.wasFullscreen = true;
+            this.time.removeEvent(fsTimer);
+          } 
+        },
+        loop: true,
+        delay: 2
+      });
+    }
+  
   }
 
   update(): void {
+    if(!this.scale.isFullscreen && this.wasFullscreen) {
+      this.wasFullscreen = false;
+      this.resizeGame(true)
+    }
     //@ts-ignore
     if (this.player.body.blocked.down) {
       this.player.moveRight(false);
