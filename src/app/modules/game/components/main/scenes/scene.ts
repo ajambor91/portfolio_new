@@ -52,7 +52,7 @@ export abstract class Scene extends Phaser.Scene {
   }
 
   protected setCameras(worldWidth = 16000): void {
-    this.cameras.main.setBounds(0, -300, worldWidth, 900)
+    this.cameras.main.setBounds(0, 0, worldWidth, 1120)
     this.cameras.main.startFollow(this.player);
   }
 
@@ -91,17 +91,16 @@ export abstract class Scene extends Phaser.Scene {
     this.layers = {} as Layer;
     for (let key in layerNames) {
       if (layerNames[key].scenes.includes(this.name)) {
-        this.layers[key] = this.map.createLayer(layerNames[key].name, this.tilesets[layerNames[key].tilesetKey], xPosition, this.layerYPosition)
+        this.layers[key] = this.map.createLayer(layerNames[key].name, this.tilesets[layerNames[key].tilesetKey], xPosition, 0)
           .setDepth(layerNames[key].depth);
       }
     }
+    console.log(this.layers)
   }
 
   protected loadTilesets(): void {
     for (let key in tilesetNames) {
-      if (tilesetNames[key].scenes.includes(this.name)) {
-        this.load.image(tilesetNames[key].tilesetKey, tilesetNames[key].path);
-      }
+      this.load.image(tilesetNames[key].tilesetKey, tilesetNames[key].path);
     }
   }
 
@@ -163,18 +162,18 @@ export abstract class Scene extends Phaser.Scene {
             //@ts-ignore
             this.charsSounds[key][source.id].setLoop(loop);
             this.charsSounds[key][source.id].play();
-            const index =this.checkIsSoundExists(key, source.id)
-            if(typeof index === 'number' ) {
+            const index = this.checkIsSoundExists(key, source.id)
+            if (typeof index === 'number') {
               this.soundSources[index] = {
                 key: key,
                 entity: source
               };
             }
-            else{
+            else {
               this.soundSources.push({ key: key, entity: source });
             }
             this.time.removeEvent(timeEvent);
-        
+
           }
         },
         loop: true
@@ -198,8 +197,8 @@ export abstract class Scene extends Phaser.Scene {
 
       if (TypeHelper.isNotUndefined(this.charsSounds[item.key]) &&
         TypeHelper.isNotUndefined(this.charsSounds[item.key][item.entity.id])) {
-          //@ts-ignore
-          const volume = this.calcVolume(this.soundSources[i].entity);
+        //@ts-ignore
+        const volume = this.calcVolume(this.soundSources[i].entity);
         //@ts-ignore
         this.charsSounds[item.key][item.entity.id].setVolume(volume);
       }
@@ -212,11 +211,11 @@ export abstract class Scene extends Phaser.Scene {
     return volume < 0 ? 0 : volume;
   }
 
-  private checkIsSoundExists(soundKey: string, entityId: string): boolean | number{
+  private checkIsSoundExists(soundKey: string, entityId: string): boolean | number {
     let i = 0;
     const soundSourceLength = this.soundSources.length - 1;
-    for (i; i < soundSourceLength; i++){
-      if(this.soundSources[i].key === soundKey && this.soundSources[i].entity.id === entityId){
+    for (i; i < soundSourceLength; i++) {
+      if (this.soundSources[i].key === soundKey && this.soundSources[i].entity.id === entityId) {
         return i;
       }
     }

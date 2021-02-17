@@ -60,7 +60,7 @@ export class Demon extends EnemyClass {
         //@ts-ignore
         this.scene.playSound('demonBullet', this);
         const x = Phaser.Math.Clamp(this.x, 0, Phaser.Math.MAX_SAFE_INTEGER);
-        const y = Phaser.Math.Clamp(this.y, 0, 600);
+        const y = Phaser.Math.Clamp(this.y, 0, 1120);
         for (let i = 0; i < 6; i++) {
             const bullet = new DemonBullet(
                 this.scene,

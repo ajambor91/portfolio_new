@@ -1,4 +1,6 @@
+import { enemiesSpr, enemies } from "../data/enemies";
 import { texts } from "../data/keyboard";
+import { sounds } from "../data/sounds";
 import { Depth } from "../enums/depth.enum";
 import { Keyboard } from "../model/keyboard.model";
 import { LoopMap } from "../model/loop-map.model";
@@ -30,6 +32,10 @@ export class InitScene extends Scene {
     this.loadKeyboardImages();
     this.loadAudio();
     this.loadUniAssets();
+    this.loadAudio(); // do wyrzcuenia poem
+    this.loadAssets();
+    this.loadUniAssets();
+    this.loadSounds();
   }
   listenKey(timer) {
     const scene = this;
@@ -115,23 +121,6 @@ export class InitScene extends Scene {
     }
   }
 
-  private loadAssets(): void {
-    this.load.image('background', '/assets/game/main/background.png');
-    this.load.image('mountain', '/assets/game/main/mountain.png');
-    this.load.spritesheet('punk', '/assets/game/main/punk_smaller.png',
-      {
-        frameWidth: 128,
-        frameHeight: 128
-      });
-    this.loadTilesets();
-    this.load.tilemapTiledJSON('map', '/assets/game/main/init.json');
-    this.load.spritesheet('spooky', '/assets/game/chars/enemies/spooky.png', {
-      frameWidth: 49,
-      frameHeight: 72
-    });
-    this.load.bitmapFont('font', '/assets/game/main/fonts/cosmic_0.png', '/assets/game/main/fonts/cosmic.xml');
-  }
-
   private createColliders(layer): Phaser.Physics.Arcade.Collider {
     layer.setCollisionByProperty({ collides: true });
     layer.setCollisionBetween(1, 1000);
@@ -206,6 +195,94 @@ export class InitScene extends Scene {
         inside_value.destroy();
       }
     }
+  }
+
+  private loadEnemies(): void {
+    for (let [key, value] of Object.entries(enemiesSpr)) {
+      this.load.spritesheet(value.key, value.path, {
+        frameWidth: value.width,
+        frameHeight: value.height
+      });
+    }
+  }
+
+  private loadSounds(): void {
+
+    for (let [key, value] of Object.entries(sounds)) {
+      this.load.audio(value.key, value.path, {
+        instances: 'enemy' in value ? this.calcEnemiesInstance(value.enemy) : 1
+      });
+    }
+  }
+  private calcEnemiesInstance(objectKey: string | string[]): number {
+    let i = 0;
+    let j = 0
+    if (Array.isArray(objectKey)) {
+      for (i; i < objectKey.length - 1; i++) {
+        j += this.calcInstancsLoop(objectKey[i]);
+      }
+    } else {
+      j = this.calcInstancsLoop(objectKey);
+    }
+    return j;
+  }
+
+  private calcInstancsLoop(obj): number {
+    let i = 0;
+    for (let [key, value] of Object.entries(enemies)) {
+      if (value.key === obj) {
+        i++;
+      }
+    }
+    return i;
+  }
+
+  private loadAssets(): void {
+    this.load.image('background', '/assets/game/main/background.png');
+    this.load.image('mountain', '/assets/game/main/mountain.png');
+    this.load.spritesheet('punk_gun', '/assets/game/main/punk_gun.png',
+      {
+        frameWidth: 130,
+        frameHeight: 128
+      });
+    this.load.image('bullet', '/assets/game/main/bullet_8.png');
+    this.load.spritesheet('cannon_bullet', '/assets/game/main/cannon_bullet_48.png', {
+      frameWidth: 24
+    });
+    this.load.spritesheet('bullet_explode', '/assets/game/main/bullet_explode.png', {
+      frameWidth: 75,
+      frameHeight: 72
+    });
+
+    this.load.spritesheet('smoke', '/assets/game/main/smoke.png', {
+      frameWidth: 128,
+      frameHeight: 128
+    });
+    this.loadTilesets();
+    this.load.tilemapTiledJSON('mapMain', '/assets/game/main/layers_map_terrain.json');
+    this.load.spritesheet('spooky', '/assets/game/chars/enemies/spooky.png', {
+      frameWidth: 49,
+      frameHeight: 72
+    });
+    this.load.image('reload_big', '/assets/game/main/keyboard_icons/reload_big.png');
+    this.load.image('cannon_basis', '/assets/game/chars/enemies/cannon_basis.png');
+    this.load.image('blood', '/assets/game/main/blood.png');
+    this.load.image('spark', '/assets/game/main/spark.png');
+    this.load.image('spooky_orb', '/assets/game/main/spooky_orb.png');
+    this.load.spritesheet('punk', '/assets/game/main/punk_smaller.png',
+      {
+        frameWidth: 128,
+        frameHeight: 128
+      });
+    this.loadTilesets();
+    this.load.tilemapTiledJSON('map', '/assets/game/main/init.json');
+    this.load.spritesheet('spooky', '/assets/game/chars/enemies/spooky.png', {
+      frameWidth: 49,
+      frameHeight: 72
+    });
+    this.load.bitmapFont('font', '/assets/game/main/fonts/cosmic_0.png', '/assets/game/main/fonts/cosmic.xml');
+    this.loadEnemies();
+
   }
 
 

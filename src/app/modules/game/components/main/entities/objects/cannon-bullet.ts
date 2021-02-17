@@ -32,7 +32,7 @@ export class CannonBullet extends BulletClass {
                 this.exploding = true;
                 this.body.velocity.x = 0;
                 const x = Phaser.Math.Clamp(this.x, 0, Phaser.Math.MAX_SAFE_INTEGER);
-                const y = Phaser.Math.Clamp(this.y - this.height + 5, 0, 600);
+                const y = Phaser.Math.Clamp(this.y - this.height + 5, 0, 1120);
                 const explode = new Explode(
                     this.scene,
                     x,

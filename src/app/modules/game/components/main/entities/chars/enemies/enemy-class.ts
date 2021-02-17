@@ -143,7 +143,7 @@ export abstract class EnemyClass extends Entity {
         const fall = this.scene.time.addEvent({
             delay: this.falling,
             callback: () => {
-                if (this.health <= 0 && this.y > 600) {
+                if (this.health <= 0 && this.y > 1120) {
                     this.scene.time.removeEvent(fall);
                     this.particle.removeEmitter(this.particleEmitter);
                     this.particle.removeEmitter(this.particleShotEmitter);

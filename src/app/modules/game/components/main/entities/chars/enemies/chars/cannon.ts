@@ -156,7 +156,7 @@ export class Cannon extends Entity {
 
     private createBasis(): void {
         const x = Phaser.Math.Clamp(this.x + this.width * .5, 0, Phaser.Math.MAX_SAFE_INTEGER);
-        const y = Phaser.Math.Clamp(this.y + this.height * .5 - 25, 0, 600);
+        const y = Phaser.Math.Clamp(this.y + this.height * .5 - 25, 0, 1120);
         this.basis = this.scene.add.image(x, y, 'cannon_basis')
             .setDepth(Depth.CannonBasis);
     }

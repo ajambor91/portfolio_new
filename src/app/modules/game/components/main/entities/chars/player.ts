@@ -158,7 +158,7 @@ export class Player extends Entity {
   private createBullet(): void {
     const xBulletPositionMove = !this.flipX ? 40 : - 40;
     const x = Phaser.Math.Clamp(this.x + xBulletPositionMove, 0, Phaser.Math.MAX_SAFE_INTEGER);
-    const y = Phaser.Math.Clamp(this.y + 15, 0, 600);
+    const y = Phaser.Math.Clamp(this.y + 15, 0, 1120);
     this.bullet = new Bullet(
       this.scene,
       x,

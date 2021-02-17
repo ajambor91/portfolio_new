@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ComponentFactory, ComponentFactoryResolver, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MainComponent} from './components/main/main.component';
 
@@ -15,5 +15,9 @@ import { MainComponent} from './components/main/main.component';
   ]
 })
 export class GameModule { 
-  static gameComponent = MainComponent;
+  constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
+  dupa = 'dupa'
+  resolveComponent(): ComponentFactory<MainComponent> {
+    return this.componentFactoryResolver.resolveComponentFactory(MainComponent);
+  }
 }

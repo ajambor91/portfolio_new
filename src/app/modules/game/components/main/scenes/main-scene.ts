@@ -64,10 +64,7 @@ export class MainScene extends Scene {
   }
 
   preload() {
-    this.loadAudio(); // do wyrzcuenia poem
-    this.loadAssets();
-    this.loadUniAssets();
-    this.loadSounds();
+ 
   }
 
   update() {
@@ -100,46 +97,7 @@ export class MainScene extends Scene {
     this.cursors.rKey = this.input.keyboard.addKey('R');
     this.cursors.backspaceKey = this.input.keyboard.addKey('Backspace');
   }
-  private loadAssets(): void {
-    this.load.image('background', '/assets/game/main/background.png');
-    this.load.image('mountain', '/assets/game/main/mountain.png');
-    this.load.image('angular', '/assets/game/collectibles/angular.png');
-    this.load.image('ground', '/assets/game/main/ground.png');
-    this.load.image('test', '/assets/game/main/test.png')
-    this.load.spritesheet('punk_gun', '/assets/game/main/punk_gun.png',
-      {
-        frameWidth: 130,
-        frameHeight: 128
-      });
-    this.load.image('bullet', '/assets/game/main/bullet_8.png');
-    this.load.spritesheet('cannon_bullet', '/assets/game/main/cannon_bullet_48.png', {
-      frameWidth: 24
-    });
-    this.load.spritesheet('bullet_explode', '/assets/game/main/bullet_explode.png', {
-      frameWidth: 75,
-      frameHeight: 72
-    });
 
-    this.load.spritesheet('smoke', '/assets/game/main/smoke.png', {
-      frameWidth: 128,
-      frameHeight: 128
-    });
-    this.loadTilesets();
-    this.load.tilemapTiledJSON('mapMain', '/assets/game/main/layers_map_terrain.json');
-    this.load.spritesheet('spooky', '/assets/game/chars/enemies/spooky.png', {
-      frameWidth: 49,
-      frameHeight: 72
-    });
-    this.load.image('reload_big', '/assets/game/main/keyboard_icons/reload_big.png');
-    this.load.image('cannon_basis', '/assets/game/chars/enemies/cannon_basis.png');
-    this.load.image('blood', '/assets/game/main/blood.png');
-    this.load.image('spark', '/assets/game/main/spark.png');
-    this.load.image('spooky_orb', '/assets/game/main/spooky_orb.png');
-
-
-    this.loadEnemies();
-
-  }
 
   private createHeroMove(): void {
     if (this.cursors.right.isDown) {
@@ -188,36 +146,7 @@ export class MainScene extends Scene {
     this.physics.add.collider(this.player, this.layers.woodCollisionLayer, null, null, this);
   }
 
-  private loadSounds(): void {
 
-    for (let [key, value] of Object.entries(sounds)) {
-      this.load.audio(value.key, value.path, {
-        instances: 'enemy' in value ? this.calcEnemiesInstance(value.enemy) : 1
-      });
-    }
-  }
-  private calcEnemiesInstance(objectKey: string | string[]): number {
-    let i = 0;
-    let j = 0
-    if (Array.isArray(objectKey)) {
-      for (i; i < objectKey.length - 1; i++) {
-        j += this.calcInstancsLoop(objectKey[i]);
-      }
-    } else {
-      j = this.calcInstancsLoop(objectKey);
-    }
-    return j;
-  }
-
-  private calcInstancsLoop(obj): number {
-    let i = 0;
-    for (let [key, value] of Object.entries(enemies)) {
-      if (value.key === obj) {
-        i++;
-      }
-    }
-    return i;
-  }
 
   private addSounds(): void {
     for (let [key, value] of Object.entries(sounds)) {
@@ -225,14 +154,7 @@ export class MainScene extends Scene {
     }
   }
 
-  private loadEnemies(): void {
-    for (let [key, value] of Object.entries(enemiesSpr)) {
-      this.load.spritesheet(value.key, value.path, {
-        frameWidth: value.width,
-        frameHeight: value.height
-      });
-    }
-  }
+
 
   private addEnemies(): void {
     this.enemies = {} as Enemy;
