@@ -2,7 +2,7 @@ import { ScreenSize } from "../model/screen-size.model";
 
 export class ScreenSizeHelper {
     
-    static readonly factor = .85;
+    static readonly factor = .15;
     static readonly maxWidth = 1400;
 
     static calcDefaultSize(): ScreenSize {

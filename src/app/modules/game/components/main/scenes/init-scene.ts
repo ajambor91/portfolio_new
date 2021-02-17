@@ -51,6 +51,9 @@ export class InitScene extends Scene {
   }
 
   create(): void {
+    if(this.registry.list.data.fullScreen){
+      this.fullScreen();
+    }
     this.gameHeight = this.scale.height;
     this.gameWidth = this.scale.width;
     this.addFixedBackground();
@@ -283,6 +286,10 @@ export class InitScene extends Scene {
     this.load.bitmapFont('font', '/assets/game/main/fonts/cosmic_0.png', '/assets/game/main/fonts/cosmic.xml');
     this.loadEnemies();
 
+  }
+
+  protected fullScreen(): void {
+    this.scale.startFullscreen();
   }
 
 

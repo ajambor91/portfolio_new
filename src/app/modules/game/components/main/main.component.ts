@@ -10,7 +10,7 @@ import { MainScene } from './scenes/main-scene';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
-export class MainComponent implements OnChanges  {
+export class MainComponent implements OnChanges {
 
 
   phaserGame: Phaser.Game;
@@ -18,12 +18,12 @@ export class MainComponent implements OnChanges  {
   fullScreen: boolean;
   screenSize: ScreenSize;
 
-  constructor(){
+  constructor() {
 
     this.screenSize = ScreenSizeHelper.calcDefaultSize();
     console.log(this.screenSize)
   }
-  
+
   ngOnChanges() {
     this.createPhaserGame();
     this.phaserGame = new Phaser.Game(this.config);
@@ -31,10 +31,11 @@ export class MainComponent implements OnChanges  {
 
   private createPhaserGame(): void {
     this.config = {
-      
+
       type: Phaser.AUTO,
-   
-      scene: [ InitScene, MainScene ],
+      width: this.screenSize.width,
+      height: this.screenSize.height,
+      scene: [InitScene, MainScene],
       parent: 'gameContainer',
       physics: {
         default: 'arcade',
@@ -44,23 +45,24 @@ export class MainComponent implements OnChanges  {
         }
       },
       scale: {
-           width: this.screenSize.width,
-      height: this.screenSize.height,
-        mode: Phaser.Scale.NONE,
+        width: this.screenSize.width,
+        height: this.screenSize.height,
+        mode: Phaser.Scale.RESIZE,
         // autoCenter: Phaser.Scale.,
-        parent: 'fullscreen'
       },
       audio: {
         disableWebAudio: true
-    },callbacks: {
-      preBoot: (phaserGame) => {
-        phaserGame.registry.merge({data: {
-          fullScreen: !this.fullScreen
-        }})
-      } 
-    }
+      }, callbacks: {
+        preBoot: (phaserGame) => {
+          phaserGame.registry.merge({
+            data: {
+              fullScreen: !this.fullScreen
+            }
+          })
+        }
+      }
     };
   }
-  
+
 
 }

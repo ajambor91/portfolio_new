@@ -158,4 +158,6 @@ export abstract class EnemyClass extends Entity {
         //@ts-ignore
         if (this.soundKey !== 'none') this.scene.playSound(key, this, false, true);
     }
+
+
 }
