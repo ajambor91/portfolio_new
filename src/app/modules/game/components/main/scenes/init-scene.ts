@@ -288,9 +288,7 @@ export class InitScene extends Scene {
 
   }
 
-  protected fullScreen(): void {
-    this.scale.startFullscreen();
-  }
+ 
 
 
 }

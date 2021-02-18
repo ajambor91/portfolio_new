@@ -1,0 +1,18 @@
+@import '../../../styles.scss';
+
+nav.menu {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: repeat(2, 33%);
+    justify-content: space-between;
+    div{
+        display: grid;
+        grid-template-rows: auto;
+        grid-template-columns: repeat(2, 50%);
+        justify-items: center;
+        div: {
+            justify-self: center;
+            align-self: center;
+        }
+    }
+  }

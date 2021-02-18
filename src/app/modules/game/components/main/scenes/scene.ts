@@ -221,4 +221,14 @@ export abstract class Scene extends Phaser.Scene {
     }
     return false;
   }
+
+  protected fullScreen(): void {
+    this.scale.startFullscreen();
+    setTimeout(()=> {
+      const canvas = document.querySelector('canvas');
+      canvas.style.width = `${window.screen.width}px`;
+      canvas.style.height = `${window.screen.height}px`;
+    },200)
+
+  }
 }
