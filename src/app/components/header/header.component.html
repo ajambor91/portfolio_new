@@ -1,11 +1,26 @@
-    <nav class="menu">
-        <div>
-            <div><a href="top" class="menu">O mnie</a></div>
-            <div><a href="top" class="menu">O mnie</a></div>
-        </div>
-        <div>
-            <div><a href="top" class="menu">O mnie</a></div>
-            <div><a href="top" class="menu">O mnie</a></div>
-        </div>
-    </nav>
+<nav class="menu">
+    <div class="side">
+        <app-link [description]="'O mnie'" [initialFrontColor]="Colors.$green" [topFrontColor]="Colors.$greenTop"
+            [initialBackColor]="Colors.$orange" [topBackColor]="Colors.$orangeTop">
+        </app-link>
 
+        <app-link [description]="'O mnie'" [initialFrontColor]="Colors.$blue" [topFrontColor]="Colors.$blueTop"
+            [initialBackColor]="Colors.$red" [topBackColor]="Colors.$redTop">
+        </app-link>
+    </div>
+    <!-- <div class="trepeze">
+
+    </div>
+    <div class="trapeze">
+
+    </div> -->
+    <div class="side">
+        <app-link [description]="'O mnie'" [initialFrontColor]="Colors.$blue" [topFrontColor]="Colors.$blueTop"
+            [initialBackColor]="Colors.$red" [topBackColor]="Colors.$redTop">
+        </app-link>
+
+        <app-link [description]="'O mnie'" [initialFrontColor]="Colors.$green" [topFrontColor]="Colors.$greenTop"
+            [initialBackColor]="Colors.$orange" [topBackColor]="Colors.$orangeTop">
+        </app-link>
+    </div>
+</nav>

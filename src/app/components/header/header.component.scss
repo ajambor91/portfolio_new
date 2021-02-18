@@ -1,11 +1,15 @@
-@import '../../../styles.scss';
+@import '../../styles/styles.scss';
+@import '../../styles/mixins.scss';
+@import '../../styles/colors.scss';
 
 nav.menu {
+    
     display: grid;
     grid-template-rows: auto;
     grid-template-columns: repeat(2, 33%);
     justify-content: space-between;
-    div{
+    div.side{
+        background-color: $darkBlue;
         display: grid;
         grid-template-rows: auto;
         grid-template-columns: repeat(2, 50%);
@@ -14,5 +18,12 @@ nav.menu {
             justify-self: center;
             align-self: center;
         }
+    }
+    div.trapeze{
+        background-color: red;
+        height: 100%;
+        width: 40px;
+        -ms-transform: matrix(1, 0, 0.5, 1, 150, 0); /* IE 9 */
+        transform: matrix(1, 0, 0.5, 1, 150, 0); /* Standard syntax */
     }
   }

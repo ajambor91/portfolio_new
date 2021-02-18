@@ -1,0 +1,13 @@
+<div class="link-container">
+    <div (click)="toggle()" [@flipLink]="isOpen ? 'default' : 'flipped'" class="card">
+        <a class="link link-front" [ngStyle]="buttonStyle" href="#{{link}}">
+            <span class="text-link">
+                {{description}}
+            </span></a>
+        <a class="link link-back" [ngStyle]="buttonBackStyle" href="#{{link}}">
+            <span class="text-link">
+                {{description}}
+            </span>
+        </a>
+    </div>
+</div>

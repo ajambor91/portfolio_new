@@ -1,0 +1,7 @@
+@mixin generic-bar{
+    box-shadow: 0px 1px 0px 0px #f0f7fa;
+    border-radius: 6px;
+    border: 1px solid $white;
+    text-shadow: 0px -1px 0px #5b6178;
+    text-decoration: none;
+}
