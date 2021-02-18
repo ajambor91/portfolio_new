@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+@import './colors.scss';
 canvas{
   width: 100%;
   margin: 0;
@@ -6,8 +6,9 @@ canvas{
 body, html{
   margin: 0;
   padding: 0;
+  background-color: $graphite;
 }
-div {
+div.main-row {
   display: grid;
   grid-template-rows: auto;
   grid-template-columns: repeat(4, minmax(320px, 1fr));

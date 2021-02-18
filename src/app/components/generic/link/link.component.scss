@@ -2,11 +2,15 @@
 @import '../../../styles/mixins.scss';
 
 div.link-container {
+  z-index: 3;
   display: block;
   width: 150px;
-  height: 50px;
-  perspective: 600px;
-
+  height: 31px;
+  perspective: 1600px;
+  background-color: $graphite;
+  border-radius: 6px;
+  outline: 2px $white;
+  border: 1px solid $white;
   div.card {
     width: 100%;
     height: 100%;
@@ -23,8 +27,8 @@ div.link-container {
       cursor: pointer;
       color: #ffffff;
       font-family: Arial;
-      font-size: 1.5em;
-      line-height: 50px;
+      font-size: 1.3em;
+      line-height: 30px;
       font-weight: 900;
       text-align: center;
 

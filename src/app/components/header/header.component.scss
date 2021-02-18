@@ -1,29 +1,74 @@
 @import '../../styles/styles.scss';
 @import '../../styles/mixins.scss';
 @import '../../styles/colors.scss';
+@import '../../styles/variables.scss';
 
 nav.menu {
-    
+    position: relative;
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: repeat(2, 40%);
+  justify-content: space-between;
+  div.side-wrapper {
+
+    @include navbar-gradient;
+    padding: 10px;
+    position: relative;
+
     display: grid;
     grid-template-rows: auto;
-    grid-template-columns: repeat(2, 33%);
-    justify-content: space-between;
-    div.side{
-        background-color: $darkBlue;
-        display: grid;
-        grid-template-rows: auto;
-        grid-template-columns: repeat(2, 50%);
-        justify-items: center;
-        div: {
-            justify-self: center;
-            align-self: center;
-        }
+    div.trapeze {
+      @include navbar-gradient;
+      background-color: red;
+      height: 100%;
+      width: 150px;
+      position: absolute;
     }
-    div.trapeze{
-        background-color: red;
-        height: 100%;
-        width: 40px;
-        -ms-transform: matrix(1, 0, 0.5, 1, 150, 0); /* IE 9 */
-        transform: matrix(1, 0, 0.5, 1, 150, 0); /* Standard syntax */
+    div.side {
+      margin: 10px;
+      z-index: 2;
+
+      display: grid;
+      grid-template-columns: repeat(2, 50%);
+      grid-template-rows: auto;
+      justify-items: center;
     }
   }
+  div.left-wrapper {
+    box-shadow: 19px 3px $blur $white, -520px 3px $blur $white;
+
+    div.trapeze {
+      z-index: 0;
+
+      right: 0;
+      -ms-transform: matrix(1, 0, -1, 1, 0, 0); /* IE 9 */
+      transform: matrix(1, 0, -1, 1, 50, 0); /* Standard syntax */
+      box-shadow: 6px 0 $blur $white;
+
+    }
+  }
+  div.right-wrapper {
+    box-shadow: -19px 3px $blur $white,520px 3px $blur $white;
+
+    div.trapeze {
+      z-index: 0;
+      box-shadow: -6px 0 $blur $white;
+
+      -ms-transform: matrix(1, 0, 1, 1, 0, 0); /* IE 9 */
+      transform: matrix(1, 0, 1, 1, -50, 0); /* Standard syntax */
+    }
+  }
+
+  div.header-logo{
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      text-align: center;
+      img{
+          margin-top: 10px;
+          height: 80px;
+          width: auto;
+      }
+  }
+}

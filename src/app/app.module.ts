@@ -9,7 +9,6 @@ import { PreloadService } from './service/preload.service';
 import { LoaderComponent } from './components/generic/loader/loader.component';
 import { ButtonComponent } from './components/generic/button/button.component';
 import { LinkComponent } from './components/generic/link/link.component';
-import { Colors } from './helpers/color.helpers';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [

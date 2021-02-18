@@ -1,26 +1,36 @@
 <nav class="menu">
-    <div class="side">
-        <app-link [description]="'O mnie'" [initialFrontColor]="Colors.$green" [topFrontColor]="Colors.$greenTop"
-            [initialBackColor]="Colors.$orange" [topBackColor]="Colors.$orangeTop">
-        </app-link>
+    <div class="side-wrapper left-wrapper">
 
-        <app-link [description]="'O mnie'" [initialFrontColor]="Colors.$blue" [topFrontColor]="Colors.$blueTop"
-            [initialBackColor]="Colors.$red" [topBackColor]="Colors.$redTop">
-        </app-link>
+        <div class="side left-side">
+            <app-link [description]="'O mnie'" [initialFrontColor]="Colors.$green" [topFrontColor]="Colors.$greenTop"
+                [initialBackColor]="Colors.$orange" [topBackColor]="Colors.$orangeTop">
+            </app-link>
+
+            <app-link [description]="'O mnie'" [initialFrontColor]="Colors.$blue" [topFrontColor]="Colors.$blueTop"
+                [initialBackColor]="Colors.$red" [topBackColor]="Colors.$redTop">
+            </app-link>
+
+        </div>
+        <div class="trapeze">
+
+        </div>
     </div>
-    <!-- <div class="trepeze">
 
+    <div class="side-wrapper right-wrapper">
+        <div class="trapeze">
+
+        </div>
+        <div class="side right-side">
+            <app-link [description]="'O mnie'" [initialFrontColor]="Colors.$blue" [topFrontColor]="Colors.$blueTop"
+                [initialBackColor]="Colors.$red" [topBackColor]="Colors.$redTop">
+            </app-link>
+
+            <app-link [description]="'O mnie'" [initialFrontColor]="Colors.$green" [topFrontColor]="Colors.$greenTop"
+                [initialBackColor]="Colors.$orange" [topBackColor]="Colors.$orangeTop">
+            </app-link>
+        </div>
     </div>
-    <div class="trapeze">
-
-    </div> -->
-    <div class="side">
-        <app-link [description]="'O mnie'" [initialFrontColor]="Colors.$blue" [topFrontColor]="Colors.$blueTop"
-            [initialBackColor]="Colors.$red" [topBackColor]="Colors.$redTop">
-        </app-link>
-
-        <app-link [description]="'O mnie'" [initialFrontColor]="Colors.$green" [topFrontColor]="Colors.$greenTop"
-            [initialBackColor]="Colors.$orange" [topBackColor]="Colors.$orangeTop">
-        </app-link>
+    <div class="header-logo">
+        <img src="/assets/logo/logo.png">
     </div>
 </nav>
