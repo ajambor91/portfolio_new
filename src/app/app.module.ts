@@ -10,13 +10,15 @@ import { LoaderComponent } from './components/generic/loader/loader.component';
 import { ButtonComponent } from './components/generic/button/button.component';
 import { LinkComponent } from './components/generic/link/link.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CanvasComponent } from './components/canvas/canvas.component';
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     LoaderComponent,
     ButtonComponent,
-    LinkComponent
+    LinkComponent,
+    CanvasComponent
   ],
   imports: [
     BrowserModule,
