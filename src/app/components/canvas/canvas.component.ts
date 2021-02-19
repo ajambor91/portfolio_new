@@ -1,13 +1,11 @@
 import { ViewChild } from '@angular/core';
 import { AfterViewInit } from '@angular/core';
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { Colors } from 'src/app/helpers/color.helpers';
 import { MainFigure } from './figures/main-figure';
-import { Parallelogram } from './figures/parallelogram';
-import { FigureHelper } from './helpers/figure.helper';
+import { Rectangle } from './figures/rectangle';
+import { Triangle } from './figures/triangle';
 import { CanvasDimensions } from './models/canvas-dimension.model';
-import { FiguresModel } from './models/figures-model';
-import { PointCoords } from './models/point-coords.model';
+
 
 @Component({
   selector: 'app-canvas',
@@ -52,7 +50,7 @@ export class CanvasComponent implements OnInit, AfterViewInit {
   private addFigures(): void {
     let i = 0;
     this.figuresInterval = setInterval(() => {
-      this.figures.push(new Parallelogram(this.canvasDimension, this.context));
+      this.figures.push(new Triangle(this.canvasDimension, this.context));
     }, 1000)
   }
 

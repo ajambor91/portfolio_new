@@ -1,9 +1,12 @@
-import { Colors } from "src/app/helpers/color.helpers";
+import { ColorHelper } from "../helpers/color.helpers";
 import { FigureHelper } from "../helpers/figure.helper";
 import { CanvasDimensions } from "../models/canvas-dimension.model";
 import { PointCoords } from "../models/point-coords.model";
 
 export abstract class MainFigure {
+    
+    f
+    
     protected canvasDimensions: CanvasDimensions;
     protected context: CanvasRenderingContext2D;
     protected firstPoint: PointCoords;
@@ -14,12 +17,26 @@ export abstract class MainFigure {
         this.context = context;
         this.canvasDimensions = canvasDimensions;
         this.getFirstPoint();
-        this.color = Colors.returnRanomdColor();
+        this.color = ColorHelper.returnRanomdColor();
   
     }
-    
-    private getFirstPoint(): void {
-        this.firstPoint = FigureHelper.getFirstPoint(this.canvasDimensions)
+
+    protected drawRectangle(startPoint: PointCoords, secondPoint: PointCoords, thirdPoint: PointCoords, fourthPoint: PointCoords): void {
+        this.drawLine(startPoint, secondPoint).then(res => {
+            this.drawLine(secondPoint, thirdPoint).then(res => {
+                this.drawLine(thirdPoint, fourthPoint).then(res => {
+                    this.drawLine(fourthPoint, startPoint);
+                });
+            });
+        });
+    }
+
+    protected drawTriangle(startPoint: PointCoords, secondPoint: PointCoords, thirdPoint: PointCoords): void {
+        this.drawLine(startPoint, secondPoint).then(res => {
+            this.drawLine(secondPoint, thirdPoint).then(res => {
+                this.drawLine(thirdPoint, startPoint);
+            });
+        });
     }
 
     protected drawLine(startPoint: PointCoords, targetPoint: PointCoords): Promise<boolean> {
@@ -66,5 +83,9 @@ export abstract class MainFigure {
             this.context.stroke();
             resolve(true)
         });
+    }
+
+    private getFirstPoint(): void {
+        this.firstPoint = FigureHelper.getFirstPoint(this.canvasDimensions)
     }
 }
