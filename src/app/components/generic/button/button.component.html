@@ -1,1 +1,13 @@
-<p>button works!</p>
+<div class="button-container">
+    <div (click)="toggle()" [@flipButton]="isOpen ? 'default' : 'flipped'" class="card">
+        <button class="front" [ngStyle]="buttonStyle">
+            <span class="text">
+                {{description}}
+            </span></button>
+        <button class="back" [ngStyle]="buttonBackStyle">
+            <span class="text">
+                {{description}}
+            </span>
+        </button>
+    </div>
+</div>

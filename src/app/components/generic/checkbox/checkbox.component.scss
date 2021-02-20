@@ -1,8 +1,12 @@
 @import '../../../styles/colors.scss';
 div.checkbox{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     cursor: pointer;
     padding: 10px 20px;
     label{
+        display: inline-block;
         margin-right: 10px;
         color: $white;
     }

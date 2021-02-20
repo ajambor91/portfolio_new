@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { EventEmitter } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-checkbox',
@@ -13,6 +14,7 @@ export class CheckboxComponent implements OnInit {
   @ViewChild('svg') svg: ElementRef;
   @ViewChild('input') input: ElementRef;
   @ViewChild('checkBg') checkBg: ElementRef;
+  @Output() emitter: EventEmitter<{option: boolean}> = new EventEmitter<{option: boolean}>();
 
   svgStyle: {};
 
@@ -22,12 +24,17 @@ export class CheckboxComponent implements OnInit {
 
   check(): void {
     this.model = !this.model;
+    this.setValue();
   }
 
   private prepare(): void {
     this.svgStyle = {
       'fill': this.checkColor
     }
+  }
+
+  private setValue(): void {
+    this.emitter.emit(this.model);
   }
 
 }

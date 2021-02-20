@@ -16,7 +16,6 @@ import { MainComponent} from './components/main/main.component';
 })
 export class GameModule { 
   constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
-  dupa = 'dupa'
   resolveComponent(): ComponentFactory<MainComponent> {
     return this.componentFactoryResolver.resolveComponentFactory(MainComponent);
   }

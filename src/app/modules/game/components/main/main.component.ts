@@ -16,12 +16,12 @@ export class MainComponent implements OnChanges {
   phaserGame: Phaser.Game;
   config: Phaser.Types.Core.GameConfig;
   fullScreen: boolean;
+  sound: boolean;
   screenSize: ScreenSize;
 
   constructor() {
 
     this.screenSize = ScreenSizeHelper.calcDefaultSize();
-    console.log(this.screenSize)
   }
 
   ngOnChanges() {
@@ -33,7 +33,8 @@ export class MainComponent implements OnChanges {
     this.config = {
 
       type: Phaser.AUTO,
-
+      width: 1200,
+      height: 674,
       scene: [InitScene, MainScene],
       parent: 'gameContainer',
       physics: {
@@ -44,10 +45,10 @@ export class MainComponent implements OnChanges {
         }
       },
       scale: {
-        parent: 'fullscreen',
-        mode: Phaser.Scale.FIT,
-        width: window.screen.width,
-        height: window.screen.height
+        parent: 'game',
+        mode: Phaser.Scale.ScaleModes.FIT,
+        width: 1200,
+        height: 674
         // autoCenter: Phaser.Scale.,
       },
       audio: {
@@ -56,7 +57,8 @@ export class MainComponent implements OnChanges {
         preBoot: (phaserGame) => {
           phaserGame.registry.merge({
             data: {
-              fullScreen: this.fullScreen
+              fullScreen: this.fullScreen,
+              sound: this.sound
             }
           })
         }

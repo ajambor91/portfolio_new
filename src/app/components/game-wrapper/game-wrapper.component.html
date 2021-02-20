@@ -1,4 +1,6 @@
 <div class="game-wrapper-container">
-<ng-container #game></ng-container>
-<app-ask-window></app-ask-window>
+    <div class="game-content">
+        <ng-container #game></ng-container>
+    </div>
+<app-ask-window *ngIf="!isPlaying" (emitter)="startGame($event)"></app-ask-window>
 </div>

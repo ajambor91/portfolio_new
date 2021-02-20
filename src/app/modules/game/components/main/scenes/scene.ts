@@ -27,10 +27,11 @@ export abstract class Scene extends Phaser.Scene {
   protected sounds: SoundsAudio = {};
   protected charsSounds: CharsSound = {};
   protected soundSources: SoundSource[] = [];
-
+  protected wasFullscreen: boolean;
 
   private background: Phaser.GameObjects.Image;
   private tilesets: Tileset;
+  private canvasSize;
 
   constructor(key) {
     super(key);
@@ -38,14 +39,15 @@ export abstract class Scene extends Phaser.Scene {
 
   protected addFixedBackground(): void {
     this.background = this.add.image(this.gameWidth * 0.5, this.gameHeight * 0.5, 'background')
-      .setScrollFactor(0, 0);
+      .setScrollFactor(0, 0)
+      .setScale(2,3);
   }
 
   protected addBgParallax(worldWidth = 24000): void {
     let x = 0;
     do {
-      const bg = this.add.image(x, this.gameHeight * 1.5, 'mountain')
-        .setOrigin(0, 1)
+      const bg = this.add.image(x, this.gameHeight, 'mountain')
+        .setOrigin(0, .5)
         .setScrollFactor(1.25, 1);
       x += bg.width
     } while (x < worldWidth);
@@ -95,7 +97,6 @@ export abstract class Scene extends Phaser.Scene {
           .setDepth(layerNames[key].depth);
       }
     }
-    console.log(this.layers)
   }
 
   protected loadTilesets(): void {
@@ -140,7 +141,7 @@ export abstract class Scene extends Phaser.Scene {
   protected playAudio(): void {
     this.audio = this.sound.add('theme');
     //@ts-ignore
-    if (this.audioMute === true) this.sound.mute = true;
+    if (this.audioMute === true || this.registry.list.data.sound === false) this.sound.mute = true;
     // this.sound.mute = true; 
     this.audio.play();
     //@ts-ignore
@@ -224,11 +225,24 @@ export abstract class Scene extends Phaser.Scene {
 
   protected fullScreen(): void {
     this.scale.startFullscreen();
+    this.canvasSize = {
+      width: this.game.canvas.width,
+      height: this.game.canvas.height
+    };
+    const canvas = document.querySelector('div.fs > div > canvas');
+    console.log(canvas)
+    this.wasFullscreen = true;
     setTimeout(()=> {
-      const canvas = document.querySelector('canvas');
+      //@ts-ignore
       canvas.style.width = `${window.screen.width}px`;
+      //@ts-ignore
       canvas.style.height = `${window.screen.height}px`;
-    },200)
+    },500)
 
+  }
+  protected revertCanvasSize(){
+    // const canvas = document.querySelector('canvas');
+    // canvas.style.height = `${this.canvasSize.height}`;
+    // canvas.style.width = `${this.canvasSize.width}`;
   }
 }

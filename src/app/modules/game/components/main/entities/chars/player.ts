@@ -11,7 +11,7 @@ export class Player extends Entity {
   particleConfig: Phaser.Types.GameObjects.Particles.ParticleEmitterConfig;
 
   private readonly reloadTime = 500;
-  private readonly initMag = 150;
+  private readonly initMag = 30;
   magazine = this.initMag;
   private readonly dmg = 10;
   private bullet: Bullet;
@@ -88,6 +88,8 @@ export class Player extends Entity {
     //@ts-ignore
     if (this.scene.displayReload !== false) this.removeReloadedText();
     if (this.reloaded === false) {
+      //@ts-ignore
+      console.log(this.scene.player.x,this.scene.player.y)
       //@ts-ignore
       this.scene.sounds.reload.play();
       this.reloaded = true;

@@ -12,9 +12,10 @@ export class PreloadService {
 
   launch(): Promise<boolean> {
     return new Promise ( resolve => {
-      this.getData().subscribe(response => {
-        resolve(true);
-      });
+      // this.getData().subscribe(response => {
+      // });
+      resolve(true);
+
     })
   }
 

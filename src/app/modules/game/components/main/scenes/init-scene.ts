@@ -36,6 +36,7 @@ export class InitScene extends Scene {
     this.loadAssets();
     this.loadUniAssets();
     this.loadSounds();
+    this.audioMute = !this.registry.list.data.sound;
   }
   listenKey(timer) {
     const scene = this;
@@ -51,9 +52,12 @@ export class InitScene extends Scene {
   }
 
   create(): void {
+    this.scale.fullscreenTarget = document.querySelector('div#fullscreen');
+
     if(this.registry.list.data.fullScreen){
       this.fullScreen();
     }
+  
     this.gameHeight = this.scale.height;
     this.gameWidth = this.scale.width;
     this.addFixedBackground();
@@ -88,6 +92,9 @@ export class InitScene extends Scene {
   }
 
   update(): void {
+    if(this.wasFullscreen === true && this.scale.isFullscreen === false) {
+      this.revertCanvasSize();
+    }
     //@ts-ignore
     if (this.player.body.blocked.down) {
       this.player.moveRight(false);
