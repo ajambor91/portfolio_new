@@ -1,15 +1,13 @@
-import { NgTemplateOutlet } from '@angular/common';
-import { AfterViewInit, Component, ComponentFactoryResolver, ComponentRef, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Component, ComponentFactoryResolver, ComponentRef, ElementRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { AdditionalTextComponent } from './additional-text/additional-text.component';
 import { texts } from './data/header-texts';
-
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit, AfterViewInit {
+export class HeaderComponent implements AfterViewInit {
 
   @ViewChild('header') header: ElementRef;
   @ViewChild('additionalText', {read: ViewContainerRef}) additionalText: ViewContainerRef;
@@ -21,17 +19,12 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   private textComponenets: ComponentRef<AdditionalTextComponent>[] = [];
   constructor(private componentFactoryResolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef) { }
 
-  ngOnInit(): void {
-  }
-
   ngAfterViewInit(): void {
     this.addMainText().then(res=> {
-      console.log('dupa')
       this.addTexts();
     });
   }
 
-  
   private addTexts(): void {
     let i = 0;
     this.addAdditionalText(i);
@@ -44,7 +37,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
           addTextInterval(i, context);
         }
       }, context.addTextSpeed)
-    })(i, this)
+    })(i, this);
   }
 
   private addMainText(): Promise<boolean> {
@@ -61,7 +54,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
           }
         }, context.calcSpeed());
       })(i, this);
-    })
+    });
   }
 
   private addAdditionalText(i): void {
@@ -71,8 +64,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       textComponent.instance.text = texts[this.addTextsKeys[i]];
       this.textComponenets.length > 0 && this.textComponenets[i-1].destroy();
       this.textComponenets.push(textComponent);
-    })
-
+    });
   }
 
   private calcSpeed(): number {

@@ -1,0 +1,14 @@
+@import '../../../../styles/colors.scss';
+@import '../../../../styles/mixins.scss';
+
+div.game-ask-container{
+    @include generic-bar;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    background: linear-gradient(to bottom, $redTop 5%,  $red 100%),
+
+}

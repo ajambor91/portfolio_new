@@ -11,7 +11,7 @@ export abstract class MainFigure {
     protected context: CanvasRenderingContext2D;
     protected firstPoint: PointCoords;
 
-    private readonly lineTimeRatio = 5;
+    private readonly lineTimeRatio = 1;
     private color: string;
 
     constructor(context: CanvasRenderingContext2D,

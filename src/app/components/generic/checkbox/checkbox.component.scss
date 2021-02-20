@@ -1,0 +1,22 @@
+@import '../../../styles/colors.scss';
+div.checkbox{
+    cursor: pointer;
+    padding: 10px 20px;
+    label{
+        margin-right: 10px;
+        color: $white;
+    }
+    input{
+        display: none;
+    }
+    .checkbox-back{
+        vertical-align: middle;
+
+        display: inline-block;
+        background-color: $orange;
+        width: 25px;
+        height: 25px;
+        border-radius: 3px;
+        border: 2px solid $white;
+    }
+}

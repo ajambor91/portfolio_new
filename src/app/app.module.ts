@@ -15,6 +15,11 @@ import { HeaderComponent } from './components/canvas/components/header/header.co
 import { AdditionalTextComponent } from './components/canvas/components/header/additional-text/additional-text.component';
 import { AboutComponent } from './components/about/about.component';
 import { NeonLineComponent } from './components/generic/neon-line/neon-line.component';
+import { GameWrapperComponent } from './components/game-wrapper/game-wrapper.component';
+import { AskWindowComponent } from './components/game-wrapper/components/ask-window/ask-window.component';
+import { FormsModule } from '@angular/forms';
+import { CheckboxComponent } from './components/generic/checkbox/checkbox.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,12 +32,16 @@ import { NeonLineComponent } from './components/generic/neon-line/neon-line.comp
     AdditionalTextComponent,
     AboutComponent,
     NeonLineComponent,
+    GameWrapperComponent,
+    AskWindowComponent,
+    CheckboxComponent,
   ],
   imports: [
     BrowserModule,
     GameModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule
   ],
   providers: [
     PreloadService,
