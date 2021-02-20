@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { GameModule } from './modules/game/game.module';
-import { HeaderComponent } from './components/header/header.component';
+import { NavComponent } from './components/nav/nav.component';
 import { PreloadService } from './service/preload.service';
 import { LoaderComponent } from './components/generic/loader/loader.component';
 import { ButtonComponent } from './components/generic/button/button.component';
@@ -14,7 +14,7 @@ import { CanvasComponent } from './components/canvas/canvas.component';
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
+    NavComponent,
     LoaderComponent,
     ButtonComponent,
     LinkComponent,
