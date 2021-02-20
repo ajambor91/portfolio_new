@@ -72,7 +72,7 @@ export class FigureHelper {
         const dx = pt1.x - pt0.x;
         const dy = pt1.y - pt0.y;
         let i = 0;
-        const distance = +this.calcCoordsDistance(startPoint, endPoint).toFixed(0);
+        const distance = +this.calcCoordsDistance(startPoint, endPoint).toFixed(0) * 2;
         for (i = 0; i < distance; i++) {
             const x = pt0.x + dx * i / distance;
             const y = pt0.y + dy * i / distance;

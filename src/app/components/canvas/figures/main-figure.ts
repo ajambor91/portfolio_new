@@ -1,19 +1,22 @@
+import { BehaviorSubject } from "rxjs";
 import { Condition } from "../classes/condition";
 import { ColorHelper } from "../helpers/color.helpers";
 import { FigureHelper } from "../helpers/figure.helper";
 import { CanvasDimensions } from "../models/canvas-dimension.model";
 import { PointCoords } from "../models/point-coords.model";
-
+import { ComponentCommunicationService } from "../service/component-communication.service";
 export abstract class MainFigure {
 
     protected canvasDimensions: CanvasDimensions;
     protected context: CanvasRenderingContext2D;
     protected firstPoint: PointCoords;
 
-    private readonly lineTimeRatio = 15;
+    private readonly lineTimeRatio = 5;
     private color: string;
 
-    constructor(context: CanvasRenderingContext2D, canvasDimensions: CanvasDimensions) {
+    constructor(context: CanvasRenderingContext2D,
+         canvasDimensions: CanvasDimensions,
+         private communicationService: ComponentCommunicationService) {
         this.context = context;
         this.canvasDimensions = canvasDimensions;
         this.getFirstPoint();
@@ -21,10 +24,13 @@ export abstract class MainFigure {
     }
 
     protected drawRectangle(startPoint: PointCoords, secondPoint: PointCoords, thirdPoint: PointCoords, fourthPoint: PointCoords): void {
+        this.communicationService.drawing.next(false);
         this.drawLine(startPoint, secondPoint).then(res => {
             this.drawLine(secondPoint, thirdPoint).then(res => {
                 this.drawLine(thirdPoint, fourthPoint).then(res => {
-                    this.drawLine(fourthPoint, startPoint);
+                    this.drawLine(fourthPoint, startPoint).then( res => {
+                        this.communicationService.drawing.next(true);
+                    });
                 });
             });
         });
@@ -33,7 +39,9 @@ export abstract class MainFigure {
     protected drawTriangle(startPoint: PointCoords, secondPoint: PointCoords, thirdPoint: PointCoords): void {
         this.drawLine(startPoint, secondPoint).then(res => {
             this.drawLine(secondPoint, thirdPoint).then(res => {
-                this.drawLine(thirdPoint, startPoint);
+                this.drawLine(thirdPoint, startPoint).then(res => {
+                    this.communicationService.drawing.next(true);
+                });
             });
         });
     }

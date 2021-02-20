@@ -8,7 +8,7 @@ import { Config } from '../config/config';
 })
 export class PreloadService {
 
-  constructor(private http: HttpClient) { console.log('fdsfdsf')}
+  constructor(private http: HttpClient) {}
 
   launch(): Promise<boolean> {
     return new Promise ( resolve => {

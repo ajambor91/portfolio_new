@@ -11,6 +11,7 @@ import { ButtonComponent } from './components/generic/button/button.component';
 import { LinkComponent } from './components/generic/link/link.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CanvasComponent } from './components/canvas/canvas.component';
+import { HeaderComponent } from './components/canvas/components/header/header.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,7 +19,8 @@ import { CanvasComponent } from './components/canvas/canvas.component';
     LoaderComponent,
     ButtonComponent,
     LinkComponent,
-    CanvasComponent
+    CanvasComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,

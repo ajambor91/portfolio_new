@@ -1,11 +1,12 @@
 import { FigureHelper } from "../helpers/figure.helper";
 import { CanvasDimensions } from "../models/canvas-dimension.model";
+import { ComponentCommunicationService } from "../service/component-communication.service";
 import { MainFigure } from "./main-figure";
 
 export class Rectangle extends MainFigure{
 
-    constructor(canvasDimensions: CanvasDimensions, context: CanvasRenderingContext2D) {
-        super(context, canvasDimensions);
+    constructor(canvasDimensions: CanvasDimensions, context: CanvasRenderingContext2D, communicationService: ComponentCommunicationService) {
+        super(context, canvasDimensions, communicationService);
         this.draw();
     }
 

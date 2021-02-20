@@ -1,17 +1,20 @@
 import { OnDestroy, ViewChild } from '@angular/core';
 import { AfterViewInit } from '@angular/core';
 import { Component, ElementRef, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { FigureEnum } from './enums/figure.enum';
 import { MainFigure } from './figures/main-figure';
 import { Rectangle } from './figures/rectangle';
 import { Triangle } from './figures/triangle';
 import { CanvasDimensions } from './models/canvas-dimension.model';
+import { ComponentCommunicationService } from './service/component-communication.service';
 
 
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
-  styleUrls: ['./canvas.component.scss']
+  styleUrls: ['./canvas.component.scss'],
+  providers: [ComponentCommunicationService]
 })
 export class CanvasComponent implements OnInit, AfterViewInit,OnDestroy {
 
@@ -22,10 +25,9 @@ export class CanvasComponent implements OnInit, AfterViewInit,OnDestroy {
   context: CanvasRenderingContext2D;
 
   private canvasDimension: CanvasDimensions;
-  private readonly createFigureTime = 7000;
-  private figuresInterval;
+  private communicationService$: Subscription;
 
-  constructor() { }
+  constructor(private communicationService: ComponentCommunicationService) { }
  
 
   ngOnInit(): void {
@@ -38,7 +40,7 @@ export class CanvasComponent implements OnInit, AfterViewInit,OnDestroy {
   }
 
   ngOnDestroy(): void {
-    clearInterval(this.figuresInterval);
+    this.communicationService$.unsubscribe();
   }
 
   private setCanvasSize(): void {
@@ -56,12 +58,15 @@ export class CanvasComponent implements OnInit, AfterViewInit,OnDestroy {
   }
 
   private addFigures(): void {
-    new Rectangle(this.canvasDimension, this.context);
-    this.figuresInterval = setInterval(() => {
-      this.selectFigure() === FigureEnum.Rectangle ?
-       new Rectangle(this.canvasDimension, this.context) :
-       new Triangle(this.canvasDimension, this.context) 
-    }, this.createFigureTime);
+    new Rectangle(this.canvasDimension, this.context, this.communicationService);
+    this.communicationService$ = this.communicationService.drawing.subscribe( (res: boolean) => {
+      if(res === true){
+        this.selectFigure() === FigureEnum.Rectangle ?
+        new Rectangle(this.canvasDimension, this.context, this.communicationService) :
+        new Triangle(this.canvasDimension, this.context, this.communicationService) 
+      }
+    });
+
     // new Rectangle(this.canvasDimension, this.context)
   }
 

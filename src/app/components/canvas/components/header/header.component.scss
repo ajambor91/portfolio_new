@@ -1,0 +1,14 @@
+@import '../../../../styles/colors.scss';
+
+div.header-content{
+    width: 100%;
+    color: $white;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    text-align: center;
+
+    h1{
+    }
+}
