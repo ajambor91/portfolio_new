@@ -1,6 +1,7 @@
-import { ViewChild } from '@angular/core';
+import { OnDestroy, ViewChild } from '@angular/core';
 import { AfterViewInit } from '@angular/core';
 import { Component, ElementRef, OnInit } from '@angular/core';
+import { FigureEnum } from './enums/figure.enum';
 import { MainFigure } from './figures/main-figure';
 import { Rectangle } from './figures/rectangle';
 import { Triangle } from './figures/triangle';
@@ -12,7 +13,7 @@ import { CanvasDimensions } from './models/canvas-dimension.model';
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.scss']
 })
-export class CanvasComponent implements OnInit, AfterViewInit {
+export class CanvasComponent implements OnInit, AfterViewInit,OnDestroy {
 
   @ViewChild('canvas') canvas: ElementRef;
 
@@ -21,10 +22,11 @@ export class CanvasComponent implements OnInit, AfterViewInit {
   context: CanvasRenderingContext2D;
 
   private canvasDimension: CanvasDimensions;
-  private figures: MainFigure[] = [];
+  private readonly createFigureTime = 7000;
   private figuresInterval;
 
   constructor() { }
+ 
 
   ngOnInit(): void {
     this.setCanvasSize();
@@ -33,6 +35,10 @@ export class CanvasComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.getContext();
     this.addFigures();
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.figuresInterval);
   }
 
   private setCanvasSize(): void {
@@ -50,11 +56,17 @@ export class CanvasComponent implements OnInit, AfterViewInit {
   }
 
   private addFigures(): void {
-    let i = 0;
+    new Rectangle(this.canvasDimension, this.context);
     this.figuresInterval = setInterval(() => {
-      this.figures.push(new Rectangle(this.canvasDimension, this.context));
-    }, 2500)
+      this.selectFigure() === FigureEnum.Rectangle ?
+       new Rectangle(this.canvasDimension, this.context) :
+       new Triangle(this.canvasDimension, this.context) 
+    }, this.createFigureTime);
     // new Rectangle(this.canvasDimension, this.context)
+  }
+
+  private selectFigure(): FigureEnum {
+    return Math.ceil(Math.random() * 2) - 1; 
   }
 
 

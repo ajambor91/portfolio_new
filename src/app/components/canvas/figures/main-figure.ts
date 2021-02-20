@@ -90,7 +90,7 @@ export abstract class MainFigure {
 
                     resolve(true);
                 }
-            }, 5);
+            }, 15);
             // this.context.beginPath();
             // this.context.moveTo(startPoint.x, startPoint.y);
             // this.context.lineWidth = 3;
