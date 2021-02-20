@@ -40,61 +40,17 @@ export class FigureHelper {
         return this.checkPointCoord(calcedPoint, canvasDimension);
 
     }
+
     static getPerpendicularAngle(startPoint: PointCoords, targetPoint: PointCoords): number {
         const xdiff = Math.abs(startPoint.x - targetPoint.x);
         const ydiff = Math.abs(startPoint.y - targetPoint.y);
-        //double tan = xdiff / ydiff;
-        const atan = Math.atan2(ydiff, xdiff);
-        return atan;
-    }
-
-    static getSecondRectanglePoint(startPoint: PointCoords, targetPoint: PointCoords): PointCoords {
-        // const b = -1 *a;
-        // const y = b*100 + startPoint.y
-        // var nx = targetPoint.x - startPoint.x;  // as vector
-        // var ny = targetPoint.y - startPoint.y;
-        // const len = Math.sqrt(nx * nx + ny * ny);  // length of line
-        // nx /= len;  // make one unit long
-        // ny /= len;  // which we call normalising a vector
-        // // return [-ny, nx]; // return the normal  rotated 90 deg
-        // const angle = this.getPerpendicularAngle(startPoint, targetPoint);
-
-        // var slope = (targetPoint.y - startPoint.y) / (targetPoint.x - startPoint.x);
-        // const x = targetPoint.x - slope * 10;
-        // const y = targetPoint.y + slope * 10;
-
-        // R = Raphael('raphaelPanel', 500, 500);
-
-        // Start and end points
-        // var startX = startPoint.x > startPoint.x ? startPoint.x : targetPoint.x,
-        //     startY = startPoint.y > startPoint.y ? startPoint.y : targetPoint.y,
-        //     endX = startPoint.x < startPoint.x ? startPoint.x : targetPoint.x,
-        //     endY = startPoint.y < startPoint.y ? startPoint.y : targetPoint.y,
-        //     centrePointX = Math.sqrt((startX * startX) + (endX * endX)),
-        //     centrePointY = (Math.sqrt((startY * startY) + (endY * endY))),
-        //     angle = Math.atan2(endY - startY, endX - startX),
-        //     dist = 10;
-
-
-        // Draw a line between the two original points
-        // R.path('M '+startX+' '+startY+', L '+endX+' '+endY);
-        // // Draw a normal to the line above
-        // R.path('M '+ (Math.sin(angle) * dist + centrePointX) + ' ' + (-Math.cos(angle) * dist + centrePointY) + ', L ' + (-Math.sin(angle) * dist + centrePointX) + ' ' + (Math.cos(angle) * dist + centrePointY))
-        const x = startPoint.x;
-
-        // return { x: (Math.sin(angle) * dist + centrePointX), y:  (-Math.cos(angle) * dist + centrePointY) };
-
-        return { x: 100, y: 200 };
-    }
-
-    static getDistance(startPoint: PointCoords, targetPoint: PointCoords): number {
-        return Math.sqrt(Math.pow(startPoint.x - targetPoint.x, 2) + Math.pow(startPoint.y - targetPoint.y, 2));
+        return Math.atan2(ydiff, xdiff);
     }
 
     static calcParralelLine(firstPoint: PointCoords, secondPoint: PointCoords): PointCoords[] {
         const dx = secondPoint.x - firstPoint.x;
         const dy = secondPoint.y - firstPoint.y;
-        const distance = Math.sqrt(Math.pow(firstPoint.x - secondPoint.x, 2) + Math.pow(firstPoint.y - secondPoint.y, 2));
+        const distance = this.calcCoordsDistance(firstPoint, secondPoint);
         const udx = dx / distance;
         const udy = dy / distance;
         const px = -udy;
@@ -109,11 +65,29 @@ export class FigureHelper {
         ];
     }
 
-    static checkIsLowering(startPoint: PointCoords, targetPoint: PointCoords): boolean {
-        const a = (targetPoint.y - startPoint.y) / (targetPoint.y - startPoint.y);
-        return a > 0;
-
+    static calcWayPoints(startPoint: PointCoords, endPoint: PointCoords): PointCoords[] {
+        const waypoints: PointCoords[] = [];
+        const pt0 = startPoint;
+        const pt1 = endPoint;
+        const dx = pt1.x - pt0.x;
+        const dy = pt1.y - pt0.y;
+        let i = 0;
+        const distance = +this.calcCoordsDistance(startPoint, endPoint).toFixed(0);
+        for (i = 0; i < distance; i++) {
+            const x = pt0.x + dx * i / distance;
+            const y = pt0.y + dy * i / distance;
+            waypoints.push({
+                x: +x.toFixed(0),
+                y: +y.toFixed(0)
+            });
+        }
+        return waypoints;
     }
+
+    private static calcCoordsDistance(firstPoint: PointCoords, secondPoint: PointCoords): number {
+        return Math.sqrt(Math.pow(firstPoint.x - secondPoint.x, 2) + Math.pow(firstPoint.y - secondPoint.y, 2));
+    }
+
     private static checkPointCoord(calcedPoint: PointCoords, canvasDimensions: CanvasDimensions): PointCoords {
         if (calcedPoint.x < 50) calcedPoint.x = 50;
         else if (calcedPoint.x > canvasDimensions.width - 50) calcedPoint.x = canvasDimensions.width - 50;
@@ -123,9 +97,4 @@ export class FigureHelper {
         return calcedPoint;
     }
 
-
 }
-// const a = a = (targetPoint.y - startPoint.y) / (targetPoint.y - startPoint.y);
-// const b =
-// return { x: x, y: y };
-//funkcja liniowa
