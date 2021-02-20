@@ -45,13 +45,16 @@ export class CanvasComponent implements OnInit, AfterViewInit {
   }
   private getContext(): void {
     this.context = this.canvas.nativeElement.getContext('2d');
+    this.context.translate(.5, .5);
+
   }
 
   private addFigures(): void {
     let i = 0;
     this.figuresInterval = setInterval(() => {
-      this.figures.push(new Triangle(this.canvasDimension, this.context));
-    }, 1000)
+      this.figures.push(new Rectangle(this.canvasDimension, this.context));
+    }, 2500)
+    // new Rectangle(this.canvasDimension, this.context)
   }
 
 

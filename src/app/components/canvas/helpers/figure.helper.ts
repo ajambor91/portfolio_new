@@ -49,7 +49,6 @@ export class FigureHelper {
     }
 
     static getSecondRectanglePoint(startPoint: PointCoords, targetPoint: PointCoords): PointCoords {
-        // const a  = (targetPoint.y - startPoint.y) / (targetPoint.y - startPoint.y);
         // const b = -1 *a;
         // const y = b*100 + startPoint.y
         // var nx = targetPoint.x - startPoint.x;  // as vector
@@ -82,7 +81,7 @@ export class FigureHelper {
         // // Draw a normal to the line above
         // R.path('M '+ (Math.sin(angle) * dist + centrePointX) + ' ' + (-Math.cos(angle) * dist + centrePointY) + ', L ' + (-Math.sin(angle) * dist + centrePointX) + ' ' + (Math.cos(angle) * dist + centrePointY))
         const x = startPoint.x;
-        
+
         // return { x: (Math.sin(angle) * dist + centrePointX), y:  (-Math.cos(angle) * dist + centrePointY) };
 
         return { x: 100, y: 200 };
@@ -93,8 +92,8 @@ export class FigureHelper {
     }
 
     static calcParralelLine(firstPoint: PointCoords, secondPoint: PointCoords): PointCoords[] {
-        const dx = secondPoint.x - firstPoint.x ;
-        const dy =  secondPoint.y - firstPoint.y ;
+        const dx = secondPoint.x - firstPoint.x;
+        const dy = secondPoint.y - firstPoint.y;
         const distance = Math.sqrt(Math.pow(firstPoint.x - secondPoint.x, 2) + Math.pow(firstPoint.y - secondPoint.y, 2));
         const udx = dx / distance;
         const udy = dy / distance;
@@ -108,6 +107,12 @@ export class FigureHelper {
             { x: sx, y: sy },
             { x: nx, y: ny }
         ];
+    }
+
+    static checkIsLowering(startPoint: PointCoords, targetPoint: PointCoords): boolean {
+        const a = (targetPoint.y - startPoint.y) / (targetPoint.y - startPoint.y);
+        return a > 0;
+
     }
     private static checkPointCoord(calcedPoint: PointCoords, canvasDimensions: CanvasDimensions): PointCoords {
         if (calcedPoint.x < 50) calcedPoint.x = 50;

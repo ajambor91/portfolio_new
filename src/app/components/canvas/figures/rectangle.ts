@@ -24,7 +24,7 @@ export class Rectangle extends MainFigure{
             thirdPoint: thirdPoint,
             fourthPoint: fourthPoint
         };
-
+        
         this.drawRectangle(startPoint, secondPoint, thirdPoint, fourthPoint);
     }
 }
