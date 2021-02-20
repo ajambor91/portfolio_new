@@ -1,5 +1,6 @@
 export class Colors{
 
+    static $redFirstNeon = '#e85a5a';
     static $redTop = '#ed3232';
     static $red = '#ed0000';
     
@@ -14,6 +15,7 @@ export class Colors{
     
     static $darkBlue = '#021733';
     static $white = '#fff';
+    
 
 
     static fitGradientTopColor(color: string): string {

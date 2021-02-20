@@ -1,4 +1,13 @@
 @import './colors.scss';
+
+@font-face {
+  font-family: 'StarWars';
+  src: url('/assets/star_wars.ttf');
+}
+@font-face {
+  font-family: 'SpecialElite';
+  src: url('/assets/special_elite.ttf');
+}
 canvas{
   width: 100%;
   margin: 0;

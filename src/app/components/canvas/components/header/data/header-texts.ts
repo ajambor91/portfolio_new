@@ -3,5 +3,5 @@ export const texts = {
     headerSecond: "Back Dev",
     headerThird: "Front Dev",
     headerFourth: "Game Dev",
-    headerFifth: 'ALL DEV'
+    headerFifth: 'All Dev'
 };

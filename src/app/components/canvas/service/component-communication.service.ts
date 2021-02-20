@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ComponentCommunicationService {
-  drawing: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  constructor() { }
+  drawing: Subject<boolean> = new Subject<boolean>();
+  navHeight: BehaviorSubject<number> = new BehaviorSubject<number>(73);
 }

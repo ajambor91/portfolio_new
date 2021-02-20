@@ -44,7 +44,9 @@ export class CanvasComponent implements OnInit, AfterViewInit,OnDestroy {
   }
 
   private setCanvasSize(): void {
-    this.innerHeight = window.innerHeight;
+    const nabarHeight = this.communicationService.navHeight.value;
+    console.log('navheght',nabarHeight)
+    this.innerHeight = window.innerHeight - nabarHeight;
     this.innerWidth = window.innerWidth;
     this.canvasDimension = {
       width: this.innerWidth,

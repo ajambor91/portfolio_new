@@ -12,6 +12,9 @@ import { LinkComponent } from './components/generic/link/link.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CanvasComponent } from './components/canvas/canvas.component';
 import { HeaderComponent } from './components/canvas/components/header/header.component';
+import { AdditionalTextComponent } from './components/canvas/components/header/additional-text/additional-text.component';
+import { AboutComponent } from './components/about/about.component';
+import { NeonLineComponent } from './components/generic/neon-line/neon-line.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,6 +24,9 @@ import { HeaderComponent } from './components/canvas/components/header/header.co
     LinkComponent,
     CanvasComponent,
     HeaderComponent,
+    AdditionalTextComponent,
+    AboutComponent,
+    NeonLineComponent,
   ],
   imports: [
     BrowserModule,

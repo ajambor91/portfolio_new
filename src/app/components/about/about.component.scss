@@ -1,0 +1,21 @@
+@import '../../styles/colors.scss';
+div.about{
+    font-family: 'Roboto';
+    color: $white;
+    padding: 20px;
+    background-color: $orange;
+    h2{
+        text-align: center;
+        font-weight: 900;
+        width: 100%;
+        letter-spacing: 10px;
+        white-space: 20px;
+        font-size: 1.5em;
+    }
+    p {
+        line-height: 1.3em;
+        font-size: 1em;
+        word-spacing: 3px;
+        letter-spacing: 1px;
+    }
+}
