@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { GameModule } from './modules/game/game.module';
@@ -22,6 +22,14 @@ import { CheckboxComponent } from './components/generic/checkbox/checkbox.compon
 import { OptionMenuComponent } from './components/option-menu/option-menu.component';
 import { EqualizerComponent } from './components/option-menu/components/equalizer/equalizer.component';
 import { FlagComponent } from './components/option-menu/components/flag/flag.component';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { SheetComponent } from './components/sheet/sheet.component';
+import { ComponentCommunicationService } from './components/canvas/service/component-communication.service';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 @NgModule({
   declarations: [
@@ -41,18 +49,30 @@ import { FlagComponent } from './components/option-menu/components/flag/flag.com
     OptionMenuComponent,
     EqualizerComponent,
     FlagComponent,
+    SheetComponent,
+    
   ],
   imports: [
     BrowserModule,
     GameModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+
   ],
   providers: [
     PreloadService,
-    {provide: APP_INITIALIZER, useFactory: (preLoad: PreloadService) => () => preLoad.launch(), deps: [PreloadService] ,multi: true},
+    { provide: APP_INITIALIZER, useFactory: (preLoad: PreloadService) => () => preLoad.launch(), deps: [PreloadService], multi: true },
+    ComponentCommunicationService
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+

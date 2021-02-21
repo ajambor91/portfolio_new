@@ -2,11 +2,11 @@
     <div (click)="toggle()" [@flipButton]="isOpen ? 'default' : 'flipped'" class="card">
         <button class="front" [ngStyle]="buttonStyle">
             <span class="text">
-                {{description}}
+                {{description | translate}}
             </span></button>
         <button class="back" [ngStyle]="buttonBackStyle">
             <span class="text">
-                {{description}}
+                {{description | translate}}
             </span>
         </button>
     </div>

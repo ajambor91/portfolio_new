@@ -1,9 +1,13 @@
-div.game-wrapper-container{
+@import '../../styles/colors.scss';
+
+div.bg {
+    background: linear-gradient(to bottom, $greenTop 5%,  $green 100%);
+    div.game-wrapper-container {
     position: relative;
-    width: 1000px;
-    height: 500px;
-  
+    width: 100%;
+
     background-image: url('/assets/game_shot.png');
     background-size: cover;
     margin: auto;
+  }
 }

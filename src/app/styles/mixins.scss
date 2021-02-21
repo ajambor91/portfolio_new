@@ -12,3 +12,8 @@
     background: linear-gradient(to bottom, $darkBlueTop 5%,  $darkBlue 100%),
 
 }
+
+@mixin text-header {
+    font-family: 'SpecialElite';
+    text-shadow: 0px 4px 4px $orange;
+}

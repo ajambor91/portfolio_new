@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnChanges, OnInit, ViewChild } from '@angular/core';
 import * as Phaser from 'phaser';
 import { ScreenSizeHelper } from './helpers/screen-size.helper';
 import { ScreenSize } from './model/screen-size.model';
@@ -10,31 +10,32 @@ import { MainScene } from './scenes/main-scene';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
-export class MainComponent implements OnChanges {
+export class MainComponent implements OnChanges, AfterViewInit {
 
+  @ViewChild('fs')fs: ElementRef;
 
   phaserGame: Phaser.Game;
   config: Phaser.Types.Core.GameConfig;
   fullScreen: boolean;
   sound: boolean;
-  screenSize: ScreenSize;
+  size: ScreenSize;
 
   constructor() {
-
-    this.screenSize = ScreenSizeHelper.calcDefaultSize();
   }
-
-  ngOnChanges() {
+  ngAfterViewInit(): void {
+    this.fs.nativeElement.style.width = `${this.size.width}px`;
+    this.fs.nativeElement.style.height = `${this.size.height}px`;
     this.createPhaserGame();
     this.phaserGame = new Phaser.Game(this.config);
   }
+  ngOnChanges() {
+   
+  }
 
   private createPhaserGame(): void {
-    this.config = {
+    this.config = { 
 
       type: Phaser.AUTO,
-      width: 1200,
-      height: 674,
       scene: [InitScene, MainScene],
       parent: 'gameContainer',
       physics: {

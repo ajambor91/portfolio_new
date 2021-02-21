@@ -3,18 +3,15 @@ import { AfterViewInit } from '@angular/core';
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FigureEnum } from './enums/figure.enum';
-import { MainFigure } from './figures/main-figure';
 import { Rectangle } from './figures/rectangle';
 import { Triangle } from './figures/triangle';
 import { CanvasDimensions } from './models/canvas-dimension.model';
 import { ComponentCommunicationService } from './service/component-communication.service';
 
-
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
-  styleUrls: ['./canvas.component.scss'],
-  providers: [ComponentCommunicationService]
+  styleUrls: ['./canvas.component.scss']
 })
 export class CanvasComponent implements OnInit, AfterViewInit,OnDestroy {
 
@@ -52,6 +49,7 @@ export class CanvasComponent implements OnInit, AfterViewInit,OnDestroy {
       height: this.innerHeight
     };
   }
+  
   private getContext(): void {
     this.context = this.canvas.nativeElement.getContext('2d');
     this.context.translate(.5, .5);
