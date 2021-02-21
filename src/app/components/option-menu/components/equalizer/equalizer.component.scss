@@ -1,0 +1,15 @@
+@import '../../../../styles/colors.scss';
+rect {
+  stroke: $white;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+button {
+  cursor: pointer;
+  background-color: transparent;
+  outline: none;
+  border: none;
+}
+svg {
+  height: 24px;
+}

@@ -1,0 +1,6 @@
+<div class="flag">
+    <button (click)="toggleLanguage()">
+        <img *ngIf="isPolish" src='/assets/polish.png'>
+        <img *ngIf="!isPolish" src='/assets/uk.png'>
+    </button>
+</div>

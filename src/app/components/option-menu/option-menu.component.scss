@@ -1,0 +1,14 @@
+@import '../../styles/colors.scss';
+
+div.option-menu{
+    z-index: 99px;
+    border-top-left-radius: 6px;
+    border-left: 2px solid $white;
+    border-top: 2px solid $white;
+    display: flex;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    background-color: $green;
+}

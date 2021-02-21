@@ -19,6 +19,9 @@ import { GameWrapperComponent } from './components/game-wrapper/game-wrapper.com
 import { AskWindowComponent } from './components/game-wrapper/components/ask-window/ask-window.component';
 import { FormsModule } from '@angular/forms';
 import { CheckboxComponent } from './components/generic/checkbox/checkbox.component';
+import { OptionMenuComponent } from './components/option-menu/option-menu.component';
+import { EqualizerComponent } from './components/option-menu/components/equalizer/equalizer.component';
+import { FlagComponent } from './components/option-menu/components/flag/flag.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +38,9 @@ import { CheckboxComponent } from './components/generic/checkbox/checkbox.compon
     GameWrapperComponent,
     AskWindowComponent,
     CheckboxComponent,
+    OptionMenuComponent,
+    EqualizerComponent,
+    FlagComponent,
   ],
   imports: [
     BrowserModule,
