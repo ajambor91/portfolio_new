@@ -1,11 +1,11 @@
 import { ElementRef } from "@angular/core";
-import { relative } from "path";
-let size = {};
-const cols = 2;
-const rows = 2;
+
+let size: { width: string, height: string };
+const pieces = 4;
+
 const cloneElement = (element: HTMLElement): Node[] => {
     const elements: Node[] = [];
-    for (let i = 0; i < (cols + rows); i++) {
+    for (let i = 0; i < pieces; i++) {
         const node = element.cloneNode(true);
         elements.push(node);
     }
@@ -25,47 +25,36 @@ const divideElements = (elements: Node[], nativeElement): HTMLDivElement[] => {
         nativeElement.parentNode.style.background = 'none';
         newElements.push(element)
     });
-
     return newElements;
 }
+
 const moveParent = (elements: HTMLDivElement[]) => {
-    elements.forEach((element: Node, index: number) => {
-        //@ts-ignore
+    elements.forEach((element: HTMLDivElement, index: number) => {
         element.style.width = size.width;
-        //@ts-ignore
         element.style.height = size.height;
         switch (index) {
             case 0:
-                //@ts-ignore
                 element.style.top = '-50%';
-                //@ts-ignore
                 element.style.left = '-50%';
                 break;
             case 1:
-                //@ts-ignore
                 element.style.top = '-150%';
-                //@ts-ignore
                 element.style.left = '50%';
                 break;
             case 2:
-                //@ts-ignore
                 element.style.top = '-150%';
-                //@ts-ignore
                 element.style.left = '-50%';
                 break;
             case 3:
-                //@ts-ignore
                 element.style.top = '-250%';
-                //@ts-ignore
                 element.style.left = '50%';
+                break;
         }
     })
 }
 
 const setElementCoords = (elements: HTMLDivElement[]) => {
-    //@ts-ignore
     elements.forEach((item: HTMLDivElement, index: number) => {
-        console.log(size)
         const element = item.children[0];
         //@ts-ignore
         element.style.overflow = 'hidden';
@@ -97,7 +86,6 @@ const setElementCoords = (elements: HTMLDivElement[]) => {
                 //@ts-ignore
                 element.style.left = '50%';
                 element.id = `${index}-explode-element`;
-
                 break;
             case 3:
                 //@ts-ignore
@@ -109,39 +97,30 @@ const setElementCoords = (elements: HTMLDivElement[]) => {
         }
     });
 }
+
 const explodeElements = (elements: HTMLDivElement[]) => {
     return new Promise(resolve => {
-
         let i = 0;
         const interval = setInterval(() => {
             elements.forEach((element: HTMLDivElement, index: number) => {
                 switch (index) {
                     case 0:
-                        //@ts-ignore
                         element.style.top = `-${calcNewCoord(element.style.top)}`;
-                        //@ts-ignore
                         element.style.left = `-${calcNewCoord(element.style.left)}`;
                         break;
                     case 1:
-                        //@ts-ignore
                         element.style.top = `-${calcNewCoord(element.style.top)}`;
-                        //@ts-ignore
                         element.style.left = calcNewCoord(element.style.left);
                         break;
                     case 2:
-                        //@ts-ignore
                         element.style.top = `-${calcNegativeCoord(element.style.top)}`;
-                        //@ts-ignore
                         element.style.left = `-${calcNewCoord(element.style.left)}`;
                         break;
                     case 3:
-                        //@ts-ignore
                         element.style.top = `-${calcNegativeCoord(element.style.top)}`;
-                        //@ts-ignore
                         element.style.left = `${calcNewCoord(element.style.left)}`;
                         break;
                 }
-
             });
             i++
             if (i > 50) {
@@ -158,8 +137,8 @@ const calcNewCoord = (coord: string) => {
 
 const calcNegativeCoord = (coord: string) => {
     return `${Math.abs(+coord.replace('%', '')) - 1}%`;
-
 }
+
 const appendElements = (elements: HTMLDivElement[], nativeElement): Promise<boolean> => {
     return new Promise(resolve => {
         setTimeout(() => {
