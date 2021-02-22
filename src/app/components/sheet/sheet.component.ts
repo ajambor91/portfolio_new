@@ -21,10 +21,11 @@ export class SheetComponent implements OnInit {
   }
 
   startApp(): void {
-    explode(this.sheet);
-    // this.communiactionService.appStart.next(true);
-    // this.soundService.playAudio();
-    // this.isExisting = false;
+    explode(this.sheet).then(()=> {
+      this.communiactionService.appStart.next(true);
+      this.soundService.playAudio();
+    });
+  
   }
 
 

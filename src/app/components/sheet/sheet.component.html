@@ -1,46 +1,50 @@
-<div #sheet>
-    <div id="sheet" *ngIf="isExisting" class="sheet">
-        <div>
-            <img class='logo' src="/assets/logo.png">
-            <span class="word">
-                <span class="letter">N</span>
-                <span class="letter">a</span>
-                <span class="letter">p</span>
-                <span class="letter">e</span>
-                <span class="letter">w</span>
-                <span class="letter">n</span>
-                <span class="letter">o</span>
-            </span>
-            <span class="word">
-                <span class="letter">c</span>
-                <span class="letter">h</span>
-                <span class="letter">c</span>
-                <span class="letter">e</span>
-                <span class="letter">s</span>
-                <span class="letter">z</span>
-            </span>
-            <span class="word">
-                <span class="letter">p</span>
-                <span class="letter">r</span>
-                <span class="letter">z</span>
-                <span class="letter">e</span>
-                <span class="letter">j</span>
-                <span class="letter">ś</span>
-                <span class="letter">ć</span>
-            </span>
-            <span class="word">
-                <span class="letter">d</span>
-                <span class="letter">a</span>
-                <span class="letter">l</span>
-                <span class="letter">e</span>
-                <span class="letter">j</span>
-                <span class="letter">?</span>
-            </span>
-            <div class="button-container">
-                <app-button (click)="startApp()" [initialFrontColor]="Colors.$red" [topFrontColor]="Colors.$redTop"
-                    [initialBackColor]="Colors.$green" [topBackColor]="Colors.$greenTop" [description]="'go'">
-                </app-button>
+<div #sheet class="sheet-wrapper">
+        <div id="sheet" class="sheet">
+            <div>
+                <div class="content">
+                    <img class='logo' src="/assets/logo/logo.png">
+                    <span class="word">
+                        <span class="letter">N</span>
+                        <span class="letter">a</span>
+                        <span class="letter">p</span>
+                        <span class="letter">e</span>
+                        <span class="letter">w</span>
+                        <span class="letter">n</span>
+                        <span class="letter">o</span>
+                    </span>
+                    <span class="word">
+                        <span class="letter">c</span>
+                        <span class="letter">h</span>
+                        <span class="letter">c</span>
+                        <span class="letter">e</span>
+                        <span class="letter">s</span>
+                        <span class="letter">z</span>
+                    </span>
+                    <span class="word">
+                        <span class="letter">p</span>
+                        <span class="letter">r</span>
+                        <span class="letter">z</span>
+                        <span class="letter">e</span>
+                        <span class="letter">j</span>
+                        <span class="letter">ś</span>
+                        <span class="letter">ć</span>
+                    </span>
+                    <span class="word">
+                        <span class="letter">d</span>
+                        <span class="letter">a</span>
+                        <span class="letter">l</span>
+                        <span class="letter">e</span>
+                        <span class="letter">j</span>
+                        <span class="letter">?</span>
+                    </span>
+                    <div class="button-container">
+                        <app-button (click)="startApp()" [initialFrontColor]="Colors.$red"
+                            [topFrontColor]="Colors.$redTop" [initialBackColor]="Colors.$green"
+                            [topBackColor]="Colors.$greenTop" [description]="'go'">
+                        </app-button>
+                    </div>
+                </div>
+
             </div>
         </div>
-    </div>
 </div>
