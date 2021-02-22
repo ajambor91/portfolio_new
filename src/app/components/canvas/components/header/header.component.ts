@@ -33,8 +33,6 @@ export class HeaderComponent implements AfterViewInit {
 
   private addTexts(): void {
     let i = 0;
-    this.addAdditionalText(i);
-    i++;
     (function addTextInterval(i, context) {
       context.addAdditionalText(i);
       i++;
@@ -67,8 +65,8 @@ export class HeaderComponent implements AfterViewInit {
     import('./additional-text/additional-text.component').then(({ AdditionalTextComponent }) => {
       const factory = this.componentFactoryResolver.resolveComponentFactory(AdditionalTextComponent);
       const textComponent = this.additionalText.createComponent<AdditionalTextComponent>(factory);
-      textComponent.instance.text = texts[this.addTextsKeys[i]];
       this.textComponenets.length > 0 && this.textComponenets[i - 1].destroy();
+      textComponent.instance.text = texts[this.addTextsKeys[i]];
       this.textComponenets.push(textComponent);
     });
   }

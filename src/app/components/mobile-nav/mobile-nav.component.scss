@@ -1,0 +1,50 @@
+@import '../../styles/mixins.scss';
+div.mobile-container {
+  display: flex;
+  position: relative;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+  overflow: hidden;
+  h1 {
+    width: 100%;
+    display: block;
+    text-align: left;
+    padding-left: 20px;
+    img {
+      width: 250px;
+      height: auto;
+    }
+  }
+  nav {
+    @include navbar-gradient;
+    position: relative;
+    box-shadow: -15px 4px 5px $white, 170px 4px 5px $white;
+    width: 30%;
+    div.button {
+      width: 150px;
+      padding: 10px;
+      position: relative;
+      margin: auto;
+    }
+    div.button:nth-of-type(1) {
+      margin-top: 15px;
+      right: 180px;
+    }
+    div.button:nth-of-type(2) {
+      right: 120px;
+    }
+    div.button:nth-of-type(3) {
+      right: 60px;
+    }
+    div.button:nth-of-type(4) {
+      right: 0px;
+      margin-bottom: 15px;
+    }
+  }
+  nav::before {
+    @include trapeze;
+    @include trapeze-right;
+    width: 250px;
+    right: -220px;
+  }
+}
