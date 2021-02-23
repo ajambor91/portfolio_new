@@ -58,15 +58,13 @@ export class CanvasComponent implements OnInit, AfterViewInit,OnDestroy {
 
   private addFigures(): void {
     new Rectangle(this.canvasDimension, this.context, this.communicationService);
-    // this.communicationService$ = this.communicationService.drawing.subscribe( (res: boolean) => {
-    //   if(res === true){
-    //     this.selectFigure() === FigureEnum.Rectangle ?
-    //     new Rectangle(this.canvasDimension, this.context, this.communicationService) :
-    //     new Triangle(this.canvasDimension, this.context, this.communicationService) 
-    //   }
-    // });
-
-    // new Rectangle(this.canvasDimension, this.context)
+    this.communicationService$ = this.communicationService.drawing.subscribe( (res: boolean) => {
+      if(res === true){
+        this.selectFigure() === FigureEnum.Rectangle ?
+        new Rectangle(this.canvasDimension, this.context, this.communicationService) :
+        new Triangle(this.canvasDimension, this.context, this.communicationService) 
+      }
+    });
   }
 
   private selectFigure(): FigureEnum {
