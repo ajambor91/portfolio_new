@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-flag',
@@ -7,10 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FlagComponent{
 
-  constructor() { }
+  constructor(private translateService: TranslateService) { }
   isPolish = true;
   toggleLanguage(): void {
     this.isPolish = !this.isPolish;
+    this.translateService.use(this.isPolish === true ? 'pl' : 'en');
   }
 
 }

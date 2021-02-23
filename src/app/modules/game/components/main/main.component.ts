@@ -25,11 +25,11 @@ export class MainComponent implements OnChanges, AfterViewInit {
   ngAfterViewInit(): void {
     this.fs.nativeElement.style.width = `${this.size.width}px`;
     this.fs.nativeElement.style.height = `${this.size.height}px`;
-    this.createPhaserGame();
-    this.phaserGame = new Phaser.Game(this.config);
+  
   }
   ngOnChanges() {
-   
+    this.createPhaserGame();
+    this.phaserGame = new Phaser.Game(this.config);
   }
 
   private createPhaserGame(): void {

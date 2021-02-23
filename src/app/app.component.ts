@@ -33,7 +33,7 @@ export class AppComponent {
   }
 
   private translateApp(): void {
-    this.translate.addLangs(['pl'])
+    this.translate.addLangs(['pl','en'])
     this.translate.setDefaultLang('pl')
     this.translate.use('pl');
   }

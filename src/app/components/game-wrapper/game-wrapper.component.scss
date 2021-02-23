@@ -2,12 +2,15 @@
 
 div.bg {
     background: linear-gradient(to bottom, $greenTop 5%,  $green 100%);
-    div.game-wrapper-container {
-    position: relative;
-    width: 100%;
+    div.container{
+      padding: 100px;
+      margin: auto;
+      div.game-wrapper-container {
+        position: relative;
+        width: 100%;
+        background-image: url('/assets/game_shot.png');
+        background-size: cover;
+      }
+    } 
 
-    background-image: url('/assets/game_shot.png');
-    background-size: cover;
-    margin: auto;
-  }
 }

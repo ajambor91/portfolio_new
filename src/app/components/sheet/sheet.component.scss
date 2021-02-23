@@ -28,13 +28,19 @@
  
     div.content {
       position: absolute;
+      width: 100%;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+      text-align: center;
+
     }
     .word {
+      @include text-header;
+      color: $white;
+      text-shadow: 0px 2px 2px $orange;
       font-size: 3em;
-      margin-left: 30px;
+      // margin-left: 30px;
     }
     .letter {
       @include text-header;
@@ -62,6 +68,7 @@
       color: $blue;
     }
     .button-container {
+      text-align: left;
       margin-top: 100px;
     }
   }

@@ -5,11 +5,4 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './option-menu.component.html',
   styleUrls: ['./option-menu.component.scss']
 })
-export class OptionMenuComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-}
+export class OptionMenuComponent {}

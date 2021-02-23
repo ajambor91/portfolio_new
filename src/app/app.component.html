@@ -1,14 +1,20 @@
-<app-nav *ngIf="!mobile">
-    
-</app-nav>
+<section id="top">
+    <app-nav *ngIf="!mobile">
 
-<app-mobile-nav *ngIf="mobile">
-    
-</app-mobile-nav>
-<app-canvas></app-canvas>
+    </app-nav>
 
-<app-about></app-about>
-<app-game-wrapper></app-game-wrapper>
+    <app-mobile-nav *ngIf="mobile">
+
+    </app-mobile-nav>
+</section>
+<section id="canvas">
+    <app-canvas></app-canvas>
+</section>
+<section id="about">
+    <app-about></app-about>
+</section>
+<section id="game-section">
+    <app-game-wrapper></app-game-wrapper>
+</section>
 <app-sheet *ngIf="!destroySheet"></app-sheet>
 <app-option-menu></app-option-menu>
-

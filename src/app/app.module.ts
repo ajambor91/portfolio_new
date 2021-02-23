@@ -27,6 +27,10 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SheetComponent } from './components/sheet/sheet.component';
 import { ComponentCommunicationService } from './components/canvas/service/component-communication.service';
 import { MobileNavComponent } from './components/mobile-nav/mobile-nav.component';
+import { ProjectsComponent } from './components/projects/projects.component';
+import { IconsComponent } from './components/about/components/icons/icons.component';
+import { IconComponent } from './components/about/components/icons/components/icon/icon.component';
+import { ObjectTransformPipe } from './pipes/object-transform.pipe';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -51,7 +55,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     EqualizerComponent,
     FlagComponent,
     SheetComponent,
-    MobileNavComponent    
+    MobileNavComponent,
+    ProjectsComponent,
+    IconsComponent,
+    IconComponent,
+    ObjectTransformPipe    
   ],
   imports: [
     BrowserModule,
