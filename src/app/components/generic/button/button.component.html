@@ -1,10 +1,10 @@
 <div class="button-container">
     <div (click)="toggle()" [@flipButton]="isOpen ? 'default' : 'flipped'" class="card">
-        <button type="button" class="front" [ngStyle]="buttonStyle">
+        <button [type]="'type'" class="front" [ngStyle]="buttonStyle">
             <span class="text">
                 {{description | translate}}
             </span></button>
-        <button type="button" class="back" [ngStyle]="buttonBackStyle">
+        <button [type]="'type'" class="back" [ngStyle]="buttonBackStyle">
             <span class="text">
                 {{description | translate}}
             </span>

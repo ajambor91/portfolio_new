@@ -230,7 +230,6 @@ export abstract class Scene extends Phaser.Scene {
       height: this.game.canvas.height
     };
     const canvas = document.querySelector('div.fs > div > canvas');
-    console.log(canvas)
     this.wasFullscreen = true;
     setTimeout(()=> {
       //@ts-ignore

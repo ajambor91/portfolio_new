@@ -17,7 +17,7 @@ import { AboutComponent } from './components/about/about.component';
 import { NeonLineComponent } from './components/generic/neon-line/neon-line.component';
 import { GameWrapperComponent } from './components/game-wrapper/game-wrapper.component';
 import { AskWindowComponent } from './components/game-wrapper/components/ask-window/ask-window.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CheckboxComponent } from './components/generic/checkbox/checkbox.component';
 import { OptionMenuComponent } from './components/option-menu/option-menu.component';
 import { EqualizerComponent } from './components/option-menu/components/equalizer/equalizer.component';
@@ -31,6 +31,7 @@ import { ProjectsComponent } from './components/projects/projects.component';
 import { IconsComponent } from './components/about/components/icons/icons.component';
 import { IconComponent } from './components/about/components/icons/components/icon/icon.component';
 import { ObjectTransformPipe } from './pipes/object-transform.pipe';
+import { FormsComponent } from './components/forms/forms.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -59,9 +60,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     ProjectsComponent,
     IconsComponent,
     IconComponent,
-    ObjectTransformPipe    
+    ObjectTransformPipe,
+    FormsComponent    
   ],
   imports: [
+    ReactiveFormsModule,
     BrowserModule,
     GameModule,
     HttpClientModule,

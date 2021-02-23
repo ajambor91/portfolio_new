@@ -33,11 +33,12 @@ export class ButtonComponent implements OnInit {
   @Input() initialBackColor: string;
   @Input() topFrontColor: string;;
   @Input() topBackColor: string;
+  @Input() type: string;
 
   buttonStyle;
   buttonBackStyle;
   isOpen = false;
-
+  
   constructor() { }
 
   ngOnInit(): void {

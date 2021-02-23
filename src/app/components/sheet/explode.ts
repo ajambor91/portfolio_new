@@ -152,7 +152,6 @@ const appendElements = (elements: HTMLDivElement[], nativeElement): Promise<bool
 
 export const explode = (element: ElementRef): Promise<boolean> => {
     const nativeElement = element.nativeElement.children[0];
-    console.log(nativeElement);
     size = {
         width: window.getComputedStyle(nativeElement.parentNode).width,
         height: window.getComputedStyle(nativeElement.parentNode).height

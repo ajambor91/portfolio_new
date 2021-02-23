@@ -89,7 +89,6 @@ export class Player extends Entity {
     if (this.scene.displayReload !== false) this.removeReloadedText();
     if (this.reloaded === false) {
       //@ts-ignore
-      console.log(this.scene.player.x,this.scene.player.y)
       //@ts-ignore
       this.scene.sounds.reload.play();
       this.reloaded = true;

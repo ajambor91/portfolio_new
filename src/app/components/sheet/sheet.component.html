@@ -41,7 +41,7 @@
                         {{'go_further' | translate}}
                     </span>
                     <div class="button-container">
-                        <app-button (click)="startApp()" [initialFrontColor]="Colors.$red"
+                        <app-button [type]="'button'" (click)="startApp()" [initialFrontColor]="Colors.$red"
                             [topFrontColor]="Colors.$redTop" [initialBackColor]="Colors.$green"
                             [topBackColor]="Colors.$greenTop" [description]="'go'">
                         </app-button>

@@ -8,6 +8,12 @@
     "sound": "Sound",
     "fullscreen": "Fullscreen",
     "play": "Play!",
-    "aboutDescription": "Hey, I am passionate programist. I write code since long time using many different technologies.Beginning from back-end: PHP, by: Symphony, Laravel to Node.js. I like to think, make analysis and also spend much time on contemplations. Sometimes I do also front-end projects and I have a lot of fun while working on styles or animation scripting. My specialization is Angular, but I am also good with React. Some time ago I went crazy about games developing aswell. Check below and try one of games made by me. I love programming at all so I can easily find myself in working on all possible technologies: back-end, front-end, mobile and even desktop apps."
+    "aboutDescription": "Hey, I am passionate programist. I write code since long time using many different technologies.Beginning from back-end: PHP, by: Symphony, Laravel to Node.js. I like to think, make analysis and also spend much time on contemplations. Sometimes I do also front-end projects and I have a lot of fun while working on styles or animation scripting. My specialization is Angular, but I am also good with React. Some time ago I went crazy about games developing aswell. Check below and try one of games made by me. I love programming at all so I can easily find myself in working on all possible technologies: back-end, front-end, mobile and even desktop apps.",
+    "email": "Email",
+    "phone": "Phone",
+    "name": "Name",
+    "message": "Message", 
+    "send": "Send",
+    "error": "Fill this field"
   }
   

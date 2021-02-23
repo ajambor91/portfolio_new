@@ -40,3 +40,9 @@
   transform: matrix(1, 0, -1, 1, 50, 0); /* Standard syntax */
   box-shadow: 6px 0 $blur $white;
 }
+
+@mixin width {
+  width: 70%;
+  margin: 100px auto;
+  min-width: 800px;
+}

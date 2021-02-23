@@ -7,7 +7,7 @@
             <app-checkbox  (emitter)="fullScreen = $event" [model]='fullScreen' [checkColor]="Colors.$green" [label]="'fullscreen'"></app-checkbox>
         </div>
         <div class="form-group">
-            <app-button (click)="play()" [description]="'play'" [initialFrontColor]="Colors.$green" [topFrontColor]="Colors.$greenTop"
+            <app-button [type]="'button'" (click)="play()" [description]="'play'" [initialFrontColor]="Colors.$green" [topFrontColor]="Colors.$greenTop"
                 [initialBackColor]="Colors.$orange" [topBackColor]="Colors.$orangeTop">
             </app-button>
         </div>
