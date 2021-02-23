@@ -49,8 +49,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     OptionMenuComponent,
     EqualizerComponent,
     FlagComponent,
-    SheetComponent,
-    
+    SheetComponent    
   ],
   imports: [
     BrowserModule,

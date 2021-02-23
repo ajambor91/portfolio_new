@@ -1,6 +1,10 @@
-<app-nav>
+<app-nav *ngIf="!mobile">
     
 </app-nav>
+
+<app-mobile-nav *ngIf="mobile">
+    
+</app-mobile-nav>
 <app-canvas></app-canvas>
 
 <app-about></app-about>

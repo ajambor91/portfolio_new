@@ -50,7 +50,7 @@ const moveParent = (elements: HTMLDivElement[]) => {
                 element.style.left = '50%';
                 break;
         }
-    })
+    });
 }
 
 const setElementCoords = (elements: HTMLDivElement[]) => {
@@ -167,6 +167,6 @@ export const explode = (element: ElementRef): Promise<boolean> => {
                 resolve(true);
             });
         });
-    })
+    });
 }
 

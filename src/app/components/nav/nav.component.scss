@@ -4,26 +4,18 @@
 @import '../../styles/variables.scss';
 
 nav.menu {
-    position: relative;
+  position: relative;
   display: grid;
   grid-template-rows: auto;
   grid-template-columns: repeat(2, 40%);
   justify-content: space-between;
   div.side-wrapper {
-
     @include navbar-gradient;
     padding: 10px;
     position: relative;
 
     display: grid;
     grid-template-rows: auto;
-    div.trapeze {
-      @include navbar-gradient;
-      background-color: red;
-      height: 100%;
-      width: 150px;
-      position: absolute;
-    }
     div.side {
       margin: 10px;
       z-index: 2;
@@ -36,39 +28,29 @@ nav.menu {
   }
   div.left-wrapper {
     box-shadow: 19px 3px $blur $white, -520px 3px $blur $white;
-
-    div.trapeze {
-      z-index: 0;
-
-      right: 0;
-      -ms-transform: matrix(1, 0, -1, 1, 0, 0); /* IE 9 */
-      transform: matrix(1, 0, -1, 1, 50, 0); /* Standard syntax */
-      box-shadow: 6px 0 $blur $white;
-
-    }
+  }
+  div.left-wrapper::after {
+    @include trapeze;
+    @include left-trapeze;
   }
   div.right-wrapper {
-    box-shadow: -19px 3px $blur $white,520px 3px $blur $white;
-
-    div.trapeze {
-      z-index: 0;
-      box-shadow: -6px 0 $blur $white;
-
-      -ms-transform: matrix(1, 0, 1, 1, 0, 0); /* IE 9 */
-      transform: matrix(1, 0, 1, 1, -50, 0); /* Standard syntax */
-    }
+    box-shadow: -19px 3px $blur $white, 520px 3px $blur $white;
+  }
+  div.right-wrapper::before {
+    @include trapeze;
+    @include right-trapeze;
   }
 
-  div.header-logo{
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      text-align: center;
-      img{
-          margin-top: 10px;
-          height: 80px;
-          width: auto;
-      }
+  div.header-logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    img {
+      margin-top: 10px;
+      height: 80px;
+      width: auto;
+    }
   }
 }

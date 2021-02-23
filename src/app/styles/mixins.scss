@@ -1,19 +1,42 @@
 @import './colors.scss';
 
-@mixin generic-bar{
-    box-shadow: 0px 1px 0px 0px #f0f7fa;
-    border-radius: 6px;
-    border: 1px solid $white;
-    text-shadow: 0px -1px 0px #5b6178;
-    text-decoration: none;
+@mixin generic-bar {
+  box-shadow: 0px 1px 0px 0px #f0f7fa;
+  border-radius: 6px;
+  border: 1px solid $white;
+  text-shadow: 0px -1px 0px #5b6178;
+  text-decoration: none;
 }
 
 @mixin navbar-gradient {
-    background: linear-gradient(to bottom, $darkBlueTop 5%,  $darkBlue 100%),
-
+  background: linear-gradient(to bottom, $darkBlueTop 5%, $darkBlue 100%);
 }
 
 @mixin text-header {
-    font-family: 'SpecialElite';
-    text-shadow: 0px 4px 4px $orange;
+  font-family: 'SpecialElite';
+  text-shadow: 0px 4px 4px $orange;
+}
+
+@mixin trapeze{
+  @include navbar-gradient;
+  content: '';
+  background-color: red;
+  height: 100%;
+  width: 150px;
+  position: absolute;
+}
+
+@mixin right-trapeze {
+  z-index: 0;
+  box-shadow: -6px 0 $blur $white;
+  -ms-transform: matrix(1, 0, 1, 1, 0, 0); /* IE 9 */
+  transform: matrix(1, 0, 1, 1, -50, 0); /* Standard syntax */
+}
+
+@mixin left-trapeze {
+  z-index: 0;
+  right: 0;
+  -ms-transform: matrix(1, 0, -1, 1, 0, 0); /* IE 9 */
+  transform: matrix(1, 0, -1, 1, 50, 0); /* Standard syntax */
+  box-shadow: 6px 0 $blur $white;
 }

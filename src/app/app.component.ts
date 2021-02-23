@@ -10,18 +10,40 @@ import { SoundService } from './service/sound.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent{
+export class AppComponent {
   title = 'portfoliofront';
   destroySheet = false;
-  constructor( private translate: TranslateService, private communicationService: ComponentCommunicationService) {
+  mobile: boolean
+
+  private readonly screenWidth = 1366;
+
+  constructor(private translate: TranslateService, private communicationService: ComponentCommunicationService) {
+    this.translateApp();
+    this.checkIsMobile();
+    this.startApp();
+ 
+  }
+
+  private checkIsMobile(): void {
+    if (window.screen.width >= this.screenWidth) {
+      this.mobile = false;
+    } else {
+      this.mobile = true;
+    }
+  }
+
+  private translateApp(): void {
     this.translate.addLangs(['pl'])
     this.translate.setDefaultLang('pl')
     this.translate.use('pl');
+  }
+
+  private startApp(): void {
     const subscribe$ = this.communicationService.appStart.subscribe(res => {
-      if(res === true) {
+      if (res === true) {
         this.destroySheet = true;
         subscribe$.unsubscribe();
       }
     });
-   }
+  }
 }
