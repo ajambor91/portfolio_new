@@ -5,12 +5,8 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './mobile-info.component.html',
   styleUrls: ['./mobile-info.component.scss']
 })
-export class MobileInfoComponent implements OnInit {
+export class MobileInfoComponent {
 
   constructor() { }
-
-  ngOnInit(): void {
-    console.log('dsds')
-  }
 
 }
