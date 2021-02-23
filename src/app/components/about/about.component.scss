@@ -1,10 +1,6 @@
 @import '../../styles/colors.scss';
+@import '../../styles/mixins.scss';
 
-@mixin width {
-    width: 70%;
-    margin: 100px auto;
-    min-width: 800px;
-}
 
 div.about{
     font-family: 'Roboto';
@@ -26,6 +22,7 @@ div.about{
             font-size: 1em;
             word-spacing: 3px;
             letter-spacing: 1px;
+            word-wrap: break-word;
         }
     }
     div.icons{

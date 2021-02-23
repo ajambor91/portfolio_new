@@ -1,0 +1,7 @@
+@import '../../../../styles/mixins.scss';
+@import '../../../../styles/colors.scss';
+.game-info-container{
+    @include game-window;
+    padding: 10px;
+    color: $white;
+}

@@ -1,4 +1,5 @@
 import { AfterViewInit, Compiler, Component, ElementRef, Injector, OnInit, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import { GenericHelper } from 'src/app/helpers/generic.helper';
 import { GameSettings } from 'src/app/models/game-settings.model';
 import { ImageSize } from 'src/app/models/image-size.model';
 import { SoundService } from 'src/app/service/sound.service';
@@ -8,21 +9,26 @@ import { SoundService } from 'src/app/service/sound.service';
   templateUrl: './game-wrapper.component.html',
   styleUrls: ['./game-wrapper.component.scss']
 })
-export class GameWrapperComponent implements AfterViewInit {
+export class GameWrapperComponent implements OnInit, AfterViewInit {
 
   @ViewChild('game', { read: ViewContainerRef }) game: ViewContainerRef;
   @ViewChild('gameWrapper') gameContainer: ElementRef;
 
   gameComponent: Type<any>;
-  
+
   isPlaying = false;
+  mobile: boolean;
 
   private gameSize: ImageSize;
 
   constructor(private compiler: Compiler,
     private injector: Injector,
     private soundService: SoundService) { }
- 
+    
+  ngOnInit(): void {
+    this.checkIsMobile();
+  }
+
   ngAfterViewInit(): void {
     this.caclSize();
   }
@@ -50,8 +56,8 @@ export class GameWrapperComponent implements AfterViewInit {
   private caclSize(): void {
     //@ts-ignore
     const ratio = window.screen.width > window.screen.height ?
-     window.screen.width / window.screen.height :
-     window.screen.height / window.screen.width ;
+      window.screen.width / window.screen.height :
+      window.screen.height / window.screen.width;
     const width = window.innerWidth * .8;
     const height = width / ratio;
     this.gameContainer.nativeElement.style.height = `${height}px`;
@@ -60,6 +66,10 @@ export class GameWrapperComponent implements AfterViewInit {
       width: width,
       height: height
     };
+  }
+
+  private checkIsMobile(): void {
+    this.mobile = GenericHelper.checkIsMobile();
   }
 
 }

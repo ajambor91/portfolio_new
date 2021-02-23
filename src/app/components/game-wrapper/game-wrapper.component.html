@@ -4,7 +4,8 @@
             <div class="game-content">
                 <ng-container #game></ng-container>
             </div>
-            <app-ask-window *ngIf="!isPlaying" (emitter)="startGame($event)"></app-ask-window>
+            <app-ask-window *ngIf="!mobile && !isPlaying" (emitter)="startGame($event)"></app-ask-window>
+            <app-mobile-info *ngIf="mobile"></app-mobile-info>
         </div>
     </div>
 </div>

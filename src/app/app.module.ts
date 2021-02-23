@@ -32,6 +32,7 @@ import { IconsComponent } from './components/about/components/icons/icons.compon
 import { IconComponent } from './components/about/components/icons/components/icon/icon.component';
 import { ObjectTransformPipe } from './pipes/object-transform.pipe';
 import { FormsComponent } from './components/forms/forms.component';
+import { MobileInfoComponent } from './components/game-wrapper/components/mobile-info/mobile-info.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -61,7 +62,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     IconsComponent,
     IconComponent,
     ObjectTransformPipe,
-    FormsComponent    
+    FormsComponent,
+    MobileInfoComponent    
   ],
   imports: [
     ReactiveFormsModule,

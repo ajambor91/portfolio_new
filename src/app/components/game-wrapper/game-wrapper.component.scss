@@ -1,16 +1,26 @@
 @import '../../styles/colors.scss';
 
 div.bg {
-    background: linear-gradient(to bottom, $greenTop 5%,  $green 100%);
-    div.container{
-      padding: 100px;
-      margin: auto;
-      div.game-wrapper-container {
-        position: relative;
-        width: 100%;
-        background-image: url('/assets/game_shot.png');
-        background-size: cover;
-      }
-    } 
+  background: linear-gradient(to bottom, $greenTop 5%, $green 100%);
+  div.container {
+    padding: 100px;
+    margin: auto;
+    div.game-wrapper-container {
+      position: relative;
+      width: 100%;
+      background-image: url('/assets/game_shot.png');
+      background-size: cover;
+    }
+  }
+}
 
+@media screen and (max-width: 992px) {
+  div.bg {
+    div.container {
+      padding: 100px 0;
+      div.game-wrapper-container {
+        margin: auto;
+      }
+    }
+  }
 }
