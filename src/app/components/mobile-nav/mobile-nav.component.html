@@ -1,26 +1,31 @@
-<!--<div class="mobile-container">
+<div class="mobile-container">
     <h1><img src="/assets/logo/logo.png"></h1>
-    <nav>
-        <div class="button">
-            <app-link [description]="'about'" [initialFrontColor]="Colors.$green" [topFrontColor]="Colors.$greenTop"
-                [initialBackColor]="Colors.$orange" [topBackColor]="Colors.$orangeTop">
-            </app-link>
-        </div>
-        <div class="button">
-            <app-link [description]="'O mnie'" [initialFrontColor]="Colors.$blue" [topFrontColor]="Colors.$blueTop"
-                [initialBackColor]="Colors.$red" [topBackColor]="Colors.$redTop">
-            </app-link>
-        </div>
+    <div #navContainer class="nav-container">
+        <nav>
+            <button (click)="toggleMenu()" class="hamburger-container">
+                <img  class="hamburger" src="/assets/menu.png">
+            </button>
+            <div class="button-container">
+                <div class="button">
+                    <app-link [description]="'about'" [initialFrontColor]="Colors.$green"
+                        [topFrontColor]="Colors.$greenTop" [initialBackColor]="Colors.$orange"
+                        [topBackColor]="Colors.$orangeTop">
+                    </app-link>
+                </div>
+                <div class="button">
+                    <app-link [description]="'O mnie'" [initialFrontColor]="Colors.$red"
+                        [topFrontColor]="Colors.$redTop" [initialBackColor]="Colors.$blue"
+                        [topBackColor]="Colors.$blueTop">
+                    </app-link>
+                </div>
 
-        <div class="button">
-            <app-link [description]="'O mnie'" [initialFrontColor]="Colors.$blue" [topFrontColor]="Colors.$blueTop"
-                [initialBackColor]="Colors.$red" [topBackColor]="Colors.$redTop">
-            </app-link>
-        </div>
-        <div class="button">
-            <app-link [description]="'O mnie'" [initialFrontColor]="Colors.$green" [topFrontColor]="Colors.$greenTop"
-                [initialBackColor]="Colors.$orange" [topBackColor]="Colors.$orangeTop">
-            </app-link>
-        </div>
-    </nav>
-</div>-->
+                <div class="button">
+                    <app-link [description]="'O mnie'" [initialFrontColor]="Colors.$blue"
+                        [topFrontColor]="Colors.$blueTop" [initialBackColor]="Colors.$red"
+                        [topBackColor]="Colors.$redTop">
+                    </app-link>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>

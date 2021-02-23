@@ -25,6 +25,7 @@ export class AppComponent {
   }
 
   private checkIsMobile(): void {
+    console.log('screen width', window.screen.width)
     if (window.screen.width >= this.screenWidth) {
       this.mobile = false;
     } else {

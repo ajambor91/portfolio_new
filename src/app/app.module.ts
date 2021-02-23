@@ -26,6 +26,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SheetComponent } from './components/sheet/sheet.component';
 import { ComponentCommunicationService } from './components/canvas/service/component-communication.service';
+import { MobileNavComponent } from './components/mobile-nav/mobile-nav.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -49,7 +50,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     OptionMenuComponent,
     EqualizerComponent,
     FlagComponent,
-    SheetComponent    
+    SheetComponent,
+    MobileNavComponent    
   ],
   imports: [
     BrowserModule,

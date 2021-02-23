@@ -15,6 +15,7 @@
           margin: auto;
           width: 150px;
           height: auto;
+          margin-bottom: 20px;
       }
       position: absolute;
       top: 0;
@@ -64,4 +65,16 @@
       margin-top: 100px;
     }
   }
+}
+
+@media screen and (max-width: 992px){
+  .sheet-wrapper{
+    .sheet{
+      .word{
+        font-size: 1.4em;
+        margin-left: 10px;
+      }
+    }
+  }
+
 }
