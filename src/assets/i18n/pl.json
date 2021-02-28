@@ -15,6 +15,11 @@
   "message": "Wiadomość",
   "send": "Wyślij",
   "error": "Wypełnij to pole",
-  "mobile": "Tu jest gra, niestety nie jest dostępna dla urządzeń mobilnych, pełna wersja na Androida i iOS - jak będzie :)"
+  "errorEmail" : "Nieprawidłowy email",
+  "errorPhone" : "Numer powinien mieć min 9 cyfr, albo nie wypełniaj tego pola",
+  "errorText": "Zbyt mała ilość znaków",
+  "mobile": "Tu jest gra, niestety nie jest dostępna dla urządzeń mobilnych, pełna wersja na Androida i iOS - jak będzie :)",
+  "fail": "Coś poszło nie tak, spróbuj raz jeszcze",
+  "success": "Wiadomość wysłana!"
 
 }

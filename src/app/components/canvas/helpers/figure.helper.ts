@@ -77,8 +77,8 @@ export class FigureHelper {
             const x = pt0.x + dx * i / distance;
             const y = pt0.y + dy * i / distance;
             waypoints.push({
-                x: +x.toFixed(0),
-                y: +y.toFixed(0)
+                x: +x.toFixed(3),
+                y: +y.toFixed(3)
             });
         }
         return waypoints;

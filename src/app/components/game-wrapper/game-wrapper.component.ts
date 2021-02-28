@@ -17,9 +17,10 @@ export class GameWrapperComponent implements OnInit, AfterViewInit {
   gameComponent: Type<any>;
 
   isPlaying = false;
-  mobile: boolean;
+  gameMobile: boolean;
 
   private gameSize: ImageSize;
+  private calcSizeInterval;
 
   constructor(private compiler: Compiler,
     private injector: Injector,
@@ -31,6 +32,7 @@ export class GameWrapperComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.caclSize();
+    this.calcSizeInInterval();
   }
 
   startGame(settings: GameSettings): void {
@@ -69,7 +71,13 @@ export class GameWrapperComponent implements OnInit, AfterViewInit {
   }
 
   private checkIsMobile(): void {
-    this.mobile = GenericHelper.checkIsMobile();
+    this.gameMobile = GenericHelper.checkIsMobile();
+  }
+
+  private calcSizeInInterval(): void {
+    this.calcSizeInterval = setInterval(()=>{
+      this.caclSize();
+    },50);
   }
 
 }

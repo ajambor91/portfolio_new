@@ -1,25 +1,36 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ThrowStmt } from '@angular/compiler';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Colors } from 'src/app/helpers/color.helpers';
+import { ComponentCommunicationService } from '../canvas/service/component-communication.service';
 
 @Component({
   selector: 'app-mobile-nav',
   templateUrl: './mobile-nav.component.html',
   styleUrls: ['./mobile-nav.component.scss']
 })
-export class MobileNavComponent implements OnInit {
-  Colors = Colors;
+export class MobileNavComponent implements AfterViewInit {
+  
   @ViewChild('navContainer') navContainer: ElementRef;
-
+  @ViewChild('nav') nav: ElementRef;
+  
+  Colors = Colors;
   isMenuShow = false;
 
   private readonly showMenuLeft = 170;
   private readonly hideMenuLeft = 375;
   private readonly intervalTime = 1;
   private readonly moveMenu = 4;
-  constructor() { }
+  
+  private navHeight: number; 
+
+  constructor(private communicationService: ComponentCommunicationService) { }
 
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    console.log('nav', this.nav.nativeElement.style)
+    const navHeight = +window.getComputedStyle(this.nav.nativeElement).height.replace('px','')
+    this.navHeight = navHeight;
+    this.communicationService.navHeight.next(navHeight);
   }
 
   toggleMenu(): void {
@@ -48,4 +59,5 @@ export class MobileNavComponent implements OnInit {
   private getRawValue(coord: string): number {
     return +coord.replace('px','');
   }
+  
 }

@@ -16,3 +16,11 @@ div.header-content{
         font-size: 4.5em;
     }
 }
+
+@media screen and (max-width: 992px) {
+    div.header-content{
+        h1{
+            font-size: 3em;
+        }
+    }
+}

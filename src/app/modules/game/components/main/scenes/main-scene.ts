@@ -1,11 +1,9 @@
-import { SoundsAudio } from "../model/sounds.model";
 import { Scene } from "./scene";
 import { sounds } from "../data/sounds";
 import { enemies, enemiesSpr } from "../data/enemies";
 import { Enemy } from "../model/enemy.model";
 import { Depth } from "../enums/depth.enum";
 import { TowerVisible } from "../enums/tower-visible.enum";
-import { TypeHelper } from "../helpers/type-helper";
 
 export class MainScene extends Scene {
   rightOutside = false;
@@ -17,6 +15,8 @@ export class MainScene extends Scene {
   enemies: Enemy;
   isTowerShow = TowerVisible.Hidden;
   cameraMoved = false;
+  isPlayerOnTar = false;
+
   protected readonly name = 'MainScene';
 
   constructor() {
@@ -56,24 +56,36 @@ export class MainScene extends Scene {
     this.addSoundsBTN();
     this.playAudio();
     this.addEnemies();
+    this.addTarOverlap();
     this.time.addEvent({
       callback: () => this.changeVolume(),
       loop: true,
       delay: 5
     })
+    //@ts-ignore
+    this.spooky.addPlayerCollision();
   }
 
   preload() {
- 
+
   }
 
   update() {
-    if (this.player.x < 0 && this.rightOutside === false) {
+    this.addTarOverlap();
+    // if(this.isPlayerOnTar === true) {
+    //   this.player.velocity = 75;
+    // }else if(this.isPlayerOnTar === false) {
+    //   this.player.velocity = 300;
+    // }
+    // this.isPlayerOnTar = false;
+    this.playerHealth.text = `${this.player.health.toFixed(0)} HP`;
+
+    if (this.player.x < 0 && this.rightOutside === false || this.player.health <= 0) {
       this.sounds.fallingDown.play();
       this.player.destroy();
       this.rightOutside = true;
     }
-    if (this.player.x < 0) {
+    if (this.player.x < 0 || this.player.health <= 0) {
       this.spooky.unfollow();
       return;
     }
@@ -82,9 +94,7 @@ export class MainScene extends Scene {
     } else if ((this.player.x < 11850 || this.player.x > 14000) && this.isTowerShow === TowerVisible.Show) {
       this.hideTower();
     }
-    //@ts-ignore
-    this.spooky.addPlayerCollision();
-    this.playerHealth.text = `${this.player.health.toFixed(0)} HP`;
+
     // this.player.checkIsAlive();
     if (this.player.active) {
       this.createHeroMove();
@@ -130,7 +140,7 @@ export class MainScene extends Scene {
     if (this.cursors.rKey.isDown) {
       this.player.reload();
     }
-    if(this.cursors.backspaceKey.isDown) {
+    if (this.cursors.backspaceKey.isDown) {
       this.resetGame();
     }
   }
@@ -142,6 +152,8 @@ export class MainScene extends Scene {
     this.layers.woodCollisionLayer.setCollisionBetween(1, 10000);
     this.layers.monsterCollideLayer.setCollisionBetween(1, 10000);
     this.layers.monsterCollideLayer.setCollisionByProperty({ collides: true });
+    this.layers.tarLayer.setCollisionBetween(1, 10000);
+    this.layers.tarLayer.setCollisionByProperty({ collides: true });
     this.physics.add.collider(this.player, this.layers.groundLayer, null, null, this);
     this.physics.add.collider(this.player, this.layers.woodCollisionLayer, null, null, this);
   }
@@ -166,7 +178,7 @@ export class MainScene extends Scene {
         value.key,
         value.type,
         'shotDelay' in value && value.shotDelay
-        
+
       );
     }
   }
@@ -179,7 +191,7 @@ export class MainScene extends Scene {
     const endBound = this.player.x + this.gameWidth;
     const cameraMove = this.time.addEvent({
       callback: () => {
-        this.cameras.main.setBounds(firstBound, -300, secondBound, 900);
+        this.cameras.main.setBounds(firstBound, 0, secondBound, 1120);
         firstBound += scroll;
         secondBound += scroll;
         if (secondBound >= endBound) {
@@ -201,11 +213,11 @@ export class MainScene extends Scene {
     const scroll = 10;
     const move = this.time.addEvent({
       callback: () => {
-        this.cameras.main.setBounds(firstBound, -300, secondBound, 900);
+        this.cameras.main.setBounds(firstBound, 0, secondBound, 1120);
         firstBound -= scroll;
         secondBound -= scroll;
         if (firstBound <= endBound) {
-          this.cameras.main.setBounds(0, -300, 16000, 900);
+          this.cameras.main.setBounds(0, 0, 16000, 1120);
           this.isTowerShow = TowerVisible.Hidden;
           this.time.removeEvent(move);
         }
@@ -216,6 +228,7 @@ export class MainScene extends Scene {
   }
 
   private resetGame(): void {
-    this.scene.start('main', { audioMute: this.audioMute });     
+    this.time.removeAllEvents();
+    this.scene.start('main', { audioMute: this.audioMute });
   }
 }

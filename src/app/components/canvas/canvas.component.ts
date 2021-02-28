@@ -2,6 +2,7 @@ import { OnDestroy, ViewChild } from '@angular/core';
 import { AfterViewInit } from '@angular/core';
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { ScreenOrientationEnum } from 'src/app/enums/screen-orientation.enum';
 import { FigureEnum } from './enums/figure.enum';
 import { Rectangle } from './figures/rectangle';
 import { Triangle } from './figures/triangle';
@@ -21,8 +22,11 @@ export class CanvasComponent implements OnInit, AfterViewInit,OnDestroy {
   innerHeight: number;
   context: CanvasRenderingContext2D;
 
+  private navbarHeight: number;
   private canvasDimension: CanvasDimensions;
   private communicationService$: Subscription;
+  private orientation: ScreenOrientationEnum;
+  private firstValue = true;
 
   constructor(private communicationService: ComponentCommunicationService) { }
  
@@ -41,9 +45,16 @@ export class CanvasComponent implements OnInit, AfterViewInit,OnDestroy {
   }
 
   private setCanvasSize(): void {
-    const nabarHeight = this.communicationService.navHeight.value;
-    this.innerHeight = window.innerHeight - nabarHeight;
-    this.innerWidth = window.innerWidth;
+    const nabarHeight$ = this.communicationService.navHeight.subscribe( res => {
+      this.innerHeight = window.innerHeight - res;
+      this.navbarHeight = res;
+      this.innerWidth = window.innerWidth;
+    });
+    
+    this.communicationService.orientation.subscribe(res => {
+      this.innerHeight = window.innerHeight - (res === ScreenOrientationEnum.Portrait && this.navbarHeight);
+      this.innerWidth = window.innerWidth;
+    });
     this.canvasDimension = {
       width: this.innerWidth,
       height: this.innerHeight

@@ -5,8 +5,7 @@
             <div class="form-group">
                 <label for="text">{{ 'name' | translate }}</label>
                 <input id="text" type="text" [formControl]="name">
-                <span *ngIf="name.errors && name.errors.required && name.touched">{{ "error" | translate }}</span>
-                <span *ngIf="name.errors && name.errors.minLength && name.touched">{{ "error" | translate }}</span>
+                <span *ngIf="name.errors && name.errors.text && name.touched">{{ "errorText" | translate }}</span>
 
             </div>
             <div class="form-group">
@@ -14,21 +13,23 @@
 
                 <input type="email" [formControl]="email">
                 <span *ngIf="email.errors && email.errors.required && email.touched">{{ "error" | translate }}</span>
+                <span *ngIf="email.errors && email.errors.email && email.touched">{{ "errorEmail" | translate }}</span>
+
             </div>
             <div class="form-group">
                 <label for="phone">{{ 'phone' | translate }}</label>
 
                 <input type="phone" [formControl]="phone">
-                <span *ngIf="phone.errors && phone.errors.required && phone.touched">{{ "error" | translate }}</span>
+                <span *ngIf="phone.errors && phone.errors.phone && phone.touched">{{ "errorPhone" | translate }}</span>
+
             </div>
             <div class="form-group">
                 <label for="message">{{ 'message' | translate }}</label>
 
-                <textarea [formControl]="message">
+                <textarea type="text" [formControl]="message">
                     </textarea>
-                <span *ngIf="message.errors && message.errors.required && message.touched">{{ "error" | translate
+                <span *ngIf="message.errors && message.errors.text && message.touched">{{ "errorText" | translate
                     }}</span>
-                <span *ngIf="message.errors && message.errors.minLength && message.touched">{{ "error" | translate }}</span>
             </div>
             <div class="form-group">
                 <app-button [type]="'submit'" [initialFrontColor]="Colors.$green" [topFrontColor]="Colors.$greenTop"
@@ -38,3 +39,4 @@
         </form>
     </div>
 </div>
+<ng-container #toastr></ng-container>

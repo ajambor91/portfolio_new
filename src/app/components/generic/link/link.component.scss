@@ -44,3 +44,14 @@ div.link-container {
     }
   }
 }
+@media screen and (max-width: 992px){
+  div.link-container{
+    max-width: 100px;
+    div.card {
+
+      a.link {
+        font-size: 1em;
+      }
+    }
+  }
+}

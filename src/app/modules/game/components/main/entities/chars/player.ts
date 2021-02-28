@@ -9,7 +9,11 @@ export class Player extends Entity {
   rateOfFire = 150;
   particleEmitter: Phaser.GameObjects.Particles.ParticleEmitterManager;
   particleConfig: Phaser.Types.GameObjects.Particles.ParticleEmitterConfig;
-
+  velocity = {
+    x: 300,
+    y: 400
+  };
+  
   private readonly reloadTime = 500;
   private readonly initMag = 30;
   magazine = this.initMag;
@@ -40,14 +44,14 @@ export class Player extends Entity {
 
   moveRight(jumping: boolean): void {
     this.flipX = false
-    this.body.velocity.x = 300;
+    this.body.velocity.x = this.velocity.x;
     if (jumping === false) {
       this.anims.play('right', true);
     }
   }
 
   moveLeft(jumping: boolean): void {
-    this.body.velocity.x = -300;
+    this.body.velocity.x = -this.velocity.x;
     //@ts-ignore
     this.flipX = true;
     if (jumping === false) {
@@ -56,7 +60,7 @@ export class Player extends Entity {
   }
 
   jump(): void {
-    this.body.velocity.y = -400;
+    this.body.velocity.y = -this.velocity.y;
     this.anims.play('up', true);
   }
 
@@ -92,6 +96,7 @@ export class Player extends Entity {
       //@ts-ignore
       this.scene.sounds.reload.play();
       this.reloaded = true;
+      console.log('y', this.y, 'x',this.x)
       this.scene.time.delayedCall(
         this.reloadTime,
         () => {

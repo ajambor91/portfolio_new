@@ -4,6 +4,7 @@
 @import '../../styles/variables.scss';
 
 nav.menu {
+  max-width: 100%;
   position: relative;
   display: grid;
   grid-template-rows: auto;
@@ -52,5 +53,13 @@ nav.menu {
       height: 80px;
       width: auto;
     }
+  }
+}
+
+@media screen and (max-width: 992px){
+  nav.menu{
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: repeat(2, 35%);
   }
 }

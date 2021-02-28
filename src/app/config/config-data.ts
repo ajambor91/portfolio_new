@@ -5,5 +5,5 @@ export const localConfig: ConfigModel = {
 }
 
 export const production: ConfigModel = {
-    api: ''
+    api: 'https://backend.adamjambor.pl/'
 }

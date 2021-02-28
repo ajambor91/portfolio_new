@@ -30,3 +30,14 @@ div.about{
     }
 
 }
+
+@media screen and (max-width: 992px){
+    div.about{
+        div.content{
+            @include width-mobile;
+        }
+    }
+    div.icons{
+        @include width-mobile;
+    }
+}

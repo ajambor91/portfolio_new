@@ -28,6 +28,7 @@ export abstract class Scene extends Phaser.Scene {
   protected charsSounds: CharsSound = {};
   protected soundSources: SoundSource[] = [];
   protected wasFullscreen: boolean;
+  protected isPlayerOnTar = false;
 
   private background: Phaser.GameObjects.Image;
   private tilesets: Tileset;
@@ -40,7 +41,7 @@ export abstract class Scene extends Phaser.Scene {
   protected addFixedBackground(): void {
     this.background = this.add.image(this.gameWidth * 0.5, this.gameHeight * 0.5, 'background')
       .setScrollFactor(0, 0)
-      .setScale(2,3);
+      .setScale(2, 3);
   }
 
   protected addBgParallax(worldWidth = 24000): void {
@@ -62,7 +63,7 @@ export abstract class Scene extends Phaser.Scene {
     this.player = new Player(
       this,
       60,
-      -60,
+      400,
       this.name === 'MainScene' ? 'punk_gun' : 'punk',
       "sprPlayer"
     );
@@ -231,17 +232,34 @@ export abstract class Scene extends Phaser.Scene {
     };
     const canvas = document.querySelector('div.fs > div > canvas');
     this.wasFullscreen = true;
-    setTimeout(()=> {
+    setTimeout(() => {
       //@ts-ignore
       canvas.style.width = `${window.screen.width}px`;
       //@ts-ignore
       canvas.style.height = `${window.screen.height}px`;
-    },500)
+    }, 500)
 
   }
-  protected revertCanvasSize(){
+  protected revertCanvasSize() {
     // const canvas = document.querySelector('canvas');
     // canvas.style.height = `${this.canvasSize.height}`;
     // canvas.style.width = `${this.canvasSize.width}`;
+  }
+
+  protected addTarOverlap(): void {
+    // const tile = this.layers.tarLayer.tilemap.;
+    // if(tile != null) {
+
+    //   this.isPlayerOnTar = true;
+    // }
+
+    if(this.player.x > 12030 && this.player.y > 1010 && this.player.x < 13805 ) {
+      this.player.velocity.x = 100;
+      this.player.velocity.y = 200;
+    }
+    else{
+      this.player.velocity.x = 300;
+      this.player.velocity.y = 400;
+    }
   }
 }

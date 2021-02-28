@@ -12,15 +12,18 @@ export class NavComponent implements AfterViewInit {
 
   @ViewChild('nav') nav: ElementRef;
   Colors = Colors;
+  
   constructor(private communicationService: ComponentCommunicationService) { }
 
   ngAfterViewInit(): void {
-    this.sendNavHeight();
+    // this.sendNavHeight();
   }
+  
 
   private sendNavHeight(): void {
     const navHeight = this.getNavbarHeighr();
-    this.communicationService.navHeight.next(navHeight);
+    setInterval(()=> {
+    },100)
   }
 
   private getNavbarHeighr(): number {

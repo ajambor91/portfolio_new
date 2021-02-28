@@ -1,4 +1,3 @@
-import { BehaviorSubject } from "rxjs";
 import { Condition } from "../classes/condition";
 import { ColorHelper } from "../helpers/color.helpers";
 import { FigureHelper } from "../helpers/figure.helper";
@@ -15,8 +14,8 @@ export abstract class MainFigure {
     private color: string;
 
     constructor(context: CanvasRenderingContext2D,
-         canvasDimensions: CanvasDimensions,
-         private communicationService: ComponentCommunicationService) {
+        canvasDimensions: CanvasDimensions,
+        private communicationService: ComponentCommunicationService) {
         this.context = context;
         this.canvasDimensions = canvasDimensions;
         this.getFirstPoint();
@@ -28,7 +27,7 @@ export abstract class MainFigure {
         this.drawLine(startPoint, secondPoint).then(res => {
             this.drawLine(secondPoint, thirdPoint).then(res => {
                 this.drawLine(thirdPoint, fourthPoint).then(res => {
-                    this.drawLine(fourthPoint, startPoint).then( res => {
+                    this.drawLine(fourthPoint, startPoint).then(res => {
                         this.communicationService.drawing.next(true);
                     });
                 });
@@ -49,10 +48,17 @@ export abstract class MainFigure {
     protected drawLine(startPoint: PointCoords, targetPoint: PointCoords): Promise<boolean> {
         const condition = new Condition();
         this.context.beginPath();
-        startPoint.x = +Math.abs(startPoint.x).toFixed(2);
-        startPoint.y = +Math.abs(startPoint.y).toFixed(2);
-        targetPoint.x = +Math.abs(targetPoint.x).toFixed(2);
-        targetPoint.y = +Math.abs(targetPoint.y).toFixed(2);
+        if (typeof startPoint.x === 'undefined' ||
+            typeof startPoint.y === 'undefined' ||
+            typeof targetPoint.x === 'undefined' ||
+            typeof targetPoint.y === 'undefined') {
+            this.communicationService.drawing.next(true);
+            return;
+        }
+        startPoint.x = +Math.abs(startPoint.x).toFixed(3);
+        startPoint.y = +Math.abs(startPoint.y).toFixed(3);
+        targetPoint.x = +Math.abs(targetPoint.x).toFixed(3);
+        targetPoint.y = +Math.abs(targetPoint.y).toFixed(3);
         if (startPoint.x > targetPoint.x) {
             condition.operatorX = '<=';
         } else if (startPoint.x < targetPoint.x) {
@@ -68,6 +74,11 @@ export abstract class MainFigure {
         let i = 0;
         return new Promise(resolve => {
             const drawInterval = setInterval(() => {
+                if (typeof waypoints[i] === 'undefined' ||
+                    typeof waypoints[i] === 'undefined') {
+                    clearInterval(drawInterval);
+                    resolve(true);
+                }
                 this.context.lineTo(waypoints[i].x, waypoints[i].y);
                 this.context.lineCap = 'round';
                 this.context.strokeStyle = this.color;

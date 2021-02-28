@@ -18,3 +18,11 @@ div.add-text-container{
         word-spacing: 15px;
     }
 }
+
+@media screen and (max-width: 992px) {
+    div.add-text-container{
+        h2{
+            font-size: 2em;
+        }
+    }
+}

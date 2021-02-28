@@ -33,6 +33,8 @@ import { IconComponent } from './components/about/components/icons/components/ic
 import { ObjectTransformPipe } from './pipes/object-transform.pipe';
 import { FormsComponent } from './components/forms/forms.component';
 import { MobileInfoComponent } from './components/game-wrapper/components/mobile-info/mobile-info.component';
+import { ToastrComponent } from './components/forms/components/toastr/toastr.component';
+import { CommonModule } from '@angular/common';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -63,7 +65,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     IconComponent,
     ObjectTransformPipe,
     FormsComponent,
-    MobileInfoComponent    
+    MobileInfoComponent,
+    ToastrComponent    
   ],
   imports: [
     ReactiveFormsModule,
@@ -72,6 +75,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
+    CommonModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
