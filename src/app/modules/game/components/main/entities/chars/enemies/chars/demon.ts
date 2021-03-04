@@ -5,7 +5,7 @@ import { EnemyClass } from "../enemy-class";
 export class Demon extends EnemyClass {
 
     soundKey = ['bulletBodyImpact', 'beastDeath', 'demonBullet'];
-
+    killPoints = 15;
     protected readonly dmg = 10;
     protected shooting: Phaser.Time.TimerEvent;
     protected health = 50;

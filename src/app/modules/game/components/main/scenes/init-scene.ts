@@ -52,7 +52,7 @@ export class InitScene extends Scene {
   }
 
   create(): void {
-    this.scale.fullscreenTarget = document.querySelector('div#fullscreen');
+    // this.scale.fullscreenTarget = document.querySelector('div#fs');
 
     if(this.registry.list.data.fullScreen){
       this.fullScreen();
@@ -248,6 +248,8 @@ export class InitScene extends Scene {
   }
 
   private loadAssets(): void {
+    this.load.image('scroll_up','/assets/game/main/arrow_up.png');
+    this.load.image('scroll_down','/assets/game/main/arrow_down.png');
     this.load.image('background', '/assets/game/main/background.png');
     this.load.image('mountain', '/assets/game/main/mountain.png');
     this.load.spritesheet('punk_gun', '/assets/game/main/punk_gun.png',

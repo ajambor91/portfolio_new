@@ -2,9 +2,12 @@ import { AfterViewInit, Component, ElementRef, OnChanges, OnInit, ViewChild } fr
 import * as Phaser from 'phaser';
 import { ScreenSizeHelper } from './helpers/screen-size.helper';
 import { ScreenSize } from './model/screen-size.model';
+import { FinalScene } from './scenes/final-scene';
 
 import { InitScene } from './scenes/init-scene';
 import { MainScene } from './scenes/main-scene';
+import { ResultScene } from './scenes/result.scene';
+import { SummaryScene } from './scenes/summary-scene';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -12,7 +15,7 @@ import { MainScene } from './scenes/main-scene';
 })
 export class MainComponent implements OnChanges, AfterViewInit {
 
-  @ViewChild('fs')fs: ElementRef;
+  @ViewChild('fs') fs: ElementRef;
 
   phaserGame: Phaser.Game;
   config: Phaser.Types.Core.GameConfig;
@@ -25,7 +28,7 @@ export class MainComponent implements OnChanges, AfterViewInit {
   ngAfterViewInit(): void {
     this.fs.nativeElement.style.width = `${this.size.width}px`;
     this.fs.nativeElement.style.height = `${this.size.height}px`;
-  
+
   }
   ngOnChanges() {
     this.createPhaserGame();
@@ -33,11 +36,11 @@ export class MainComponent implements OnChanges, AfterViewInit {
   }
 
   private createPhaserGame(): void {
-    this.config = { 
+    this.config = {
 
       type: Phaser.AUTO,
-      scene: [InitScene, MainScene],
-      parent: 'gameContainer',
+      scene: [InitScene, MainScene, SummaryScene, FinalScene, ResultScene],
+      parent: 'game',
       physics: {
         default: 'arcade',
         arcade: {
@@ -49,12 +52,14 @@ export class MainComponent implements OnChanges, AfterViewInit {
         parent: 'game',
         mode: Phaser.Scale.ScaleModes.FIT,
         width: 1200,
-        height: 674
+        height: 674,
+        fullscreenTarget: 'game'
         // autoCenter: Phaser.Scale.,
       },
       audio: {
         disableWebAudio: true
-      }, callbacks: {
+      },
+      callbacks: {
         preBoot: (phaserGame) => {
           phaserGame.registry.merge({
             data: {
@@ -62,7 +67,7 @@ export class MainComponent implements OnChanges, AfterViewInit {
               sound: this.sound
             }
           })
-        }
+        },
       }
     };
   }

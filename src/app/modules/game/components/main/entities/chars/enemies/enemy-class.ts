@@ -7,15 +7,16 @@ export abstract class EnemyClass extends Entity {
     protected health = 100;
     protected shooting: Phaser.Time.TimerEvent = null;
     protected speed: number;
+    protected particle: Phaser.GameObjects.Particles.ParticleEmitterManager;
+    protected particleShotEmitter: Phaser.GameObjects.Particles.ParticleEmitter;
 
     private readonly falling = 100;
     private dead = false;
     private collider: Phaser.Physics.Arcade.Collider = null;
     private woodCollider: Phaser.Physics.Arcade.Collider = null;
     private monsterCollider: Phaser.Physics.Arcade.Collider = null;
-    protected particle: Phaser.GameObjects.Particles.ParticleEmitterManager;
     private particleEmitter: Phaser.GameObjects.Particles.ParticleEmitter;
-    protected particleShotEmitter: Phaser.GameObjects.Particles.ParticleEmitter;
+    private key;
 
     constructor(scene, xPosition, yPostion, key, type) {
         super(scene, xPosition, yPostion, key, type);
@@ -25,7 +26,8 @@ export abstract class EnemyClass extends Entity {
         //@ts-ignore
         this.body.setImmovable(true);
         this.particle = this.scene.add.particles('blood');
-        this.particle.setDepth(Depth.Blood)
+        this.particle.setDepth(Depth.Blood);
+        this.key = key;
 
 
     }
@@ -61,6 +63,10 @@ export abstract class EnemyClass extends Entity {
             y: this.y,
             follow: this
         });
+        //@ts-ignore
+        this.scene.player.points += this.killPoints;
+        //@ts-ignore
+        this.scene.player.killed[this.key]++;
         this.setDepth(Depth.DeathEnemies);
         //@ts-ignore
         this.body.allowGravity = true;

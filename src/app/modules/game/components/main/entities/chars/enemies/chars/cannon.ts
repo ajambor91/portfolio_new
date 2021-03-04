@@ -7,7 +7,7 @@ import { CannonBullet } from "../../../objects/cannon-bullet";
 export class Cannon extends Entity {
 
     soundKey = ['cannon', 'bulletMetal', 'burning', 'metalScreech', 'bombExplode']
-
+    private readonly killPoints = 30;
     private readonly hp = 200;
     private readonly bulletSpeed = 700;
     private exploding = false;
@@ -85,6 +85,11 @@ export class Cannon extends Entity {
         this.scene.time.removeEvent(this.shotInterval);
         let degrees = this.rotation * (180 / Math.PI);
         let degreeFactor = 1.05;
+        //@ts-ignore
+        this.scene.player.points += this.killPoints;
+        //@ts-ignore
+        this.scene.player.killed.cannon++;
+        //@ts-ignore
 
         const rotate = this.scene.time.addEvent({
             delay: 10,

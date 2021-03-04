@@ -13,7 +13,14 @@ export class Player extends Entity {
     x: 300,
     y: 400
   };
-  
+  points = 0;
+  killed = {
+    cannon: 0,
+    critter: 0,
+    demon: 0,
+    snake: 0
+  };
+
   private readonly reloadTime = 500;
   private readonly initMag = 30;
   magazine = this.initMag;
@@ -92,7 +99,6 @@ export class Player extends Entity {
     //@ts-ignore
     if (this.scene.displayReload !== false) this.removeReloadedText();
     if (this.reloaded === false) {
-      //@ts-ignore
       //@ts-ignore
       this.scene.sounds.reload.play();
       this.reloaded = true;

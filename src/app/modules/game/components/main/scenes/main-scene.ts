@@ -4,6 +4,7 @@ import { enemies, enemiesSpr } from "../data/enemies";
 import { Enemy } from "../model/enemy.model";
 import { Depth } from "../enums/depth.enum";
 import { TowerVisible } from "../enums/tower-visible.enum";
+import { delay } from "rxjs/operators";
 
 export class MainScene extends Scene {
   rightOutside = false;
@@ -16,7 +17,7 @@ export class MainScene extends Scene {
   isTowerShow = TowerVisible.Hidden;
   cameraMoved = false;
   isPlayerOnTar = false;
-
+  elapsedTime = 0;
   protected readonly name = 'MainScene';
 
   constructor() {
@@ -62,6 +63,11 @@ export class MainScene extends Scene {
       loop: true,
       delay: 5
     })
+    this.time.addEvent({
+      callback: () => {this.elapsedTime++},
+      delay: 1000,
+      loop: true
+    });
     //@ts-ignore
     this.spooky.addPlayerCollision();
   }
@@ -79,7 +85,9 @@ export class MainScene extends Scene {
     // }
     // this.isPlayerOnTar = false;
     this.playerHealth.text = `${this.player.health.toFixed(0)} HP`;
-
+    if(this.player.x > 15500){
+      this.finishGame();
+    }
     if (this.player.x < 0 && this.rightOutside === false || this.player.health <= 0) {
       this.sounds.fallingDown.play();
       this.player.destroy();
@@ -230,5 +238,15 @@ export class MainScene extends Scene {
   private resetGame(): void {
     this.time.removeAllEvents();
     this.scene.start('main', { audioMute: this.audioMute });
+  }
+
+  private finishGame(): void {
+    this.time.removeAllEvents();
+    this.scene.start('summary',{
+      audioMute: this.audioMute,
+      time: this.elapsedTime,
+      points: this.player.points,
+      killed: this.player.killed
+    });
   }
 }

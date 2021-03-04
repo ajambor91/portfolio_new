@@ -4,7 +4,7 @@ import { EnemyClass } from "../enemy-class";
 export class Snake extends EnemyClass{
     soundKey = ['snake','bulletBodyImpact','beastDeath'];
     mainSound = 'snake';
-
+    killPoints = 10;
     protected readonly dmg = 15;
     protected readonly speed = 100;
     protected health = 80;

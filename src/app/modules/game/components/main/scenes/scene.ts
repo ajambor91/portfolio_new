@@ -10,7 +10,6 @@ import { Entity } from "../entities/entity";
 import { SoundSource } from "../model/sound-sources.model";
 import { CharsSound } from "../model/chars-sound.model";
 import { TypeHelper } from "../helpers/type-helper";
-
 export abstract class Scene extends Phaser.Scene {
 
   protected readonly layerYPosition = -200;
@@ -62,7 +61,7 @@ export abstract class Scene extends Phaser.Scene {
   protected createHero(): void {
     this.player = new Player(
       this,
-      60,
+      14600,
       400,
       this.name === 'MainScene' ? 'punk_gun' : 'punk',
       "sprPlayer"

@@ -27,7 +27,6 @@ export class MobileNavComponent implements AfterViewInit {
 
 
   ngAfterViewInit(): void {
-    console.log('nav', this.nav.nativeElement.style)
     const navHeight = +window.getComputedStyle(this.nav.nativeElement).height.replace('px','')
     this.navHeight = navHeight;
     this.communicationService.navHeight.next(navHeight);
