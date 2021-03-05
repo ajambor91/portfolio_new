@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { GameModule } from './modules/game/game.module';
@@ -35,6 +35,7 @@ import { FormsComponent } from './components/forms/forms.component';
 import { MobileInfoComponent } from './components/game-wrapper/components/mobile-info/mobile-info.component';
 import { ToastrComponent } from './components/forms/components/toastr/toastr.component';
 import { CommonModule } from '@angular/common';
+import { HttpInterceptor } from './interceptors/http';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -88,6 +89,8 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [
     PreloadService,
     { provide: APP_INITIALIZER, useFactory: (preLoad: PreloadService) => () => preLoad.launch(), deps: [PreloadService], multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptor, multi: true },
+
     ComponentCommunicationService
   ],
   bootstrap: [AppComponent]
